@@ -5,6 +5,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('HomeView'),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
