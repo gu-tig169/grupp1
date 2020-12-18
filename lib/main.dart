@@ -15,11 +15,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
         home: HomeView(),
         initialRoute: '/HomeView',
         routes: {
@@ -28,7 +23,6 @@ class MyApp extends StatelessWidget {
           '/SetupQuizView': (context) => SetupQuizView(),
           '/QuizView': (context) => QuizView(),
           '/ScoreView': (context) => ScoreView(),
-        } //Navigator.pushNamed(context, '..')
-        );
+        });
   }
 }
