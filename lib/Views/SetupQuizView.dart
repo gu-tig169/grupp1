@@ -44,9 +44,6 @@ class _SetupQuizViewState extends State<SetupQuizView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('SetupQuizView'),
-      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),

@@ -19,9 +19,6 @@ class ScoreView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Score View'),
-      ),
       body: Center(
         child: Column(children: [
           _image(),

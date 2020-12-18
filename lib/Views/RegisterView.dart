@@ -13,9 +13,6 @@ class RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('RegisterView'),
-      ),
       body: Center(
         child: Column(
           children: [
