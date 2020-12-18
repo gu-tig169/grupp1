@@ -5,13 +5,7 @@ class ScoreView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Text('ScoreView'),
-      ),
-      body: Container(
-        child: ListView(
-          children: [ListTile()],
-        ),
+        title: Text('Score View'),
       ),
     );
   }
