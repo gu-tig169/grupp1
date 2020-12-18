@@ -26,10 +26,10 @@ class _HomeViewState extends State<HomeView> {
               _container2(),
               _raisedButton(context),
             ],
-
+          ),
         ),
       ),
-    ),);
+    );
   }
 
   Widget _image() {

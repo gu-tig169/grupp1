@@ -39,8 +39,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-  assets: 
-    - assets/
+  assets:
+  - assets/
 
 
   # The following line ensures that the Material Icons font is
@@ -54,8 +54,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
  
 
-  assets:
-  - assets/
+
  
   
   # An image asset can refer to one or more resolution-specific "variants", see
