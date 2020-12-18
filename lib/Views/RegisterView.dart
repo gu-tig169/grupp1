@@ -13,13 +13,13 @@ class RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[100], //OBS Fel färg!!
       appBar: AppBar(
         title: Text('RegisterView'),
       ),
       body: Center(
         child: Column(
           children: [
+            _image(),
             _text(),
             _inputField(),
             _addUser(),
@@ -27,6 +27,10 @@ class RegisterViewState extends State<RegisterView> {
         ),
       ),
     );
+  }
+
+  Widget _image() {
+    return Center(child: Image(image: AssetImage('assets/logo.png')));
   }
 
   //Username rubrik
