@@ -65,7 +65,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
                 child: Text('Choose Category:'),
               ),
               Container(height: 10),
-              Expanded(child: _categoryList()),
+              _categoryList(),
             ],
           ),
         ),
@@ -110,12 +110,12 @@ class _SetupQuizViewState extends State<SetupQuizView> {
   }
 
   Widget _categoryList() {
-    //var list = List.generate(10, (index) => '${categoryList[index]}');
-
-    return ListView.builder(
-      itemCount: categories.length,
-      itemBuilder: (BuildContext context, int index) =>
-          _categoryListItem(context, index),
+    return Expanded(
+      child: ListView.builder(
+        itemCount: categories.length,
+        itemBuilder: (BuildContext context, int index) =>
+            _categoryListItem(context, index),
+      ),
     );
   }
 
