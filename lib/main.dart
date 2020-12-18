@@ -1,10 +1,7 @@
-import 'package:Quiz/Views/QuizView.dart';
-import 'package:Quiz/Views/RegisterView.dart';
-import 'package:Quiz/Views/ScoreView.dart';
+//import './Views/SetupQuizView.dart';
 import 'package:flutter/material.dart';
-
-import 'Views/HomeView.dart';
-import 'Views/SetupQuizView.dart';
+import 'Navigation/NavigationBar.dart';
+//import './Views/HomeView.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,15 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: HomeView(),
-        initialRoute: '/HomeView',
-        routes: {
-          '/RegisterView': (context) => RegisterView(),
-          '/HomeView': (context) => HomeView(),
-          '/SetupQuizView': (context) => SetupQuizView(),
-          '/QuizView': (context) => QuizView(),
-          '/ScoreView': (context) => ScoreView(),
-        });
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: BottomNavBar(),
+    );
   }
 }
