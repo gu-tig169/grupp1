@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:Quiz/Template/theme.dart';
 
 class QuizView extends StatelessWidget {
   final QuestionItem testQuestion = QuestionItem(
@@ -17,18 +18,33 @@ class QuizView extends StatelessWidget {
             Row(
               children: [
                 _image(),
-                Text(testQuestion.category),
+                Text(
+                  testQuestion.category,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .copyWith(fontSize: AppTheme.smallFontSize),
+                ),
               ],
             ),
             Container(height: 10),
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10),
               child: Container(
-                  height: 50,
-                  width: 330,
-                  child: Center(child: Text(testQuestion.question))),
+                height: 50,
+                width: 330,
+                child: Center(
+                  child: Text(
+                    testQuestion.question,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(fontSize: AppTheme.smallFontSize),
+                  ),
+                ),
+              ),
             ),
-            _answerCards(),
+            _answerCards(context),
             Container(height: 50),
             _linearProgressIndicator()
           ], //Column children
@@ -47,31 +63,39 @@ class QuizView extends StatelessWidget {
     );
   }
 
-  Widget _answerCards() {
+  Widget _answerCards(context) {
     return Column(
       children: [
         Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [_card(), _card()]),
+            children: [_card(context), _card(context)]),
         Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [_card(), _card()]),
+            children: [_card(context), _card(context)]),
       ],
     );
   }
 
-  Widget _card() {
+  Widget _card(context) {
     return Card(
-        child: InkWell(
-            splashColor: Colors.blue.withAlpha(30),
-            onTap: () {},
-            child: Container(
-              height: 130,
-              width: 160,
-              child: Center(
-                child: Text('Answer'),
-              ),
-            )));
+      child: InkWell(
+        //splashColor: Colors.blue.withAlpha(30),
+        onTap: () {},
+        child: Container(
+          height: 130,
+          width: 160,
+          child: Center(
+            child: Text(
+              'Answer',
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(fontSize: AppTheme.smallFontSize),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _linearProgressIndicator() {

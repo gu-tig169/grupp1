@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:Quiz/Template/theme.dart';
 
-import '../model.dart';
+//import '../model.dart';
+//import 'package:Quiz/theme.dart';
 
 class RegisterView extends StatefulWidget {
   @override
@@ -16,39 +18,45 @@ class RegisterViewState extends State<RegisterView> {
       body: Center(
         child: Column(
           children: [
-            _image(),
-            _text(),
-            _inputField(),
-            _addUser(),
+            _logo(),
+            Container(height: 50),
+            _header(),
+            _usernameField(),
+            _save(),
           ],
         ),
       ),
     );
   }
 
-  Widget _image() {
+  //logo
+  Widget _logo() {
     return Center(child: Image(image: AssetImage('assets/logo.png')));
   }
 
-  //Username rubrik
-  Widget _text() {
+  //Header username
+  Widget _header() {
     return Container(
-      width: 250,
-      margin: EdgeInsets.only(
-        left: 16,
-        right: 16,
-      ),
-      child: Text('Username',
-          style:
-              TextStyle(fontSize: 20)), //Ändrat storlek, får jag göra det här?
-    );
+        width: 250,
+        margin: EdgeInsets.only(
+          left: 16,
+          right: 16,
+        ),
+        child: Text('Username',
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1
+                .copyWith(fontSize: AppTheme.normalFontSize)));
   }
 
-//Textinmatningsfält
-  Widget _inputField() {
+  //a textfield for typing a username
+  Widget _usernameField() {
     return Card(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        borderRadius: BorderRadius.circular(10.0),
+        side: BorderSide(width: 3, color: AppTheme.secondaryTextColor),
+      ),
+      color: Colors.white,
       child: Container(
         width: 250,
         margin: EdgeInsets.only(
@@ -64,16 +72,21 @@ class RegisterViewState extends State<RegisterView> {
     );
   }
 
-  //Add User-knapp
-  Widget _addUser() {
+  //Save button, saves a username and creates a user
+  Widget _save() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(height: 50),
         RaisedButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0))),
-          child: Text('Save'),
+          child: Text(
+            'SAVE',
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                .copyWith(fontSize: AppTheme.normalFontSize),
+            //subtitle1
+          ),
           onPressed: () {
             Navigator.pushNamed(context, '/HomeView');
           },

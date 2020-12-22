@@ -1,7 +1,7 @@
-import 'package:Quiz/Views/HomeView.dart';
-import 'package:Quiz/Views/QuizView.dart';
-import 'package:Quiz/Views/RegisterView.dart';
-import 'package:Quiz/Views/ScoreView.dart';
+import 'package:Quiz/Views/homeView.dart';
+import 'package:Quiz/Views/quizView.dart';
+import 'package:Quiz/Views/registerView.dart';
+import 'package:Quiz/Views/scoreView.dart';
 import 'package:flutter/material.dart';
 
 //Vi behöver ha våra children som Navigators, denna klassen tar

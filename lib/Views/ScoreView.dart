@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:Quiz/Template/theme.dart';
 
 class ScoreItem {
   final String quizNumber;
@@ -11,9 +12,9 @@ class ScoreItem {
 
 class ScoreView extends StatelessWidget {
   final List<ScoreItem> scores = [
-    ScoreItem('Quiz 1', 'Science & Nature', '10', Icons.star),
-    ScoreItem('Quiz 1000', 'Science & Nature', '10', Icons.star),
-    ScoreItem('Quiz 1', 'Science & Nature', '1000', Icons.star)
+    ScoreItem('Quiz 1', 'Science & Nature', '10', Icons.star_border_rounded),
+    ScoreItem('Quiz 1000', 'Science & Nature', '10', Icons.star_border_rounded),
+    ScoreItem('Quiz 1', 'Science & Nature', '1000', Icons.star_border_rounded)
   ];
 
   @override
@@ -23,13 +24,16 @@ class ScoreView extends StatelessWidget {
         child: Column(children: [
           _image(),
           Container(
-              color: Colors.lightGreen[100],
-              width: 300,
+              decoration: BoxDecoration(
+                color: Color(0xFF4C8C4A),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              width: 314,
               height: 116,
               child: Row(
                 children: [
-                  _userInformationColumn(),
-                  _bestCategoryContainer(),
+                  _userInformationColumn(context),
+                  _bestCategoryContainer(context),
                 ],
               )),
           Container(height: 10),
@@ -43,14 +47,20 @@ class ScoreView extends StatelessWidget {
     return Center(child: Image(image: AssetImage('assets/logo.png')));
   }
 
-  Widget _userInformationColumn() {
-    return Column(children: [
+  Widget _userInformationColumn(context) {
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       _placeHolderAvatar(),
-      Text('Username'),
+      Text(
+        'Username',
+        style: Theme.of(context)
+            .textTheme
+            .bodyText1
+            .copyWith(fontSize: AppTheme.smallFontSize),
+      ),
     ]);
   }
 
-  Widget _bestCategoryContainer() {
+  Widget _bestCategoryContainer(context) {
     return Container(
       width: 210,
       height: 116,
@@ -58,8 +68,20 @@ class ScoreView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('BEST CATEGORY', style: TextStyle(fontSize: 16)),
-            Text('Science & Nature', style: TextStyle(fontSize: 22)),
+            Text(
+              'BEST CATEGORY',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  .copyWith(fontSize: AppTheme.normalHeaderFontSize),
+            ),
+            Text(
+              'Science & Nature',
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(fontSize: AppTheme.normalFontSize),
+            ),
           ],
         ),
       ),
@@ -67,12 +89,14 @@ class ScoreView extends StatelessWidget {
   }
 
   Widget _placeHolderAvatar() {
-    //Ta bort sedan!
     return Center(
-      child: Image(
-        image: AssetImage('assets/logo.png'),
+      child: Container(
         height: 80,
         width: 80,
+        child: CircleAvatar(
+          backgroundImage: AssetImage('assets/avatar1.png'),
+          radius: 30,
+        ),
       ),
     );
   }
@@ -80,10 +104,9 @@ class ScoreView extends StatelessWidget {
   Widget _scoreList() {
     return Expanded(
       child: ListView.builder(
-        itemCount: scores.length,
-        itemBuilder: (BuildContext context, int index) =>
-            _scoreListItem(context, index),
-      ),
+          itemCount: scores.length,
+          itemBuilder: (BuildContext context, int index) =>
+              _scoreListItem(context, index)),
     );
   }
 
@@ -92,28 +115,36 @@ class ScoreView extends StatelessWidget {
     return Container(
       height: 58,
       child: Card(
-        color: Colors.green,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
               child: Container(
                   padding: EdgeInsets.only(left: 8),
-                  color: Colors.green,
                   child: Center(
                       child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(scoreList.quizNumber)))),
+                          child: Text(scoreList.quizNumber,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .copyWith(
+                                      fontSize: AppTheme.smallFontSize))))),
             ),
             Container(
-              color: Colors.green,
               width: 150,
-              child: Center(child: Text(scoreList.category)),
+              child: Center(
+                  child: Text(
+                scoreList.category,
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    .copyWith(fontSize: AppTheme.smallFontSize),
+              )),
             ),
             Expanded(
               child: Container(
                 padding: EdgeInsets.only(right: 8),
-                color: Colors.green,
                 child: Center(
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -121,6 +152,10 @@ class ScoreView extends StatelessWidget {
                       Text(
                         scoreList.score,
                         textAlign: TextAlign.right,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            .copyWith(fontSize: AppTheme.smallFontSize),
                       ),
                       Icon(
                         scoreList.icon,

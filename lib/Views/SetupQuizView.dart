@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:Quiz/Template/theme.dart';
 
 class DifficultyItem {
   final String difficultyName;
@@ -29,16 +30,16 @@ class _SetupQuizViewState extends State<SetupQuizView> {
   ];
 
   final List<CategoryItem> categories = [
-    CategoryItem('Random', Icons.star),
-    CategoryItem('Books', Icons.book),
-    CategoryItem('Film', Icons.star),
-    CategoryItem('Board Games', Icons.star),
-    CategoryItem('Science & Nature', Icons.star),
-    CategoryItem('Computers', Icons.star),
-    CategoryItem('Sports', Icons.star),
-    CategoryItem('Geography', Icons.star),
-    CategoryItem('Animals', Icons.star),
-    CategoryItem('Vehicles', Icons.star),
+    CategoryItem('Random', Icons.help_rounded),
+    CategoryItem('Books', Icons.menu_book),
+    CategoryItem('Film', Icons.videocam),
+    CategoryItem('Board Games', Icons.local_play),
+    CategoryItem('Science & Nature', Icons.opacity),
+    CategoryItem('Computers', Icons.laptop_mac),
+    CategoryItem('Sports', Icons.sports_tennis),
+    CategoryItem('Geography', Icons.public),
+    CategoryItem('Animals', Icons.pets),
+    CategoryItem('Vehicles', Icons.drive_eta),
   ];
 
   @override
@@ -50,19 +51,13 @@ class _SetupQuizViewState extends State<SetupQuizView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _image(),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text('Choose Difficulty:'),
-              ),
+              _logo(),
+              _headerDifficulty(),
               _dropdownMenu(),
               Container(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Text('Choose Category:'),
-              ),
+              _headerCategory(),
               Container(height: 10),
-              Expanded(child: _categoryList()),
+              _categoryList(),
             ],
           ),
         ),
@@ -70,16 +65,36 @@ class _SetupQuizViewState extends State<SetupQuizView> {
     );
   }
 
-  Widget _image() {
+  Widget _logo() {
     return Center(child: Image(image: AssetImage('assets/logo.png')));
+  }
+
+  _headerDifficulty() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: Text(
+        'Choose Difficulty',
+        style: Theme.of(context)
+            .textTheme
+            .bodyText1
+            .copyWith(fontSize: AppTheme.normalFontSize),
+      ),
+    );
   }
 
   Widget _dropdownMenu() {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: DropdownButton<DifficultyItem>(
-        hint: Text('Difficulty'),
+        hint: Text(
+          'Difficulty',
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1
+              .copyWith(fontSize: AppTheme.normalFontSize),
+        ),
         value: choosedDifficulty,
+        icon: Icon(Icons.arrow_downward, color: AppTheme.primaryTextColor),
         onChanged: (DifficultyItem value) {
           setState(() {
             choosedDifficulty = value;
@@ -96,7 +111,10 @@ class _SetupQuizViewState extends State<SetupQuizView> {
                 ),
                 Text(
                   difficulty.difficultyName,
-                  style: TextStyle(color: Colors.black),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .copyWith(fontSize: AppTheme.normalFontSize),
                 ),
               ],
             ),
@@ -106,13 +124,26 @@ class _SetupQuizViewState extends State<SetupQuizView> {
     );
   }
 
-  Widget _categoryList() {
-    //var list = List.generate(10, (index) => '${categoryList[index]}');
+  Widget _headerCategory() {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Text(
+        'Choose Category',
+        style: Theme.of(context)
+            .textTheme
+            .bodyText1
+            .copyWith(fontSize: AppTheme.normalFontSize),
+      ),
+    );
+  }
 
-    return ListView.builder(
-      itemCount: categories.length,
-      itemBuilder: (BuildContext context, int index) =>
-          _categoryListItem(context, index),
+  Widget _categoryList() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: categories.length,
+        itemBuilder: (BuildContext context, int index) =>
+            _categoryListItem(context, index),
+      ),
     );
   }
 
@@ -123,8 +154,14 @@ class _SetupQuizViewState extends State<SetupQuizView> {
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {},
         child: ListTile(
-          leading: Icon(categoryList.icon),
-          title: Text(categoryList.categoryName),
+          leading: Icon(categoryList.icon, color: AppTheme.iconColor),
+          title: Text(
+            categoryList.categoryName,
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                .copyWith(fontSize: AppTheme.normalFontSize),
+          ),
         ),
       ),
     );

@@ -1,6 +1,7 @@
 //import './Views/SetupQuizView.dart';
 import 'package:flutter/material.dart';
 import 'Navigation/NavigationBar.dart';
+import 'Template/theme.dart';
 //import './Views/HomeView.dart';
 
 void main() {
@@ -12,10 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: AppTheme.materialTheme,
       home: BottomNavBar(),
     );
   }
