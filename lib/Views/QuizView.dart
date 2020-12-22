@@ -1,3 +1,4 @@
+import 'package:Quiz/Template/questionItem.dart';
 import 'package:flutter/material.dart';
 import 'package:Quiz/Template/theme.dart';
 
@@ -108,14 +109,4 @@ class QuizView extends StatelessWidget {
       ),
     );
   }
-}
-
-class QuestionItem {
-  final String category;
-  final String question;
-  final String correctAnswer;
-  final List<String> incorrectAnswer;
-
-  QuestionItem(
-      this.category, this.question, this.correctAnswer, this.incorrectAnswer);
 }
