@@ -5,6 +5,7 @@ import 'package:Quiz/Template/theme.dart';
 //import 'package:Quiz/theme.dart';
 
 class RegisterView extends StatefulWidget {
+   
   @override
   State<StatefulWidget> createState() {
     return RegisterViewState();
