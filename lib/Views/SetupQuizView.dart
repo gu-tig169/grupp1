@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:Quiz/Template/theme.dart';
-import 'package:Quiz/API/triviaApi.dart';
+import 'QuizView.dart';
 
 class DifficultyItem {
   final String difficultyName;
@@ -55,6 +55,19 @@ class _SetupQuizViewState extends State<SetupQuizView> {
           backgroundColor: Color(0xFF1B5E20),
         ),
       ),
+
+      //Tillfällig kod
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QuizView(),
+              ));
+        },
+      ),
+      //End
+
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),

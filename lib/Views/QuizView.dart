@@ -17,7 +17,18 @@ class _QuizViewState extends State<QuizView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold( 
+
+     //Tillfällig kod
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(30.0),
+        child: AppBar(
+          elevation: 0.0,
+          backgroundColor: Color(0xFF1B5E20),
+          ),
+        ),
+    //End
+
       body: Center(
         child: Column(
           children: [

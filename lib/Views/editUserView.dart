@@ -1,13 +1,47 @@
 import 'package:flutter/material.dart';
 import '../Template/theme.dart';
+import 'dart:async';
+
 
 class EditUser extends StatefulWidget {
+  //final User user;
+
+  final String userName;
+  final dynamic userAvatar;
+
+  EditUser({Key key, this.userName, this.userAvatar}) : super(key: key);
+
   @override
-  _EditUser createState() => _EditUser();
+  _EditUser createState() {
+    return _EditUser();
+  }
 }
 
 class _EditUser extends State<EditUser> {
-  final TextEditingController customController = TextEditingController();
+  dynamic avatar;
+  var customController = new TextEditingController();
+
+
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Wanna go back?'),
+            content: new Text('Go back without saving changes'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
 
   final List<String> _avatarList = [
     'assets/AvatarM1.jpg',
@@ -32,21 +66,30 @@ class _EditUser extends State<EditUser> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _usernameHeader(),
-            _changeUsernameField(),
-            _submitButton(),
-            _avatarHeader(),
-            _avatarScrollList(),
-          ],
-        ),
-      ),
-    );
+    return new WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(30.0),
+            child: AppBar(
+              elevation: 0.0,
+              backgroundColor: Color(0xFF1B5E20),
+            ),
+          ),
+          body: Container(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _usernameHeader(),
+                _changeUsernameField(),
+                _submitButton(),
+                _avatarHeader(),
+                _avatarScrollList(),
+              ],
+            ),
+          ),
+        ));
   }
 
 //the header Edit username
@@ -91,7 +134,13 @@ class _EditUser extends State<EditUser> {
                 .subtitle1
                 .copyWith(fontSize: AppTheme.normalFontSize),
           ),
-          onPressed: () {}
+          onPressed: () {
+            Navigator.pop(context, customController.text);
+            /*var route = new MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    new HomeView(userName: customController.text));*/
+            /*Navigator.of(context).push(route);*/
+          }
           // => _submit(context),
           // Navigator.of(context, $username).pop(customController.text.toString());
           ),

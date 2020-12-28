@@ -1,7 +1,7 @@
 class User {
   String userId;
   String userName;
-  var avatar;
+  var userAvatar;
 
-  User({this.userName});
+  User({this.userName, this.userAvatar});
 }
