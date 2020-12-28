@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:Quiz/Template/theme.dart';
+import 'package:Quiz/API/triviaApi.dart';
 
 class DifficultyItem {
   final String difficultyName;
@@ -10,8 +12,9 @@ class DifficultyItem {
 class CategoryItem {
   final String categoryName;
   final dynamic icon;
+  final String urlNumber;
 
-  CategoryItem(this.categoryName, this.icon);
+  CategoryItem(this.categoryName, this.icon, this.urlNumber);
 }
 
 class SetupQuizView extends StatefulWidget {
@@ -24,27 +27,34 @@ class _SetupQuizViewState extends State<SetupQuizView> {
   CategoryItem choosedCategory;
 
   List<DifficultyItem> difficulties = <DifficultyItem>[
-    const DifficultyItem('Easy'),
-    const DifficultyItem('Medium'),
-    const DifficultyItem('Hard'),
+    const DifficultyItem('easy'),
+    const DifficultyItem('medium'),
+    const DifficultyItem('hard'),
   ];
 
   final List<CategoryItem> categories = [
-    CategoryItem('Random', Icons.help_rounded),
-    CategoryItem('Books', Icons.menu_book),
-    CategoryItem('Film', Icons.videocam),
-    CategoryItem('Board Games', Icons.local_play),
-    CategoryItem('Science & Nature', Icons.opacity),
-    CategoryItem('Computers', Icons.laptop_mac),
-    CategoryItem('Sports', Icons.sports_tennis),
-    CategoryItem('Geography', Icons.public),
-    CategoryItem('Animals', Icons.pets),
-    CategoryItem('Vehicles', Icons.drive_eta),
+    CategoryItem('Random', Icons.help_rounded, '9'),
+    CategoryItem('Books', Icons.menu_book, '10'),
+    CategoryItem('Film', Icons.videocam, '11'),
+    CategoryItem('Board Games', Icons.local_play, '16'),
+    CategoryItem('Science & Nature', Icons.opacity, '17'),
+    CategoryItem('Computers', Icons.laptop_mac, '18'),
+    CategoryItem('Sports', Icons.sports_tennis, '21'),
+    CategoryItem('Geography', Icons.public, '22'),
+    CategoryItem('Animals', Icons.pets, '27'),
+    CategoryItem('Vehicles', Icons.drive_eta, '28'),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(30.0),
+        child: AppBar(
+          elevation: 0.0,
+          backgroundColor: Color(0xFF1B5E20),
+        ),
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -99,7 +109,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
           setState(() {
             choosedDifficulty = value;
           });
-          print('$categories');
+          print('${choosedDifficulty.difficultyName}');
         },
         items: difficulties.map((DifficultyItem difficulty) {
           return DropdownMenuItem<DifficultyItem>(
@@ -149,10 +159,15 @@ class _SetupQuizViewState extends State<SetupQuizView> {
 
   Widget _categoryListItem(BuildContext context, int index) {
     final categoryList = categories[index];
+
     return Card(
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
-        onTap: () {},
+        onTap: () {
+          print('${categoryList.urlNumber}${choosedDifficulty.difficultyName}');
+          //getQuiz();
+          //byta vy
+        },
         child: ListTile(
           leading: Icon(categoryList.icon, color: AppTheme.iconColor),
           title: Text(
@@ -167,3 +182,17 @@ class _SetupQuizViewState extends State<SetupQuizView> {
     );
   }
 }
+
+/*(CategoryItem value) {
+          setState(() {
+            choosedCategory = value;
+          });
+          print('${choosedCatergory.categoryName}');
+        },
+
+categories.map((CategoryItem caregory) {
+          return DropdownMenuItem<CategoryItem>(
+            value: category,
+            child: Card(),
+          );})
+          .toList() */

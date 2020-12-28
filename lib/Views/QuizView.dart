@@ -2,7 +2,12 @@ import 'package:Quiz/Template/questionItem.dart';
 import 'package:flutter/material.dart';
 import 'package:Quiz/Template/theme.dart';
 
-class QuizView extends StatelessWidget {
+class QuizView extends StatefulWidget {
+  @override
+  _QuizViewState createState() => _QuizViewState();
+}
+
+class _QuizViewState extends State<QuizView> {
   final QuestionItem testQuestion = QuestionItem(
     'Category',
     'Vem i grupp 1 har två katter?',
@@ -18,7 +23,7 @@ class QuizView extends StatelessWidget {
           children: [
             Row(
               children: [
-                _image(),
+                _logo(),
                 Text(
                   testQuestion.category,
                   style: Theme.of(context)
@@ -54,7 +59,7 @@ class QuizView extends StatelessWidget {
     );
   }
 
-  Widget _image() {
+  Widget _logo() {
     return Center(
       child: Image(
         image: AssetImage('assets/logo.png'),
