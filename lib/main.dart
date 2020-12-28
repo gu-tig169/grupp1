@@ -1,11 +1,19 @@
 //import './Views/SetupQuizView.dart';
+import 'package:Quiz/model.dart';
 import 'package:flutter/material.dart';
 import 'Navigation/NavigationBar.dart';
 import 'Template/theme.dart';
+import 'package:provider/provider.dart';
 //import './Views/HomeView.dart';
 
 void main() {
-  runApp(MyApp());
+  var state = GlobalAppState();
+
+  runApp(ChangeNotifierProvider(
+    create: (context) => state, 
+    child:MyApp(),
+  ),
+ );
 }
 
 class MyApp extends StatelessWidget {

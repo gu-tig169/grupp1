@@ -1,33 +1,37 @@
 import 'package:Quiz/Template/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:Quiz/Views/editUserView.dart';
-
 import 'setupQuizView.dart';
-import 'editUserView.dart';
+
+
 
 class HomeView extends StatefulWidget {
+  
+
+  HomeView({Key key,}) : super(key: key);
+
   @override
   _HomeViewState createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
-  /* String valueFromTextField;
-  String userName;*/
+
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _logo(),
-          Container(height: 32),
-          _currentHighScore(),
-          _userField(),
-          _playButton(context),
-        ],
-      ),
-    );
+      return Scaffold(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _logo(),
+            Container(height: 32),
+            _currentHighScore(),
+            _userField(),
+            _playButton(context),
+          ],
+        ),
+      );
   }
 
   //logo
@@ -68,13 +72,15 @@ class _HomeViewState extends State<HomeView> {
           Container(
             margin: EdgeInsets.only(left: 8.0),
             child: CircleAvatar(
-              backgroundImage: AssetImage('assets/avatar1.png'),
+              backgroundImage: AssetImage(
+                'assets/avatar1.png',
+              ),
               radius: 37,
             ),
           ),
           Expanded(
             child: Container(
-              child: Text('Sven Svensson Svensson',
+              child: Text('userName',
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
@@ -91,25 +97,15 @@ class _HomeViewState extends State<HomeView> {
                 // color: AppTheme.primaryTextColor,
                 //better way - call AppTheme
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => EditUser()));
-                }),
+                   Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => EditUser(),
+                      ));
+
+                }
+                ),
           )
         ],
       ),
-
-      /* onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    return EditProfile();
-                  },
-                )).then((valueFromTextField) {
-                  setState(() {
-                    valueFromTextField = userName;
-                  });
-*/
-      //child: Text('$username'),
-      //icon: Icon(Icons.edit),
       height: 85,
       width: 314,
       margin: EdgeInsets.only(top: 20.0),
