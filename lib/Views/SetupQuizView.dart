@@ -1,6 +1,9 @@
+import 'package:Quiz/Template/quizList.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Quiz/Template/theme.dart';
+import 'package:Quiz/Template/questionItem.dart';
+import 'package:Quiz/API/triviaApi.dart';
 import 'QuizView.dart';
 
 class DifficultyItem {
@@ -14,7 +17,7 @@ class CategoryItem {
   final dynamic icon;
   final String urlNumber;
 
-  CategoryItem(this.categoryName, this.icon, this.urlNumber);
+  const CategoryItem(this.categoryName, this.icon, this.urlNumber);
 }
 
 class SetupQuizView extends StatefulWidget {
@@ -24,25 +27,28 @@ class SetupQuizView extends StatefulWidget {
 
 class _SetupQuizViewState extends State<SetupQuizView> {
   DifficultyItem choosedDifficulty;
-  CategoryItem choosedCategory;
+  String choosedCategory;
 
-  List<DifficultyItem> difficulties = <DifficultyItem>[
+  List<QuestionItem> _quizList = [];
+  List<QuestionItem> get quizList => _quizList;
+
+  final List<DifficultyItem> difficulties = <DifficultyItem>[
     const DifficultyItem('easy'),
     const DifficultyItem('medium'),
     const DifficultyItem('hard'),
   ];
 
   final List<CategoryItem> categories = [
-    CategoryItem('Random', Icons.help_rounded, '9'),
-    CategoryItem('Books', Icons.menu_book, '10'),
-    CategoryItem('Film', Icons.videocam, '11'),
-    CategoryItem('Board Games', Icons.local_play, '16'),
-    CategoryItem('Science & Nature', Icons.opacity, '17'),
-    CategoryItem('Computers', Icons.laptop_mac, '18'),
-    CategoryItem('Sports', Icons.sports_tennis, '21'),
-    CategoryItem('Geography', Icons.public, '22'),
-    CategoryItem('Animals', Icons.pets, '27'),
-    CategoryItem('Vehicles', Icons.drive_eta, '28'),
+    const CategoryItem('Random', Icons.help_rounded, '9'),
+    const CategoryItem('Books', Icons.menu_book, '10'),
+    const CategoryItem('Film', Icons.videocam, '11'),
+    const CategoryItem('Board Games', Icons.local_play, '16'),
+    const CategoryItem('Science & Nature', Icons.opacity, '17'),
+    const CategoryItem('Computers', Icons.laptop_mac, '18'),
+    const CategoryItem('Sports', Icons.sports_tennis, '21'),
+    const CategoryItem('Geography', Icons.public, '22'),
+    const CategoryItem('Animals', Icons.pets, '27'),
+    const CategoryItem('Vehicles', Icons.drive_eta, '28'),
   ];
 
   @override
@@ -57,7 +63,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
       ),
 
       //Tillfällig kod
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
               context,
@@ -65,7 +71,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
                 builder: (context) => QuizView(),
               ));
         },
-      ),
+      ),*/
       //End
 
       body: Center(
@@ -176,10 +182,17 @@ class _SetupQuizViewState extends State<SetupQuizView> {
     return Card(
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
-        onTap: () {
-          print('${categoryList.urlNumber}${choosedDifficulty.difficultyName}');
-          //getQuiz();
-          //byta vy
+        onTap: () async {
+          setState(() {
+            choosedCategory = categoryList.urlNumber;
+            _getQuizList();
+          });
+          print('$_quizList');
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      QuizView(quizList: QuizList(_quizList))));
         },
         child: ListTile(
           leading: Icon(categoryList.icon, color: AppTheme.iconColor),
@@ -194,18 +207,10 @@ class _SetupQuizViewState extends State<SetupQuizView> {
       ),
     );
   }
+
+  Future _getQuizList() async {
+    _quizList = await TriviaApi.getQuiz(
+        choosedCategory, choosedDifficulty.difficultyName);
+    return _quizList;
+  }
 }
-
-/*(CategoryItem value) {
-          setState(() {
-            choosedCategory = value;
-          });
-          print('${choosedCatergory.categoryName}');
-        },
-
-categories.map((CategoryItem caregory) {
-          return DropdownMenuItem<CategoryItem>(
-            value: category,
-            child: Card(),
-          );})
-          .toList() */

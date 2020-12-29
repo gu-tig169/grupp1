@@ -1,33 +1,36 @@
 import 'package:Quiz/Template/questionItem.dart';
+import 'package:Quiz/Template/quizList.dart';
 import 'package:flutter/material.dart';
 import 'package:Quiz/Template/theme.dart';
 
 class QuizView extends StatefulWidget {
+  final QuizList quizList;
+
+  QuizView({this.quizList});
+
   @override
-  _QuizViewState createState() => _QuizViewState();
+  State<StatefulWidget> createState() => QuizViewState(quizList);
 }
 
-class _QuizViewState extends State<QuizView> {
-  final QuestionItem testQuestion = QuestionItem(
-    'Category',
-    'Vem i grupp 1 har två katter?',
-    'Emelie',
-    ['Ellinor', 'Erika', 'Alex'],
-  );
+class QuizViewState extends State<QuizView> {
+  //final QuestionItem question = QuestionItem();
+  QuizList quizList;
 
-  @override
+  QuizViewState(QuizList quizList) {
+    this.quizList = quizList;
+  }
+
   Widget build(BuildContext context) {
-    return Scaffold( 
-
-     //Tillfällig kod
+    return Scaffold(
+      //Tillfällig kod
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(30.0),
         child: AppBar(
           elevation: 0.0,
           backgroundColor: Color(0xFF1B5E20),
-          ),
         ),
-    //End
+      ),
+      //End
 
       body: Center(
         child: Column(
@@ -36,7 +39,7 @@ class _QuizViewState extends State<QuizView> {
               children: [
                 _logo(),
                 Text(
-                  testQuestion.category,
+                  'A category',
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1
@@ -52,7 +55,7 @@ class _QuizViewState extends State<QuizView> {
                 width: 330,
                 child: Center(
                   child: Text(
-                    testQuestion.question,
+                    'A question',
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1

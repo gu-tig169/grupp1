@@ -1,12 +1,8 @@
-import 'package:flutter/material.dart';
-
 import './questionItem.dart';
 
 class QuizList {
   List<QuestionItem> questions;
-  int questionItemIndex;
-  var choosedCategory;
-  var choosedDifficulty;
+  int questionItemIndex = 0;
 
-  QuizList(this.questions, this.questionItemIndex);
+  QuizList(this.questions);
 }

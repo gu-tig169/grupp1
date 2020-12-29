@@ -7,13 +7,14 @@ import 'package:provider/provider.dart';
 //import './Views/HomeView.dart';
 
 void main() {
-  var state = GlobalAppState();
+  var state = AppState();
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => state, 
-    child:MyApp(),
-  ),
- );
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => state,
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
