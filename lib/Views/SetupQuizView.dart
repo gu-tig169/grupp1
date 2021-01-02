@@ -54,6 +54,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //ta bort appbar i slutet
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(30.0),
         child: AppBar(
@@ -61,19 +62,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
           backgroundColor: Color(0xFF1B5E20),
         ),
       ),
-
-      //Tillfällig kod
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => QuizView(),
-              ));
-        },
-      ),*/
-      //End
-
+      //ta bort ner hit
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -128,7 +117,6 @@ class _SetupQuizViewState extends State<SetupQuizView> {
           setState(() {
             choosedDifficulty = value;
           });
-          print('${choosedDifficulty.difficultyName}');
         },
         items: difficulties.map((DifficultyItem difficulty) {
           return DropdownMenuItem<DifficultyItem>(
@@ -183,11 +171,10 @@ class _SetupQuizViewState extends State<SetupQuizView> {
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
         onTap: () async {
-          setState(() {
-            choosedCategory = categoryList.urlNumber;
-            _getQuizList();
-          });
+          choosedCategory = categoryList.urlNumber;
+          await _getQuizList();
           print('$_quizList');
+          print('${_quizList.elementAt(2).question}');
           await Navigator.push(
               context,
               MaterialPageRoute(
@@ -211,6 +198,9 @@ class _SetupQuizViewState extends State<SetupQuizView> {
   Future _getQuizList() async {
     _quizList = await TriviaApi.getQuiz(
         choosedCategory, choosedDifficulty.difficultyName);
+    for (var QuestionItem in _quizList) {
+      QuestionItem.createAnswerOptions();
+    }
     return _quizList;
   }
 }

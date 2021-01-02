@@ -13,11 +13,16 @@ class QuizView extends StatefulWidget {
 }
 
 class QuizViewState extends State<QuizView> {
-  //final QuestionItem question = QuestionItem();
+  //QuestionItem question;
   QuizList quizList;
+
+  //QuizViewState(this.quizList);
 
   QuizViewState(QuizList quizList) {
     this.quizList = quizList;
+    print('det här är QuizViewState: $quizList');
+    print(
+        'Här vill vi se answerOptions: ${quizList.allquestions.elementAt(0).answerOptions}');
   }
 
   Widget build(BuildContext context) {
@@ -35,38 +40,12 @@ class QuizViewState extends State<QuizView> {
       body: Center(
         child: Column(
           children: [
-            Row(
-              children: [
-                _logo(),
-                Text(
-                  'A category',
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      .copyWith(fontSize: AppTheme.smallFontSize),
-                ),
-              ],
-            ),
+            Row(children: [_logo(), _categoryField()]),
             Container(height: 10),
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10),
-              child: Container(
-                height: 50,
-                width: 330,
-                child: Center(
-                  child: Text(
-                    'A question',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(fontSize: AppTheme.smallFontSize),
-                  ),
-                ),
-              ),
-            ),
+            _questionField(),
             _answerCards(context),
             Container(height: 50),
-            _linearProgressIndicator()
+            //_linearProgressIndicator()
           ], //Column children
         ),
       ),
@@ -79,6 +58,33 @@ class QuizViewState extends State<QuizView> {
         image: AssetImage('assets/logo.png'),
         height: 80,
         width: 80,
+      ),
+    );
+  }
+
+  Widget _categoryField() {
+    return Text('${quizList.allquestions.elementAt(0).category}',
+        style: Theme.of(context)
+            .textTheme
+            .subtitle1
+            .copyWith(fontSize: AppTheme.smallFontSize));
+  }
+
+  Widget _questionField() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0, right: 10),
+      child: Container(
+        height: 50,
+        width: 330,
+        child: Center(
+          child: Text(
+            '${quizList.allquestions.elementAt(0).question}',
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                .copyWith(fontSize: AppTheme.smallFontSize),
+          ),
+        ),
       ),
     );
   }
@@ -100,13 +106,17 @@ class QuizViewState extends State<QuizView> {
     return Card(
       child: InkWell(
         //splashColor: Colors.blue.withAlpha(30),
-        onTap: () {},
+        onTap: () {
+          print('knappen går att klicka');
+          print('$quizList');
+          //print('${quizList.elementAt(2).question}');
+        },
         child: Container(
           height: 130,
           width: 160,
           child: Center(
             child: Text(
-              'Answer',
+              '${quizList.allquestions.elementAt(0).correctAnswer}',
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
@@ -128,4 +138,4 @@ class QuizViewState extends State<QuizView> {
       ),
     );
   }
-}
+} //class QuizView
