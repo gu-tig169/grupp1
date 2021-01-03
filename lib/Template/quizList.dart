@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import './questionItem.dart';
 
 class QuizList {
@@ -7,11 +9,16 @@ class QuizList {
   QuizList(this.questions);
 
   List<QuestionItem> get allquestions => questions;
-}
 
-// function getNextQuestion() {
-// Check att det finns frågor att returnera
-// ta frågan på plats questionItemIndex
-// Stega upp questionItemIndex med 1
-// returnera frågan
-//}
+  QuestionItem getNextQuestion() {
+    if (questions.isEmpty) {
+      print('Error, no questions found!');
+    } else {
+      var currentQuestion = questions.elementAt(questionItemIndex);
+      print('Vårt nuvarande index: $questionItemIndex');
+      questionItemIndex++;
+      print('Vårt nya index: $questionItemIndex');
+      return currentQuestion;
+    }
+  }
+} //class QuizList

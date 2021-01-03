@@ -5,7 +5,7 @@ class QuestionItem {
   String question;
   String correctAnswer;
   List<String> incorrectAnswer;
-  List<AnswerOption> answerOptions = [];
+  List<AnswerOption> _answerOptions = [];
   bool point;
 
   QuestionItem(
@@ -14,6 +14,8 @@ class QuestionItem {
       this.correctAnswer,
       this.incorrectAnswer,
       this.point = false});
+
+  List<AnswerOption> get answerOptions => _answerOptions;
 
   factory QuestionItem.fromJson(Map<String, dynamic> json) {
     return QuestionItem(
@@ -25,11 +27,12 @@ class QuestionItem {
   } //fromJson
 
   void createAnswerOptions() {
-    //skapar ett answerOption för varje instans i incorrectAnswer och lägger till i answerOptions
+    //skapar ett answerOption för varje instans i listan incorrectAnswer och lägger till i answerOptions
     for (var answer in incorrectAnswer) {
-      answerOptions.add(AnswerOption(answer, false));
+      _answerOptions.add(AnswerOption(answer, false));
     }
     //skapar ett answerOption av correctAnswer och lägger till i answerOptions
-    answerOptions.add(AnswerOption(correctAnswer, true));
+    _answerOptions.add(AnswerOption(correctAnswer, true));
+    _answerOptions.shuffle();
   } //createAnswerOptions
 } // class QuestionItem

@@ -13,19 +13,16 @@ class QuizView extends StatefulWidget {
 }
 
 class QuizViewState extends State<QuizView> {
-  //QuestionItem question;
+  QuestionItem currentQuestion;
   QuizList quizList;
-
-  //QuizViewState(this.quizList);
 
   QuizViewState(QuizList quizList) {
     this.quizList = quizList;
-    print('det här är QuizViewState: $quizList');
-    print(
-        'Här vill vi se answerOptions: ${quizList.allquestions.elementAt(0).answerOptions}');
   }
 
   Widget build(BuildContext context) {
+    currentQuestion = quizList.getNextQuestion();
+
     return Scaffold(
       //Tillfällig kod
       appBar: PreferredSize(
@@ -63,7 +60,7 @@ class QuizViewState extends State<QuizView> {
   }
 
   Widget _categoryField() {
-    return Text('${quizList.allquestions.elementAt(0).category}',
+    return Text(currentQuestion.category,
         style: Theme.of(context)
             .textTheme
             .subtitle1
@@ -78,7 +75,7 @@ class QuizViewState extends State<QuizView> {
         width: 330,
         child: Center(
           child: Text(
-            '${quizList.allquestions.elementAt(0).question}',
+            currentQuestion.question,
             style: Theme.of(context)
                 .textTheme
                 .subtitle1
@@ -92,31 +89,35 @@ class QuizViewState extends State<QuizView> {
   Widget _answerCards(context) {
     return Column(
       children: [
-        Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [_card(context), _card(context)]),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [_card(context), _card(context)]),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          _card(context,
+              ('${currentQuestion.answerOptions.elementAt(0).answer}')),
+          _card(
+              context, ('${currentQuestion.answerOptions.elementAt(1).answer}'))
+        ]),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          _card(context,
+              ('${currentQuestion.answerOptions.elementAt(2).answer}')),
+          _card(
+              context, ('${currentQuestion.answerOptions.elementAt(3).answer}'))
+        ]),
       ],
     );
   }
 
-  Widget _card(context) {
+  Widget _card(context, text) {
     return Card(
       child: InkWell(
         //splashColor: Colors.blue.withAlpha(30),
         onTap: () {
-          print('knappen går att klicka');
-          print('$quizList');
-          //print('${quizList.elementAt(2).question}');
+          print('du klickade på ett kort');
         },
         child: Container(
           height: 130,
           width: 160,
           child: Center(
             child: Text(
-              '${quizList.allquestions.elementAt(0).correctAnswer}',
+              '$text',
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
