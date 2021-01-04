@@ -195,6 +195,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
     );
   }
 
+//gets the questions from TriviaApi and builds the quizList
   Future _getQuizList() async {
     _quizList = await TriviaApi.getQuiz(
         choosedCategory, choosedDifficulty.difficultyName);

@@ -1,3 +1,4 @@
+import 'package:Quiz/Template/answerOption.dart';
 import 'package:Quiz/Template/questionItem.dart';
 import 'package:Quiz/Template/quizList.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +16,16 @@ class QuizView extends StatefulWidget {
 class QuizViewState extends State<QuizView> {
   QuestionItem currentQuestion;
   QuizList quizList;
+  bool _selected = false;
 
   QuizViewState(QuizList quizList) {
     this.quizList = quizList;
   }
 
   Widget build(BuildContext context) {
-    currentQuestion = quizList.getNextQuestion();
+    if (quizList.questionItemIndex == 0) {
+      currentQuestion = quizList.getNextQuestion();
+    }
 
     return Scaffold(
       //Tillfällig kod
@@ -40,7 +44,7 @@ class QuizViewState extends State<QuizView> {
             Row(children: [_logo(), _categoryField()]),
             Container(height: 10),
             _questionField(),
-            _answerCards(context),
+            _answerCardsGrid(context),
             Container(height: 50),
             //_linearProgressIndicator()
           ], //Column children
@@ -86,38 +90,56 @@ class QuizViewState extends State<QuizView> {
     );
   }
 
-  Widget _answerCards(context) {
+//Kan man lägga cardsen som const, typ högst upp?
+  Widget _answerCardsGrid(context) {
     return Column(
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          _card(context,
-              ('${currentQuestion.answerOptions.elementAt(0).answer}')),
-          _card(
-              context, ('${currentQuestion.answerOptions.elementAt(1).answer}'))
+          _card(context, currentQuestion.answerOptions.elementAt(0)),
+          _card(context, currentQuestion.answerOptions.elementAt(1))
         ]),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          _card(context,
-              ('${currentQuestion.answerOptions.elementAt(2).answer}')),
-          _card(
-              context, ('${currentQuestion.answerOptions.elementAt(3).answer}'))
+          _card(context, currentQuestion.answerOptions.elementAt(2)),
+          _card(context, currentQuestion.answerOptions.elementAt(3))
         ]),
       ],
     );
   }
 
-  Widget _card(context, text) {
+  Widget _card(context, _answer) {
     return Card(
+      shape: _selected
+          ? _answer.isCorrect
+              ? new RoundedRectangleBorder(
+                  side: new BorderSide(color: Colors.green, width: 2.0),
+                  borderRadius: BorderRadius.circular(4.0))
+              : new RoundedRectangleBorder(
+                  side: new BorderSide(color: Colors.red, width: 2.0),
+                  borderRadius: BorderRadius.circular(4.0))
+          : new RoundedRectangleBorder(
+              side: new BorderSide(color: AppTheme.primaryColor, width: 2.0),
+              borderRadius: BorderRadius.circular(4.0)),
       child: InkWell(
-        //splashColor: Colors.blue.withAlpha(30),
-        onTap: () {
-          print('du klickade på ett kort');
+        splashColor: Colors.black.withAlpha(30),
+        onTap: () async {
+          _selected = true;
+          setState(() {});
+          await Future.delayed(Duration(seconds: 2));
+          print('Det här är point innan förändring: ${currentQuestion.point}');
+          if (_answer.isCorrect) {
+            currentQuestion.point = true;
+          }
+          print('Det här är point efter förändring: ${currentQuestion.point}');
+          currentQuestion = quizList.getNextQuestion();
+          _selected = false;
+          setState(() {});
         },
         child: Container(
           height: 130,
           width: 160,
           child: Center(
             child: Text(
-              '$text',
+              '${_answer.answer}',
               style: Theme.of(context)
                   .textTheme
                   .subtitle1

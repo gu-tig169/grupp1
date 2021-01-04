@@ -5,12 +5,12 @@ import 'dart:convert';
 import 'package:Quiz/Template/questionItem.dart';
 
 const API_URL = 'https://opentdb.com/api.php?amount=10';
-const type = 'type=multiple';
+const TYPE = 'type=multiple';
 
 class TriviaApi {
   static Future<List<QuestionItem>> getQuiz(category, difficulty) async {
     var response = await http
-        .get('$API_URL&category=$category&difficulty=$difficulty&$type');
+        .get('$API_URL&category=$category&difficulty=$difficulty&$TYPE');
     //print(response.body);
     var json = jsonDecode(response.body);
     return json['results'].map<QuestionItem>((data) {
