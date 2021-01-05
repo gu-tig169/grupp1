@@ -10,11 +10,11 @@ class QuizList {
 
   List<QuestionItem> get allquestions => questions;
 
-  //goes through the list of questions.
+  //Går igenom listan med frågor
   QuestionItem getNextQuestion() {
     if (questionItemIndex == questions.length) {
-      print(
-          'End of list'); //gör om till funktion som behandlar sista frågan i quizList
+      print('End of list');
+      return null;
     } else {
       var currentQuestion = questions.elementAt(questionItemIndex);
       print('Vårt nuvarande index: $questionItemIndex');

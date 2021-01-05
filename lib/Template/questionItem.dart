@@ -5,7 +5,7 @@ class QuestionItem {
   String question;
   String correctAnswer;
   List<String> incorrectAnswer;
-  final List<AnswerOption> _answerOptions = [];
+  List<AnswerOption> _answerOptions = [];
   bool _point = false;
 
   QuestionItem(
@@ -17,6 +17,7 @@ class QuestionItem {
     _point = true;
   }
 
+//Mappar om från json och returnerar en instans av QuestionItem
   factory QuestionItem.fromJson(Map<String, dynamic> json) {
     return QuestionItem(
       category: json['category'],
@@ -26,6 +27,7 @@ class QuestionItem {
     );
   } //fromJson
 
+//Gör om alla frågor till answerOption, lägger till dem i listan answerOptions och blandar listan.
   void createAnswerOptions() {
     //skapar ett answerOption för varje instans i listan incorrectAnswer och lägger till i answerOptions
     for (var _answer in incorrectAnswer) {

@@ -1,3 +1,4 @@
+import 'package:Quiz/Template/answerOption.dart';
 import 'package:Quiz/Template/quizList.dart';
 import 'package:flutter/material.dart';
 
@@ -172,7 +173,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
         splashColor: Colors.blue.withAlpha(30),
         onTap: () async {
           choosedCategory = categoryList.urlNumber;
-          await _getQuizList();
+          await _buildQuizList();
           print('$_quizList');
           print('${_quizList.elementAt(2).question}');
           await Navigator.push(
@@ -195,12 +196,23 @@ class _SetupQuizViewState extends State<SetupQuizView> {
     );
   }
 
-//gets the questions from TriviaApi and builds the quizList
-  Future _getQuizList() async {
+//Hämtar frågorna från TriviaApi & formaterar, samt bygger quizList
+  Future _buildQuizList() async {
     _quizList = await TriviaApi.getQuiz(
         choosedCategory, choosedDifficulty.difficultyName);
-    for (var QuestionItem in _quizList) {
-      QuestionItem.createAnswerOptions();
+    for (QuestionItem item in _quizList) {
+      item.category = item.category.replaceAll('Entertainment:', '');
+      item.category = item.category.replaceAll('Science:', '');
+      item.category = item.category.replaceAll('General Knowledge', 'Random');
+
+      item.question = item.question.replaceAll('&quot;', '”');
+      item.question = item.question.replaceAll('&#039;', '\'');
+
+      for (AnswerOption value in item.answerOptions) {
+        value.answer = value.answer.replaceAll('&quot;', '”');
+        value.answer = value.answer.replaceAll('&#039;', '\'');
+      }
+      item.createAnswerOptions();
     }
     return _quizList;
   }

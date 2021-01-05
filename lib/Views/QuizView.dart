@@ -90,7 +90,6 @@ class QuizViewState extends State<QuizView> {
     );
   }
 
-//Kan man lägga cardsen som const, typ högst upp?
   Widget _answerCardsGrid(context) {
     return Column(
       children: [
@@ -106,6 +105,8 @@ class QuizViewState extends State<QuizView> {
     );
   }
 
+//Korten byter BorderColor för att visa om frågan är rätt/fel, beror av _selected.
+//onTap sätter _selected & kollar om svaret är rätt/fel och ändrar point & ropar på nästa fråga
   Widget _card(context, _answer) {
     return Card(
       shape: _selected
