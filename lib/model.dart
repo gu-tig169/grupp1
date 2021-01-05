@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'API/triviaApi.dart';
+import 'Template/questionItem.dart';
 
-class GlobalAppState extends ChangeNotifier {
-
-
-
-  }
+class AppState extends ChangeNotifier {}
