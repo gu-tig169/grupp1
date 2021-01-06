@@ -1,9 +1,7 @@
-import 'package:Quiz/Template/questionItem.dart';
-import 'package:Quiz/Template/quizList.dart';
-
 class Result {
   final String category;
+  final String difficulty;
   final int score;
 
-  Result(this.category, this.score);
+  Result(this.category, this.difficulty, this.score);
 }

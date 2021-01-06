@@ -31,7 +31,6 @@ dependencies:
   custom_navigator: ^0.3.0
   provider: any
   http: any
-  conffeti: confetti 0.5.4+1
   
 dev_dependencies:  
   flutter_test:

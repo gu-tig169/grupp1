@@ -20,7 +20,7 @@ class QuizViewState extends State<QuizView> {
   bool _selected = false;
   int _score = 0;
   String _category;
-  //String difficulty
+  String _difficulty;
 
   QuizViewState(QuizList quizList) {
     this.quizList = quizList;
@@ -30,6 +30,7 @@ class QuizViewState extends State<QuizView> {
     if (quizList.questionItemIndex == 0) {
       currentQuestion = quizList.getNextQuestion();
       _category = currentQuestion.category;
+      _difficulty = currentQuestion.difficulty;
     }
 
     return Scaffold(
@@ -137,7 +138,7 @@ class QuizViewState extends State<QuizView> {
           }
           currentQuestion = quizList.getNextQuestion();
           if (currentQuestion == null) {
-            var result = Result(_category, _score);
+            var result = Result(_category, _difficulty, _score);
             print('Slut på frågor. Dina poäng: ${result.score}/10');
             await _showResult(context, result);
           }
@@ -169,7 +170,10 @@ class QuizViewState extends State<QuizView> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
             child: Container(
-              decoration: BoxDecoration(color: Color(0xFF4C8C4A)),
+              decoration: BoxDecoration(
+                color: Color(0xFF4C8C4A),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               height: 150,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -177,6 +181,7 @@ class QuizViewState extends State<QuizView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    Container(height: 25),
                     Text(
                       'Finished!\n ${result.score}/10',
                       style: Theme.of(context)
@@ -184,7 +189,7 @@ class QuizViewState extends State<QuizView> {
                           .subtitle1
                           .copyWith(fontSize: AppTheme.normalFontSize),
                     ),
-                    Container(height: 30),
+                    Container(height: 10),
                     SizedBox(
                       width: 320.0,
                       child: RaisedButton(

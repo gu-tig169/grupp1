@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class ResultList extends StatelessWidget {
   final List<Result> list;
-  //int resultIndex = 0;
 
   ResultList(this.list);
 
@@ -42,7 +41,7 @@ class ResultList extends StatelessWidget {
               width: 150,
               child: Center(
                   child: Text(
-                scoreList.category,
+                '${scoreList.category}\n${scoreList.difficulty}',
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1
