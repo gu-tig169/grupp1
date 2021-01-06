@@ -18,8 +18,8 @@ class QuizViewState extends State<QuizView> {
   QuizList quizList;
   QuestionItem currentQuestion;
   bool _selected = false;
-  int score = 0;
-  String category;
+  int _score = 0;
+  String _category;
   //String difficulty
 
   QuizViewState(QuizList quizList) {
@@ -29,7 +29,7 @@ class QuizViewState extends State<QuizView> {
   Widget build(BuildContext context) {
     if (quizList.questionItemIndex == 0) {
       currentQuestion = quizList.getNextQuestion();
-      category = currentQuestion.category;
+      _category = currentQuestion.category;
     }
 
     return Scaffold(
@@ -131,19 +131,15 @@ class QuizViewState extends State<QuizView> {
           _selected = true;
           setState(() {});
           await Future.delayed(Duration(seconds: 1));
-          print('Det här är point innan förändring: ${currentQuestion.point}');
           if (_answerOption.isCorrect) {
             currentQuestion.point = true;
-            score++;
+            _score++;
           }
-          print('Det här är point efter förändring: ${currentQuestion.point}');
           currentQuestion = quizList.getNextQuestion();
           if (currentQuestion == null) {
-            print('Här var det slut på frågor');
-            var result = Result(category, score);
-            print('Dina poäng: ${result.score}/10');
-            await Navigator.push(context,
-                MaterialPageRoute(builder: (context) => BottomNavBar()));
+            var result = Result(_category, _score);
+            print('Slut på frågor. Dina poäng: ${result.score}/10');
+            await _showResult(context, result);
           }
           _selected = false;
           setState(() {});
@@ -165,13 +161,52 @@ class QuizViewState extends State<QuizView> {
     );
   }
 
-  /*Widget _buildScore() {
-    Result _result;
-    for (QuestionItem item in quizList.questions) {
-      if (item.answerOptions.answerOption.isCorrect == true) {}
-    }
-    return null;
-  }*/
+  Future _showResult(context, result) async {
+    return await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)),
+            child: Container(
+              decoration: BoxDecoration(color: Color(0xFF4C8C4A)),
+              height: 150,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Finished!\n ${result.score}/10',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          .copyWith(fontSize: AppTheme.normalFontSize),
+                    ),
+                    Container(height: 30),
+                    SizedBox(
+                      width: 320.0,
+                      child: RaisedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BottomNavBar()));
+                        },
+                        child: Text(
+                          "Continue",
+                          style: Theme.of(context).textTheme.subtitle1,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
 
   Widget _linearProgressIndicator() {
     return SizedBox(
