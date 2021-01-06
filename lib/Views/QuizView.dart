@@ -1,6 +1,7 @@
-import 'package:Quiz/Template/answerOption.dart';
+import 'package:Quiz/Navigation/NavigationBar.dart';
 import 'package:Quiz/Template/questionItem.dart';
 import 'package:Quiz/Template/quizList.dart';
+import 'package:Quiz/Template/result.dart';
 import 'package:flutter/material.dart';
 import 'package:Quiz/Template/theme.dart';
 
@@ -14,9 +15,12 @@ class QuizView extends StatefulWidget {
 }
 
 class QuizViewState extends State<QuizView> {
-  QuestionItem currentQuestion;
   QuizList quizList;
+  QuestionItem currentQuestion;
   bool _selected = false;
+  int score = 0;
+  String category;
+  //String difficulty
 
   QuizViewState(QuizList quizList) {
     this.quizList = quizList;
@@ -25,6 +29,7 @@ class QuizViewState extends State<QuizView> {
   Widget build(BuildContext context) {
     if (quizList.questionItemIndex == 0) {
       currentQuestion = quizList.getNextQuestion();
+      category = currentQuestion.category;
     }
 
     return Scaffold(
@@ -107,10 +112,10 @@ class QuizViewState extends State<QuizView> {
 
 //Korten byter BorderColor för att visa om frågan är rätt/fel, beror av _selected.
 //onTap sätter _selected & kollar om svaret är rätt/fel och ändrar point & ropar på nästa fråga
-  Widget _card(context, _answer) {
+  Widget _card(context, _answerOption) {
     return Card(
       shape: _selected
-          ? _answer.isCorrect
+          ? _answerOption.isCorrect
               ? new RoundedRectangleBorder(
                   side: new BorderSide(color: Colors.green, width: 2.0),
                   borderRadius: BorderRadius.circular(4.0))
@@ -125,13 +130,21 @@ class QuizViewState extends State<QuizView> {
         onTap: () async {
           _selected = true;
           setState(() {});
-          await Future.delayed(Duration(seconds: 2));
+          await Future.delayed(Duration(seconds: 1));
           print('Det här är point innan förändring: ${currentQuestion.point}');
-          if (_answer.isCorrect) {
+          if (_answerOption.isCorrect) {
             currentQuestion.point = true;
+            score++;
           }
           print('Det här är point efter förändring: ${currentQuestion.point}');
           currentQuestion = quizList.getNextQuestion();
+          if (currentQuestion == null) {
+            print('Här var det slut på frågor');
+            var result = Result(category, score);
+            print('Dina poäng: ${result.score}/10');
+            await Navigator.push(context,
+                MaterialPageRoute(builder: (context) => BottomNavBar()));
+          }
           _selected = false;
           setState(() {});
         },
@@ -140,7 +153,7 @@ class QuizViewState extends State<QuizView> {
           width: 160,
           child: Center(
             child: Text(
-              '${_answer.answer}',
+              '${_answerOption.answer}',
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
@@ -151,6 +164,14 @@ class QuizViewState extends State<QuizView> {
       ),
     );
   }
+
+  /*Widget _buildScore() {
+    Result _result;
+    for (QuestionItem item in quizList.questions) {
+      if (item.answerOptions.answerOption.isCorrect == true) {}
+    }
+    return null;
+  }*/
 
   Widget _linearProgressIndicator() {
     return SizedBox(

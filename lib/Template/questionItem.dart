@@ -2,6 +2,7 @@ import 'package:Quiz/Template/answerOption.dart';
 
 class QuestionItem {
   String category;
+  //String difficulty;
   String question;
   String correctAnswer;
   List<String> incorrectAnswer;

@@ -174,8 +174,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
         onTap: () async {
           choosedCategory = categoryList.urlNumber;
           await _buildQuizList();
-          print('$_quizList');
-          print('${_quizList.elementAt(2).question}');
+          print('Finns det en quizList? : $_quizList');
           await Navigator.push(
               context,
               MaterialPageRoute(
@@ -210,7 +209,8 @@ class _SetupQuizViewState extends State<SetupQuizView> {
 
       for (AnswerOption value in item.answerOptions) {
         value.answer = value.answer.replaceAll('&quot;', '”');
-        value.answer = value.answer.replaceAll('&#039;', '\'');
+        value.answer =
+            value.answer.replaceAll('&#039;', '\''); //funkar inte som den ska!
       }
       item.createAnswerOptions();
     }

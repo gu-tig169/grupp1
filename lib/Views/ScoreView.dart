@@ -1,22 +1,18 @@
+import 'package:Quiz/Template/result.dart';
+import 'package:Quiz/Template/resultList.dart';
 import 'package:flutter/material.dart';
 import 'package:Quiz/Template/theme.dart';
 
-class ScoreItem {
-  final String quizNumber;
-  final String category;
-  final String score;
-  final dynamic icon;
-
-  ScoreItem(this.quizNumber, this.category, this.score, this.icon);
-}
-
 class ScoreView extends StatelessWidget {
-   ScoreView({Key key,}) : super(key: key);
-  final List<ScoreItem> scores = [
-    ScoreItem('Quiz 1', 'Science & Nature', '10', Icons.star_border_rounded),
-    ScoreItem('Quiz 1000', 'Science & Nature', '10', Icons.star_border_rounded),
-    ScoreItem('Quiz 1', 'Science & Nature', '1000', Icons.star_border_rounded)
-  ];
+  ScoreView({
+    Key key,
+  }) : super(key: key);
+
+  final ResultList scores = ResultList([
+    Result('Science & Nature', 8),
+    Result('Science & Nature', 10),
+    Result('Science & Nature', 5)
+  ]);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +34,7 @@ class ScoreView extends StatelessWidget {
                 ],
               )),
           Container(height: 10),
-          _scoreList(),
+          scores,
         ]),
       ),
     );
@@ -102,6 +98,7 @@ class ScoreView extends StatelessWidget {
     );
   }
 
+/*
   Widget _scoreList() {
     return Expanded(
       child: ListView.builder(
@@ -168,5 +165,5 @@ class ScoreView extends StatelessWidget {
         ),
       ),
     );
-  }
+  }*/
 }
