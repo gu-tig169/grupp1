@@ -3,9 +3,11 @@ import 'package:Quiz/Navigation/NavigationBar.dart';
 import 'package:Quiz/Template/questionItem.dart';
 import 'package:Quiz/Template/quizList.dart';
 import 'package:Quiz/Template/result.dart';
+import 'package:Quiz/model.dart';
 import 'package:flutter/material.dart';
 import 'package:Quiz/Template/theme.dart';
 import 'package:confetti/confetti.dart';
+import 'package:provider/provider.dart';
 
 class QuizView extends StatefulWidget {
   final QuizList quizList;
@@ -146,12 +148,15 @@ class QuizViewState extends State<QuizView>
           _countScore(_answerOption);
           currentQuestion = quizList.getNextQuestion();
           if (currentQuestion == null) {
-            var result = Result(_category, _difficulty);
-            result.score = _score;
-            ResultApi.addResult(result);
-            print('Slut på frågor. Dina poäng: ${result.score}/10');
+            var _result = Result(
+              category: _category,
+              difficulty: _difficulty,
+              score: _score,
+            );
+            Provider.of<AppState>(context, listen: false).addResult(_result);
+            print('Slut på frågor');
             _controller.play();
-            await _showResult(context, result);
+            await _showResult(context);
           }
           _selected = false;
           setState(() {});
@@ -188,16 +193,16 @@ class QuizViewState extends State<QuizView>
     }
   }
 
-  Future _showResult(context, result) async {
-    String totalPoints;
+  Future _showResult(context) async {
+    String possibleScore;
     if (_difficulty == 'hard') {
-      totalPoints = '30';
+      possibleScore = '30';
     }
     if (_difficulty == 'medium') {
-      totalPoints = '20';
+      possibleScore = '20';
     }
     if (_difficulty == 'easy') {
-      totalPoints = '10';
+      possibleScore = '10';
     }
 
     return await showDialog(
@@ -221,7 +226,7 @@ class QuizViewState extends State<QuizView>
                     children: [
                       Container(height: 25),
                       Text(
-                        'Finished!\n ${result.score}/$totalPoints',
+                        'Finished!\n $_score/$possibleScore',
                         style: Theme.of(context)
                             .textTheme
                             .subtitle1

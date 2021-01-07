@@ -12,12 +12,22 @@ class ResultList extends StatelessWidget {
       child: ListView.builder(
           itemCount: list.length,
           itemBuilder: (BuildContext context, int index) =>
-              _scoreListItem(context, index)),
+              _listItem(context, index)),
     );
   }
 
-  Widget _scoreListItem(BuildContext context, int index) {
-    final scoreList = list[index];
+  Widget _listItem(BuildContext context, int index) {
+    final result = list[index++];
+    String possibleScore;
+    if (result.difficulty == 'hard') {
+      possibleScore = '30';
+    }
+    if (result.difficulty == 'medium') {
+      possibleScore = '20';
+    }
+    if (result.difficulty == 'easy') {
+      possibleScore = '10';
+    }
     return Container(
       height: 58,
       child: Card(
@@ -41,7 +51,7 @@ class ResultList extends StatelessWidget {
               width: 150,
               child: Center(
                   child: Text(
-                '${scoreList.category}\n${scoreList.difficulty}',
+                '${result.category}\n(${result.difficulty})',
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1
@@ -56,7 +66,7 @@ class ResultList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                       Text(
-                        '${scoreList.score}',
+                        '${result.score}/$possibleScore',
                         textAlign: TextAlign.right,
                         style: Theme.of(context)
                             .textTheme
