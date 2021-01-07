@@ -10,4 +10,9 @@ class AppState extends ChangeNotifier {
 
   List<User> get listUser => _listUser;
   List<Result> get resultList => _resultList;
+
+  /*void addItem(Result item) async {
+    await resultApi.addItem(item);
+    await getList(); 
+  }*/
 }

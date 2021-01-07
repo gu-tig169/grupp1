@@ -1,3 +1,4 @@
+import 'package:Quiz/API/resultApi.dart';
 import 'package:Quiz/Navigation/NavigationBar.dart';
 import 'package:Quiz/Template/questionItem.dart';
 import 'package:Quiz/Template/quizList.dart';
@@ -147,6 +148,7 @@ class QuizViewState extends State<QuizView>
           if (currentQuestion == null) {
             var result = Result(_category, _difficulty);
             result.score = _score;
+            ResultApi.addResult(result);
             print('Slut på frågor. Dina poäng: ${result.score}/10');
             _controller.play();
             await _showResult(context, result);

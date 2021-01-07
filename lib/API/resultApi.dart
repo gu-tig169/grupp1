@@ -1,4 +1,4 @@
-/*import 'package:Quiz/Template/result.dart';
+import 'package:Quiz/Template/result.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -12,4 +12,14 @@ class ResultApi {
         body: json, headers: {"Content-Type": "application/json"});
     print("done");
   }
-} //class ResultApi*/
+
+  /*static Future<List<Result>> getResult() async {
+    var response = await http.get("$API_URL/todos?key=$API_KEY");
+    print(response.body);
+    var json = jsonDecode(response.body);
+
+    return json.map<Result>((data) {
+      return Result.fromJson(data);
+    }).toList();
+  }*/
+} //class ResultApi
