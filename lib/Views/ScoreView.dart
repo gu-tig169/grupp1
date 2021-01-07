@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:Quiz/Template/theme.dart';
 
 class ScoreItem {
@@ -11,7 +12,9 @@ class ScoreItem {
 }
 
 class ScoreView extends StatelessWidget {
-   ScoreView({Key key,}) : super(key: key);
+  ScoreView({
+    Key key,
+  }) : super(key: key);
   final List<ScoreItem> scores = [
     ScoreItem('Quiz 1', 'Science & Nature', '10', Icons.star_border_rounded),
     ScoreItem('Quiz 1000', 'Science & Nature', '10', Icons.star_border_rounded),

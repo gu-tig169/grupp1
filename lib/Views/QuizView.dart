@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:Quiz/Template/theme.dart';
 
 class QuizView extends StatelessWidget {
@@ -11,17 +12,16 @@ class QuizView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( 
-
-     //Tillfällig kod
+    return Scaffold(
+      //Tillfällig kod
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(30.0),
         child: AppBar(
           elevation: 0.0,
           backgroundColor: Color(0xFF1B5E20),
-          ),
         ),
-    //End
+      ),
+      //End
 
       body: Center(
         child: Column(

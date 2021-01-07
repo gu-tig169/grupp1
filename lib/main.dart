@@ -1,28 +1,48 @@
-//import './Views/SetupQuizView.dart';
-import 'package:Quiz/model.dart';
-import 'package:flutter/material.dart';
-import 'Navigation/NavigationBar.dart';
-import 'Template/theme.dart';
 import 'package:provider/provider.dart';
-//import './Views/HomeView.dart';
+import 'package:flutter/material.dart';
 
-void main() {
-  var state = GlobalAppState();
+import 'Navigation/NavigationBar.dart';
+import 'package:Quiz/model.dart';
+import 'package:Quiz/Views/RegisterView.dart';
+import 'Template/theme.dart';
+import 'model.dart';
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => state, 
-    child:MyApp(),
-  ),
- );
+void main() async {
+  var state = AppState();
+
+  await state.getUser();
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => state,
+      child: MyApp(state),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
+  final AppState state;
+
+  MyApp(
+    this.state,
+  );
+
   @override
   Widget build(BuildContext context) {
+    print('det här är listUser i buildern: ${state.listUser}');
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.materialTheme,
-      home: BottomNavBar(),
+      home: _getScreen(),
     );
+  }
+
+  Widget _getScreen() {
+    print('det här är listUser i widgeten: ${state.listUser}');
+    if (state.listUser.isEmpty) {
+      return RegisterView();
+    } else {
+      return BottomNavBar();
+    }
   }
 }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:Quiz/Template/theme.dart';
+import 'package:provider/provider.dart';
 
-//import '../model.dart';
-//import 'package:Quiz/theme.dart';
+import 'package:Quiz/model.dart';
+import 'package:Quiz/Navigation/NavigationBar.dart';
+import 'package:Quiz/Template/theme.dart';
+import 'package:Quiz/Template/user.dart';
 
 class RegisterView extends StatefulWidget {
-   
+  RegisterView();
+
   @override
   State<StatefulWidget> createState() {
     return RegisterViewState();
@@ -13,6 +16,26 @@ class RegisterView extends StatefulWidget {
 }
 
 class RegisterViewState extends State<RegisterView> {
+  User user;
+
+  TextEditingController userController;
+
+  RegisterViewState() {
+    user = User();
+
+    userController = TextEditingController();
+
+    userController.addListener(() {
+      setState(() {
+        user.userName = userController.text;
+        user.userAvatar = 'Default';
+
+        print('${user.userName}');
+        print('${user.userAvatar}');
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +88,7 @@ class RegisterViewState extends State<RegisterView> {
           right: 16,
         ),
         child: TextField(
+          controller: userController,
           decoration: InputDecoration(
             hintText: 'Type your name here...',
           ),
@@ -80,18 +104,23 @@ class RegisterViewState extends State<RegisterView> {
       children: [
         Container(height: 50),
         RaisedButton(
-          child: Text(
-            'SAVE',
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                .copyWith(fontSize: AppTheme.normalFontSize),
-            //subtitle1
-          ),
-          onPressed: () {
-            Navigator.pushNamed(context, '/HomeView');
-          },
-        ),
+            child: Text(
+              'SAVE',
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(fontSize: AppTheme.normalFontSize),
+              //subtitle1
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BottomNavBar(user: user)));
+              if (user.userName != null) {
+                Provider.of<AppState>(context, listen: false).addUser(user);
+              }
+            }),
       ],
     );
   }

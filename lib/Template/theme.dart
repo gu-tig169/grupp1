@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  //the app different colors
+  //the app's different colors
 
   //dark green
   static const primaryColor = Color(0xFF003300);

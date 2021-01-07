@@ -1,46 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+//import 'dart:async';
+import 'package:Quiz/Template/user.dart';
 import '../Template/theme.dart';
-import 'dart:async';
+import '../Template/user.dart';
+import 'package:Quiz/model.dart';
 
-
-class EditUser extends StatefulWidget {
-  //final User user;
-
-  final String userName;
-  final dynamic userAvatar;
-
-  EditUser({Key key, this.userName, this.userAvatar}) : super(key: key);
+class EditUserView extends StatefulWidget {
+  final User user;
+  EditUserView(
+    this.user, {
+    Key key,
+  }) : super(key: key);
 
   @override
-  _EditUser createState() {
-    return _EditUser();
+  EditUserViewState createState() {
+    return EditUserViewState(user);
   }
 }
 
-class _EditUser extends State<EditUser> {
-  dynamic avatar;
-  var customController = new TextEditingController();
+class EditUserViewState extends State<EditUserView> {
+  User user;
+  String userName;
+  String userAvatar;
 
+  bool _selectedAvatar = false;
+  //bool _selectedAvatar = false;
 
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Wanna go back?'),
-            content: new Text('Go back without saving changes'),
-            actions: <Widget>[
-              new FlatButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-              new FlatButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        )) ??
-        false;
+  TextEditingController updateUserController;
+
+  EditUserViewState(this.user) {
+    userName = user.userName;
+    userAvatar = user.userAvatar;
+    updateUserController = TextEditingController();
+    updateUserController.addListener(() {
+      setState(() {
+        userName = updateUserController.text;
+      });
+    });
   }
 
   final List<String> _avatarList = [
@@ -85,7 +83,7 @@ class _EditUser extends State<EditUser> {
                 _changeUsernameField(),
                 _submitButton(),
                 _avatarHeader(),
-                _avatarScrollList(),
+                _avatarGridView(context, _selectedAvatar),
               ],
             ),
           ),
@@ -116,9 +114,9 @@ class _EditUser extends State<EditUser> {
       color: Colors.white,
       child: TextField(
         decoration: InputDecoration(
-          hintText: ' Type your new name...',
+          hintText: '   ${user.userName}',
         ),
-        controller: customController,
+        controller: updateUserController,
       ),
     );
   }
@@ -126,28 +124,38 @@ class _EditUser extends State<EditUser> {
 //Submitbutton, saves the new username
   Widget _submitButton() {
     return Center(
-      child: RaisedButton(
-          child: Text(
-            'SUBMIT',
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                .copyWith(fontSize: AppTheme.normalFontSize),
-          ),
-          onPressed: () {
-            Navigator.pop(context, customController.text);
-            /*var route = new MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    new HomeView(userName: customController.text));*/
-            /*Navigator.of(context).push(route);*/
-          }
-          // => _submit(context),
-          // Navigator.of(context, $username).pop(customController.text.toString());
-          ),
-    );
+        child: RaisedButton(
+            child: Text(
+              'SUBMIT',
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(fontSize: AppTheme.normalFontSize),
+            ),
+            onPressed: () {
+              if (userName != null) {
+                user.userAvatar = userAvatar;
+                user.userName = userName;
+                Provider.of<AppState>(context, listen: false).updateUser(user);
+              }
+              //state.updateUser(user);
+              print('navigator user!!${user.userName}');
+
+              Navigator.pop(context);
+            }
+
+            // Navigator.pop(context, User(userName: userName));
+
+            ));
   }
 
-//the header choose avat
+  /*editUserProfile() async {
+    await state.getUser();
+    print('You should have an instance of a user (in EditUserView) ${state.listUser}');
+    Navigator.pop(context, User(userName: userName));
+  }*/
+
+//the header choose avatar
   Widget _avatarHeader() {
     return Container(
       padding: EdgeInsets.only(top: 50.0, bottom: 10.0),
@@ -160,9 +168,36 @@ class _EditUser extends State<EditUser> {
       ),
     );
   }
+  /*class Grid4 extends StatelessWidget {
+  void tapped(int index){
+    if(index == 1){
+      print("huray 1");
+    } else {
+      print("not the one :(");
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+        color: Colors.orange,
+        child: GridView.builder(
+          itemCount: 25,
+          itemBuilder: (context, index) =>
+              GestureDetector(
+                  onTap: () => tapped(index),
+                  child: Container(decoration: BoxDecoration(
+                          color: Colors.white70, shape: BoxShape.circle))),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 5,
+            mainAxisSpacing: 40,
+            crossAxisSpacing: 50,*/
 
 //Shows the different avatars the user can choose from
-  Widget _avatarScrollList() {
+
+  Widget _avatarGridView(context, _selectedAvatar) {
     return Expanded(
       child: Container(
         child: GridView.count(
@@ -172,10 +207,21 @@ class _EditUser extends State<EditUser> {
           mainAxisSpacing: 20,
           children: _avatarList
               .map((item) => Card(
-                    elevation: 0,
+                    shape: _selectedAvatar
+                        ? new RoundedRectangleBorder(
+                            side:
+                                new BorderSide(color: Colors.green, width: 2.0),
+                            borderRadius: BorderRadius.circular(4.0))
+                        : new RoundedRectangleBorder(
+                            side: new BorderSide(
+                                color: AppTheme.primaryColor, width: 2.0),
+                            borderRadius: BorderRadius.circular(4.0)),
                     child: InkWell(
                         onTap: () {
-                          //Will use some onTap function for selecting and saving "Avatar". (setState/Provider/Consumer req..)
+                          userAvatar = '$item';
+                          setState(() {});
+
+                          print('$userAvatar');
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -189,5 +235,26 @@ class _EditUser extends State<EditUser> {
         ),
       ),
     );
+  }
+
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Wanna go back?'),
+            content: new Text('Go back without saving changes'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
   }
 }
