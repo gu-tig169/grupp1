@@ -1,7 +1,7 @@
 class Result {
-  final String category;
-  final String difficulty;
-  final int score;
+  String category;
+  String difficulty;
+  int score = 0;
 
-  Result(this.category, this.difficulty, this.score);
+  Result(this.category, this.difficulty);
 }

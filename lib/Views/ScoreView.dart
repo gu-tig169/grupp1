@@ -9,9 +9,9 @@ class ScoreView extends StatelessWidget {
   }) : super(key: key);
 
   final ResultList scores = ResultList([
-    Result('Science & Nature', 'easy', 8),
-    Result('Science & Nature', 'easy', 10),
-    Result('Science & Nature', 'hard', 5)
+    Result('Science & Nature', 'easy'),
+    Result('Science & Nature', 'easy'),
+    Result('Science & Nature', 'hard')
   ]);
 
   @override
