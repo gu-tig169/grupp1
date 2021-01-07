@@ -8,9 +8,9 @@ import 'package:Quiz/API/triviaApi.dart';
 import 'QuizView.dart';
 
 class DifficultyItem {
-  final String difficultyName;
+  String difficultyName;
 
-  const DifficultyItem(this.difficultyName);
+  DifficultyItem(this.difficultyName);
 }
 
 class CategoryItem {
@@ -34,9 +34,9 @@ class _SetupQuizViewState extends State<SetupQuizView> {
   List<QuestionItem> get quizList => _quizList;
 
   final List<DifficultyItem> difficulties = <DifficultyItem>[
-    const DifficultyItem('easy'),
-    const DifficultyItem('medium'),
-    const DifficultyItem('hard'),
+    DifficultyItem('easy'),
+    DifficultyItem('medium'),
+    DifficultyItem('hard'),
   ];
 
   final List<CategoryItem> categories = [
@@ -174,7 +174,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
         onTap: () async {
           choosedCategory = categoryList.urlNumber;
           await _buildQuizList();
-          print('Finns det en quizList? : $_quizList');
+          print('Finns det en instans av quizList? : $_quizList');
           await Navigator.push(
               context,
               MaterialPageRoute(
@@ -197,6 +197,9 @@ class _SetupQuizViewState extends State<SetupQuizView> {
 
 //Hämtar frågorna från TriviaApi & formaterar, samt bygger quizList
   Future _buildQuizList() async {
+    if (choosedDifficulty == null) {
+      choosedDifficulty = DifficultyItem('easy');
+    }
     _quizList = await TriviaApi.getQuiz(
         choosedCategory, choosedDifficulty.difficultyName);
     for (QuestionItem item in _quizList) {
