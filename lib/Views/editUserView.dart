@@ -25,7 +25,6 @@ class EditUserViewState extends State<EditUserView> {
   String userName;
   String userAvatar;
 
-  bool _selectedAvatar = false;
   //bool _selectedAvatar = false;
 
   TextEditingController updateUserController;
@@ -62,6 +61,8 @@ class EditUserViewState extends State<EditUserView> {
     'assets/AvatarW9.jpg',
   ];
 
+//_avatarList.insert(0, 'assets/AvatarM1.jpg');
+
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
@@ -82,8 +83,14 @@ class EditUserViewState extends State<EditUserView> {
                 _usernameHeader(),
                 _changeUsernameField(),
                 _submitButton(),
+                Container(
+                  height: 35.0,
+                ),
                 _avatarHeader(),
-                _avatarGridView(context, _selectedAvatar),
+                Container(
+                  height: 12.0,
+                ),
+                _avatarGridView(context),
               ],
             ),
           ),
@@ -113,8 +120,9 @@ class EditUserViewState extends State<EditUserView> {
       ),
       color: Colors.white,
       child: TextField(
+        //textAlign: TextAlign.center,
         decoration: InputDecoration(
-          hintText: '   ${user.userName}',
+          hintText: '${user.userName}',
         ),
         controller: updateUserController,
       ),
@@ -158,7 +166,6 @@ class EditUserViewState extends State<EditUserView> {
 //the header choose avatar
   Widget _avatarHeader() {
     return Container(
-      padding: EdgeInsets.only(top: 50.0, bottom: 10.0),
       child: Text(
         'Choose avatar',
         style: Theme.of(context)
@@ -197,7 +204,8 @@ class EditUserViewState extends State<EditUserView> {
 
 //Shows the different avatars the user can choose from
 
-  Widget _avatarGridView(context, _selectedAvatar) {
+  Widget _avatarGridView(context) {
+    bool _selectedAvatar = false;
     return Expanded(
       child: Container(
         child: GridView.count(
@@ -208,18 +216,21 @@ class EditUserViewState extends State<EditUserView> {
           children: _avatarList
               .map((item) => Card(
                     shape: _selectedAvatar
-                        ? new RoundedRectangleBorder(
-                            side:
-                                new BorderSide(color: Colors.green, width: 2.0),
+                        ? RoundedRectangleBorder(
+                            side: BorderSide(color: Colors.white, width: 2.0),
                             borderRadius: BorderRadius.circular(4.0))
-                        : new RoundedRectangleBorder(
-                            side: new BorderSide(
+                        : RoundedRectangleBorder(
+                            side: BorderSide(
                                 color: AppTheme.primaryColor, width: 2.0),
                             borderRadius: BorderRadius.circular(4.0)),
                     child: InkWell(
                         onTap: () {
-                          userAvatar = '$item';
-                          setState(() {});
+                          setState(() {
+                            userAvatar = '$item';
+                            /* if (user.userAvatar == '$item') {
+                              _selectedAvatar = true;
+                            } */
+                          });
 
                           print('$userAvatar');
                         },

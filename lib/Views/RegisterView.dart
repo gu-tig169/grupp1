@@ -28,7 +28,7 @@ class RegisterViewState extends State<RegisterView> {
     userController.addListener(() {
       setState(() {
         user.userName = userController.text;
-        user.userAvatar = 'Default';
+        user.userAvatar = 'assets/default.webp';
 
         print('${user.userName}');
         print('${user.userAvatar}');

@@ -61,7 +61,6 @@ class UserList extends StatelessWidget {
                   }),
             ),
           ),
-
           /*IconButton(
             icon: Icon(Icons.looks_two),
             onPressed: () {
@@ -69,12 +68,14 @@ class UserList extends StatelessWidget {
               state.removeUser(user);
             },
           ),*/
-          leading: CircleAvatar(
-            backgroundColor: Colors.amber,
-            backgroundImage: AssetImage(user.userAvatar != 'Default'
-                ? user.userAvatar
-                : user.userAvatar), //[0].toUpperCase()),
-            radius: 37,
+          leading: FittedBox(fit: BoxFit.contain,
+                      child: CircleAvatar(
+                radius: 35.0,
+                backgroundColor: Colors.amber,
+                backgroundImage: AssetImage(user.userAvatar != 'Default'
+                    ? user.userAvatar
+                    : user.userAvatar), //[0].toUpperCase()),
+            ),
           ),
           title: Text(
             user.userName != null ? user.userName : '',
@@ -86,10 +87,12 @@ class UserList extends StatelessWidget {
         decoration: BoxDecoration(
           color: Color(0xFF4C8C4A),
           borderRadius: BorderRadius.circular(10.0),
-        ));
+        ),);
   }
 }
-
+Widget loolL(){
+FittedBox();
+SizedBox();}
 class User {
   String id;
   String userName;
