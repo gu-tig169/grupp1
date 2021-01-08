@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:Quiz/API/resultApi.dart';
 import 'package:Quiz/Navigation/NavigationBar.dart';
 import 'package:Quiz/Template/questionItem.dart';
@@ -27,6 +29,8 @@ class QuizViewState extends State<QuizView>
   String _difficulty;
   int _score = 0;
   bool _selected = false;
+  int _counter = 10;
+  Timer _timer;
 
   QuizViewState(QuizList quizList) {
     this.quizList = quizList;
@@ -45,6 +49,7 @@ class QuizViewState extends State<QuizView>
       currentQuestion = quizList.getNextQuestion();
       _category = currentQuestion.category;
       _difficulty = currentQuestion.difficulty;
+      _startTimer();
     }
 
     return Scaffold(
@@ -65,8 +70,14 @@ class QuizViewState extends State<QuizView>
             Container(height: 10),
             _questionField(),
             _answerCardsField(context),
-            Container(height: 50),
-            //_linearProgressIndicator()
+            Container(height: 30),
+            Text(
+              '$_counter',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  .copyWith(fontSize: 50.0),
+            )
           ], //Column children
         ),
       ),
@@ -147,18 +158,9 @@ class QuizViewState extends State<QuizView>
           await Future.delayed(Duration(seconds: 1));
           _countScore(_answerOption);
           currentQuestion = quizList.getNextQuestion();
-          if (currentQuestion == null) {
-            var _result = Result(
-              category: _category,
-              difficulty: _difficulty,
-              score: _score,
-            );
-            Provider.of<AppState>(context, listen: false).addResult(_result);
-            print('Slut på frågor');
-            _controller.play();
-            await _showResult(context);
-          }
+          _checkEndOfQuiz();
           _selected = false;
+          _startTimer();
           setState(() {});
         },
         child: Container(
@@ -178,6 +180,42 @@ class QuizViewState extends State<QuizView>
     );
   }
 
+  void _startTimer() {
+    _counter = 10;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_counter > 1) {
+        setState(() {
+          _counter--;
+        });
+      } else if (_counter < 0) {
+        _timer.cancel();
+        setState(() {
+          currentQuestion = quizList.getNextQuestion();
+          _checkEndOfQuiz();
+          _startTimer();
+        });
+      }
+    });
+  }
+
+  /*void _startTimer() {
+    _counter = 10;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_counter > 1) {
+          _counter--;
+        } else {
+          _timer.cancel();
+          setState(() {
+            currentQuestion = quizList.getNextQuestion();
+            _checkEndOfQuiz();
+            _startTimer();
+          });
+        }
+      });
+    });
+  }*/
+
 //räknar ut score beroende på svårighetsgrad
   void _countScore(_answerOption) {
     if (_answerOption.isCorrect) {
@@ -191,6 +229,20 @@ class QuizViewState extends State<QuizView>
       if (_difficulty == 'easy') {
         _score++;
       }
+    }
+  }
+
+  Future _checkEndOfQuiz() async {
+    if (currentQuestion == null) {
+      var _result = Result(
+        category: _category,
+        difficulty: _difficulty,
+        score: _score,
+      );
+      Provider.of<AppState>(context, listen: false).addResult(_result);
+      print('Slut på frågor');
+      _controller.play();
+      await _showResult(context);
     }
   }
 
@@ -276,17 +328,6 @@ class QuizViewState extends State<QuizView>
           Colors.lightGreen,
           Colors.amber,
         ],
-      ),
-    );
-  }
-
-  Widget _linearProgressIndicator() {
-    return SizedBox(
-      width: 330,
-      child: LinearProgressIndicator(
-        minHeight: 15,
-        backgroundColor: Colors.green[900],
-        valueColor: new AlwaysStoppedAnimation<Color>(Colors.deepPurple),
       ),
     );
   }
