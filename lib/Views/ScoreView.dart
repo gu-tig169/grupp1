@@ -12,6 +12,8 @@ class ScoreView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<AppState>(context, listen: false)
+        .getResultList(); //flytta till main
     return Scaffold(
       body: Center(
         child: Column(children: [
@@ -26,7 +28,7 @@ class ScoreView extends StatelessWidget {
               child: Row(
                 children: [
                   _userInformationColumn(context),
-                  _bestCategoryContainer(context),
+                  _latestQuizContainer(context),
                 ],
               )),
           Container(height: 10),
@@ -54,31 +56,60 @@ class ScoreView extends StatelessWidget {
     ]);
   }
 
-  Widget _bestCategoryContainer(context) {
+  Widget _latestQuizContainer(context) {
+    Result _latestResult =
+        Provider.of<AppState>(context, listen: false).resultList.last;
+    String possibleScore;
+    if (_latestResult.difficulty == 'hard') {
+      possibleScore = '30';
+    }
+    if (_latestResult.difficulty == 'medium') {
+      possibleScore = '20';
+    }
+    if (_latestResult.difficulty == 'easy') {
+      possibleScore = '10';
+    }
+    //Nedan följer koden till HomeView, ropa på _bestResult.score för att få ut poängen.
+    /*List<Result> _resultList = [];
+    _resultList = Provider.of<AppState>(context, listen: false).resultList;
+    Result _bestResult = _resultList[0];
+    for (var i = 0; i < _resultList.length; i++) {
+      if (_resultList[i].score > _bestResult.score) {
+        _bestResult = _resultList[i];
+      }
+    }*/
+
     return Container(
       width: 210,
       height: 116,
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'BEST CATEGORY',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  .copyWith(fontSize: AppTheme.normalHeaderFontSize),
-            ),
-            Text(
-              'Science & Nature',
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1
-                  .copyWith(fontSize: AppTheme.normalFontSize),
-            ),
-          ],
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Container(height: 5),
+        Text(
+          'Latest quiz:',
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1
+              .copyWith(fontSize: AppTheme.normalFontSize),
         ),
-      ),
+        Container(height: 5),
+        Text(
+          '${_latestResult.category}'.toUpperCase(),
+          style: Theme.of(context)
+              .textTheme
+              .headline4
+              .copyWith(fontSize: AppTheme.normalHeaderFontSize),
+        ),
+        Text(
+          '${_latestResult.score}/$possibleScore points',
+          textAlign: TextAlign.right,
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1
+              .copyWith(fontSize: AppTheme.normalHeaderFontSize),
+        ),
+        Icon(Icons.star_border_rounded)
+      ])),
     );
   }
 

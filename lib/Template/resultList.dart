@@ -50,12 +50,24 @@ class ResultList extends StatelessWidget {
             Container(
               width: 150,
               child: Center(
-                  child: Text(
-                '${result.category}\n(${result.difficulty})',
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1
-                    .copyWith(fontSize: AppTheme.smallFontSize),
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${result.category}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(fontSize: AppTheme.normalFontSize),
+                  ),
+                  Text(
+                    '${result.difficulty}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(fontSize: AppTheme.smallFontSize),
+                  ),
+                ],
               )),
             ),
             Expanded(

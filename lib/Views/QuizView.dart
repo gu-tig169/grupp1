@@ -178,6 +178,7 @@ class QuizViewState extends State<QuizView>
     );
   }
 
+//räknar ut score beroende på svårighetsgrad
   void _countScore(_answerOption) {
     if (_answerOption.isCorrect) {
       currentQuestion.point = true;
@@ -193,6 +194,7 @@ class QuizViewState extends State<QuizView>
     }
   }
 
+//Bygger dialogrutan som visar att quizet är slut och användarens resultat.
   Future _showResult(context) async {
     String possibleScore;
     if (_difficulty == 'hard') {
