@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:Quiz/API/resultApi.dart';
+//import 'package:Quiz/Api/resultApi.dart';
 import 'package:Quiz/Navigation/NavigationBar.dart';
 import 'package:Quiz/Template/questionItem.dart';
 import 'package:Quiz/Template/quizList.dart';
 import 'package:Quiz/Template/result.dart';
 import 'package:Quiz/model.dart';
 import 'package:flutter/material.dart';
+
 import 'package:Quiz/Template/theme.dart';
 import 'package:confetti/confetti.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,7 @@ class QuizViewState extends State<QuizView>
   bool _selected = false;
   int _counter = 10;
   Timer _timer;
-bool yoo = false;
+  bool yoo = false;
   QuizViewState(QuizList quizList) {
     this.quizList = quizList;
   }
@@ -50,7 +51,7 @@ bool yoo = false;
       _category = currentQuestion.category;
       _difficulty = currentQuestion.difficulty;
       _startTimer();
-            }
+    }
 
     return Scaffold(
       //Tillfällig kod
@@ -153,14 +154,11 @@ bool yoo = false;
               borderRadius: BorderRadius.circular(4.0)),
       child: InkWell(
         onTap: () async {
-
           setState(() {
             _selected = true;
           });
           await Future.delayed(Duration(seconds: 2));
           _countScore(_answerOption);
-
-          
         },
         child: Container(
           height: 130,
@@ -182,39 +180,35 @@ bool yoo = false;
   void _startTimer() {
     _counter = 10;
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (_counter > 1 ) {
+      if (_counter > 1) {
         setState(() {
-           _counter--;
+          _counter--;
         });
-         
-          
       } //if
-      else if (_counter <= 1)  {
+      else if (_counter <= 1) {
         _timer.cancel();
-          currentQuestion = quizList.getNextQuestion();
-           if (currentQuestion == null) {
-            _endOfQuiz();
-          } else {
-          _selected = false;
-          setState(() {});
-          _startTimer();} 
-          
- 
-          
-          } //else if
-
-      if (_selected == true ) {
-        _timer.cancel();
-          currentQuestion = quizList.getNextQuestion();
-          if (currentQuestion == null) {
-            _endOfQuiz();
-          } else {
+        currentQuestion = quizList.getNextQuestion();
+        if (currentQuestion == null) {
+          _endOfQuiz();
+        } else {
           _selected = false;
           setState(() {});
           _startTimer();
-          } 
+        }
+      } //else if
+
+      if (_selected == true) {
+        _timer.cancel();
+        currentQuestion = quizList.getNextQuestion();
+        if (currentQuestion == null) {
+          _endOfQuiz();
+        } else {
+          _selected = false;
+          setState(() {});
+          _startTimer();
+        }
       } //if
- });
+    });
   }
 
   /*void _startTimer() {
@@ -252,15 +246,15 @@ bool yoo = false;
   }
 
   Future _endOfQuiz() async {
-      var _result = Result(
-        category: _category,
-        difficulty: _difficulty,
-        score: _score,
-      );
-      Provider.of<AppState>(context, listen: false).addResult(_result);
-      print('Slut på frågor');
-      _controller.play();
-      await _showResult(context);
+    var _result = Result(
+      category: _category,
+      difficulty: _difficulty,
+      score: _score,
+    );
+    Provider.of<AppState>(context, listen: false).addResult(_result);
+    print('Slut på frågor');
+    _controller.play();
+    await _showResult(context);
   }
 
 //Bygger dialogrutan som visar att quizet är slut och användarens resultat.
