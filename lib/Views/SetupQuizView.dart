@@ -1,19 +1,12 @@
+import 'package:Quiz/Template/answerOption.dart';
+import 'package:Quiz/Template/categoriesAndDifficulties.dart';
+import 'package:Quiz/Template/quizList.dart';
 import 'package:flutter/material.dart';
+
 import 'package:Quiz/Template/theme.dart';
+import 'package:Quiz/Template/questionItem.dart';
+import 'package:Quiz/API/triviaApi.dart';
 import 'QuizView.dart';
-
-class DifficultyItem {
-  final String difficultyName;
-
-  const DifficultyItem(this.difficultyName);
-}
-
-class CategoryItem {
-  final String categoryName;
-  final dynamic icon;
-
-  CategoryItem(this.categoryName, this.icon);
-}
 
 class SetupQuizView extends StatefulWidget {
   @override
@@ -22,44 +15,26 @@ class SetupQuizView extends StatefulWidget {
 
 class _SetupQuizViewState extends State<SetupQuizView> {
   DifficultyItem choosedDifficulty;
-  CategoryItem choosedCategory;
+  String choosedCategory;
 
-  List<DifficultyItem> difficulties = <DifficultyItem>[
-    const DifficultyItem('Easy'),
-    const DifficultyItem('Medium'),
-    const DifficultyItem('Hard'),
-  ];
+  List<QuestionItem> _quizList = [];
+  List<DifficultyItem> difficulties = getDifficulties();
+  List<CategoryItem> categories = getCategories();
 
-  final List<CategoryItem> categories = [
-    CategoryItem('Random', Icons.help_rounded),
-    CategoryItem('Books', Icons.menu_book),
-    CategoryItem('Film', Icons.videocam),
-    CategoryItem('Board Games', Icons.local_play),
-    CategoryItem('Science & Nature', Icons.opacity),
-    CategoryItem('Computers', Icons.laptop_mac),
-    CategoryItem('Sports', Icons.sports_tennis),
-    CategoryItem('Geography', Icons.public),
-    CategoryItem('Animals', Icons.pets),
-    CategoryItem('Vehicles', Icons.drive_eta),
-  ];
+  List<QuestionItem> get quizList => _quizList;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //ta bort appbar i slutet
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(30.0),
         child: AppBar(
           elevation: 0.0,
           backgroundColor: Color(0xFF1B5E20),
-          ),
         ),
-
-        //Tillfällig kod
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => QuizView(),));},),
-        //End
-        
+      ),
+      //ta bort ner hit
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -114,7 +89,6 @@ class _SetupQuizViewState extends State<SetupQuizView> {
           setState(() {
             choosedDifficulty = value;
           });
-          print('$categories');
         },
         items: difficulties.map((DifficultyItem difficulty) {
           return DropdownMenuItem<DifficultyItem>(
@@ -164,10 +138,20 @@ class _SetupQuizViewState extends State<SetupQuizView> {
 
   Widget _categoryListItem(BuildContext context, int index) {
     final categoryList = categories[index];
+
     return Card(
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
-        onTap: () {},
+        onTap: () async {
+          choosedCategory = categoryList.urlNumber;
+          await _buildQuizList();
+          print('Finns det en instans av quizList? : $_quizList');
+          await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      QuizView(quizList: QuizList(_quizList))));
+        },
         child: ListTile(
           leading: Icon(categoryList.icon, color: AppTheme.iconColor),
           title: Text(
@@ -180,5 +164,32 @@ class _SetupQuizViewState extends State<SetupQuizView> {
         ),
       ),
     );
+  }
+
+//Hämtar frågorna från TriviaApi & formaterar, samt bygger quizList
+  Future _buildQuizList() async {
+    if (choosedDifficulty == null) {
+      choosedDifficulty = DifficultyItem('easy');
+    }
+    _quizList = await TriviaApi.getQuiz(
+        choosedCategory, choosedDifficulty.difficultyName);
+    for (QuestionItem item in _quizList) {
+      item.category = item.category.replaceAll('Entertainment:', '');
+      item.category = item.category.replaceAll('Science:', '');
+      item.category = item.category.replaceAll('General Knowledge', 'Random');
+      item.category = item.category.replaceAll('&rsquo;', '\'');
+
+      item.question = item.question.replaceAll('&quot;', '”');
+      item.question = item.question.replaceAll('&#039;', '\'');
+
+      item.createAnswerOptions();
+      
+      for (AnswerOption value in item.answerOptions) {
+        value.answer = value.answer.replaceAll('&quot;', '”');
+        value.answer = value.answer.replaceAll('&#039;', '\'');
+        value.answer = value.answer.replaceAll('&anp;', '&');
+      }
+    }
+    return _quizList;
   }
 }
