@@ -11,16 +11,14 @@ class AppState extends ChangeNotifier {
   Future getUser() async {
     List<User> listUser = await UserApi.fetchUser();
     _listUser = listUser;
-    // print(
-    //   'Detta är listan listUser:${_listUser.elementAt(0).listNameAndAvatar.elementAt(0)}');
     notifyListeners();
-    // print('getUser efter noty: $_listUser');
   }
 
   void addUser(User user) async {
     await UserApi.addUser(user);
     await getUser();
     notifyListeners();
+    print('Added user: ${_listUser.elementAt(0).userName}');
   }
 
   /*void updateUser(User user) async {

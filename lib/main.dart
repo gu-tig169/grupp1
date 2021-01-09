@@ -11,6 +11,7 @@ void main() async {
   var state = AppState();
 
   await state.getUser();
+  //await state.getResultList();
 
   runApp(
     ChangeNotifierProvider(
@@ -29,7 +30,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('det här är listUser i buildern: ${state.listUser}');
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.materialTheme,
@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
   }
 
   Widget _getScreen() {
-    print('det här är listUser i widgeten: ${state.listUser}');
     if (state.listUser.isEmpty) {
       return RegisterView();
     } else {

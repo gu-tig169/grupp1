@@ -25,8 +25,6 @@ class EditUserViewState extends State<EditUserView> {
   String userName;
   String userAvatar;
 
-  //bool _selectedAvatar = false;
-
   TextEditingController updateUserController;
 
   EditUserViewState(this.user) {
@@ -61,8 +59,6 @@ class EditUserViewState extends State<EditUserView> {
     'assets/AvatarW9.jpg',
   ];
 
-//_avatarList.insert(0, 'assets/AvatarM1.jpg');
-
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
@@ -83,13 +79,7 @@ class EditUserViewState extends State<EditUserView> {
                 _usernameHeader(),
                 _changeUsernameField(),
                 _submitButton(),
-                Container(
-                  height: 35.0,
-                ),
                 _avatarHeader(),
-                Container(
-                  height: 12.0,
-                ),
                 _avatarGridView(context),
               ],
             ),
@@ -97,7 +87,7 @@ class EditUserViewState extends State<EditUserView> {
         ));
   }
 
-//the header Edit username
+//titeln Edit username
   Widget _usernameHeader() {
     return Container(
       padding: EdgeInsets.only(top: 50.0, bottom: 10.0),
@@ -111,7 +101,7 @@ class EditUserViewState extends State<EditUserView> {
     );
   }
 
-//the textfild for changeing username
+//Textfältet för att ändra username
   Widget _changeUsernameField() {
     return Card(
       shape: RoundedRectangleBorder(
@@ -129,7 +119,7 @@ class EditUserViewState extends State<EditUserView> {
     );
   }
 
-//Submitbutton, saves the new username
+//Submitbutton, knapp som sparar ändringarna till api:et
   Widget _submitButton() {
     return Center(
         child: RaisedButton(
@@ -146,26 +136,16 @@ class EditUserViewState extends State<EditUserView> {
                 user.userName = userName;
                 Provider.of<AppState>(context, listen: false).updateUser(user);
               }
-              //state.updateUser(user);
               print('navigator user!!${user.userName}');
 
               Navigator.pop(context);
-            }
-
-            // Navigator.pop(context, User(userName: userName));
-
-            ));
+            }));
   }
 
-  /*editUserProfile() async {
-    await state.getUser();
-    print('You should have an instance of a user (in EditUserView) ${state.listUser}');
-    Navigator.pop(context, User(userName: userName));
-  }*/
-
-//the header choose avatar
+//Titeln choose avatar
   Widget _avatarHeader() {
     return Container(
+      padding: EdgeInsets.only(top: 35.0, bottom: 12.0),
       child: Text(
         'Choose avatar',
         style: Theme.of(context)
@@ -175,37 +155,9 @@ class EditUserViewState extends State<EditUserView> {
       ),
     );
   }
-  /*class Grid4 extends StatelessWidget {
-  void tapped(int index){
-    if(index == 1){
-      print("huray 1");
-    } else {
-      print("not the one :(");
-    }
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-        color: Colors.orange,
-        child: GridView.builder(
-          itemCount: 25,
-          itemBuilder: (context, index) =>
-              GestureDetector(
-                  onTap: () => tapped(index),
-                  child: Container(decoration: BoxDecoration(
-                          color: Colors.white70, shape: BoxShape.circle))),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 5,
-            mainAxisSpacing: 40,
-            crossAxisSpacing: 50,*/
 
-//Shows the different avatars the user can choose from
-
+//Visar avatarerna & markerar den valda avataren och sparar den som userAvatar
   Widget _avatarGridView(context) {
-    bool _selectedAvatar = false;
     return Expanded(
       child: Container(
         child: GridView.count(
@@ -215,9 +167,10 @@ class EditUserViewState extends State<EditUserView> {
           mainAxisSpacing: 20,
           children: _avatarList
               .map((item) => Card(
-                    shape: _selectedAvatar
+                    shape: userAvatar == item
                         ? RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.white, width: 2.0),
+                            side: BorderSide(
+                                color: AppTheme.primaryTextColor, width: 2.5),
                             borderRadius: BorderRadius.circular(4.0))
                         : RoundedRectangleBorder(
                             side: BorderSide(
@@ -225,13 +178,15 @@ class EditUserViewState extends State<EditUserView> {
                             borderRadius: BorderRadius.circular(4.0)),
                     child: InkWell(
                         onTap: () {
-                          setState(() {
-                            userAvatar = '$item';
-                            /* if (user.userAvatar == '$item') {
-                              _selectedAvatar = true;
-                            } */
-                          });
-
+                          if (userAvatar != item) {
+                            setState(() {
+                              userAvatar = item;
+                            });
+                          } else {
+                            setState(() {
+                              userAvatar = user.userAvatar;
+                            });
+                          }
                           print('$userAvatar');
                         },
                         child: Container(
@@ -248,6 +203,7 @@ class EditUserViewState extends State<EditUserView> {
     );
   }
 
+//Visar dialogrutan om användaren vill gå tillbaka utan att göra ändringar.
   Future<bool> _onWillPop() async {
     return (await showDialog(
           context: context,
