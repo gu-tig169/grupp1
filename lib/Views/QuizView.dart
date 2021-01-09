@@ -31,7 +31,7 @@ class QuizViewState extends State<QuizView>
   bool _selected = false;
   int _counter = 10;
   Timer _timer;
-
+bool yoo = false;
   QuizViewState(QuizList quizList) {
     this.quizList = quizList;
   }
@@ -50,7 +50,7 @@ class QuizViewState extends State<QuizView>
       _category = currentQuestion.category;
       _difficulty = currentQuestion.difficulty;
       _startTimer();
-    }
+            }
 
     return Scaffold(
       //Tillfällig kod
@@ -153,15 +153,14 @@ class QuizViewState extends State<QuizView>
               borderRadius: BorderRadius.circular(4.0)),
       child: InkWell(
         onTap: () async {
-          _selected = true;
-          setState(() {});
-          await Future.delayed(Duration(seconds: 1));
+
+          setState(() {
+            _selected = true;
+          });
+          await Future.delayed(Duration(seconds: 2));
           _countScore(_answerOption);
-          currentQuestion = quizList.getNextQuestion();
-          _checkEndOfQuiz();
-          _selected = false;
-          _startTimer();
-          setState(() {});
+
+          
         },
         child: Container(
           height: 130,
@@ -183,19 +182,39 @@ class QuizViewState extends State<QuizView>
   void _startTimer() {
     _counter = 10;
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (_counter > 1) {
+      if (_counter > 1 ) {
         setState(() {
-          _counter--;
+           _counter--;
         });
-      } else if (_counter < 0) {
+         
+          
+      } //if
+      else if (_counter <= 1)  {
         _timer.cancel();
-        setState(() {
           currentQuestion = quizList.getNextQuestion();
-          _checkEndOfQuiz();
+           if (currentQuestion == null) {
+            _endOfQuiz();
+          } else {
+          _selected = false;
+          setState(() {});
+          _startTimer();} 
+          
+ 
+          
+          } //else if
+
+      if (_selected == true ) {
+        _timer.cancel();
+          currentQuestion = quizList.getNextQuestion();
+          if (currentQuestion == null) {
+            _endOfQuiz();
+          } else {
+          _selected = false;
+          setState(() {});
           _startTimer();
-        });
-      }
-    });
+          } 
+      } //if
+ });
   }
 
   /*void _startTimer() {
@@ -232,8 +251,7 @@ class QuizViewState extends State<QuizView>
     }
   }
 
-  Future _checkEndOfQuiz() async {
-    if (currentQuestion == null) {
+  Future _endOfQuiz() async {
       var _result = Result(
         category: _category,
         difficulty: _difficulty,
@@ -243,7 +261,6 @@ class QuizViewState extends State<QuizView>
       print('Slut på frågor');
       _controller.play();
       await _showResult(context);
-    }
   }
 
 //Bygger dialogrutan som visar att quizet är slut och användarens resultat.

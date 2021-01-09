@@ -54,10 +54,10 @@ class ResultList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '${result.category}',
+                    '${result.category}'.toUpperCase(),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1
+                        .headline4
                         .copyWith(fontSize: AppTheme.normalFontSize),
                   ),
                   Text(

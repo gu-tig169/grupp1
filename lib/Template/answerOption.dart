@@ -7,7 +7,7 @@ class AnswerOption {
   bool get isCorrect => _isCorrect;
   String get answer => _answer;
 
-  set answer(String value) {
-    _answer = value;
+  set answer(String newAnswer) {
+    _answer = newAnswer;
   }
 }
