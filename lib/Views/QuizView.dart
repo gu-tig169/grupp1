@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:Quiz/API/resultApi.dart';
+//import 'package:Quiz/Api/resultApi.dart';
 import 'package:Quiz/Navigation/NavigationBar.dart';
 import 'package:Quiz/Template/questionItem.dart';
 import 'package:Quiz/Template/quizList.dart';

@@ -17,82 +17,52 @@ class UserList extends StatelessWidget {
         children: list.map((user) => userItem(context, user)).toList());
   }
 
-/*onPressed: () async {
-                  //  .getUser();
-                  // print(
-                  //   'You should have an instance of a user: ${state.listUser.elementAt(0).userName}');
-                  var updateUser = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EditUserView(
-                                user: User(
-                                  userName: 'title',
-                                ),
-                              )));
-                  if (updateUser != null) {
-                    // Provider.of<AppState>(context, listen: false)
-                    Consumer<AppState>(
-                        builder: (context, state, child) =>
-                            updateUser(updateUser));
-                  }
-                }),*/
-
   Widget userItem(context, user) {
     return Container(
-        padding: EdgeInsets.only(
-          top: 10.0,
-        ),
-        child: ListTile(
-          trailing: Container(
-            child: Transform.translate(
-              offset: Offset(45, -38),
-              child: IconButton(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                  icon: Icon(Icons.edit, color: AppTheme.primaryTextColor),
-                  iconSize: 20,
-                  onPressed: () {
-                    //  state.getUser();
-                    // print(
-                    //   'You should have an instance of a user: ${state.listUser.elementAt(0).userName}');
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditUserView(user)));
-                  }),
-            ),
-          ),
-          /*IconButton(
-            icon: Icon(Icons.looks_two),
-            onPressed: () {
-              var state = Provider.of<AppState>(context, listen: false);
-              state.removeUser(user);
-            },
-          ),*/
-          leading: FittedBox(fit: BoxFit.contain,
-                      child: CircleAvatar(
-                radius: 35.0,
-                backgroundColor: Colors.amber,
-                backgroundImage: AssetImage(user.userAvatar != 'Default'
-                    ? user.userAvatar
-                    : user.userAvatar), //[0].toUpperCase()),
-            ),
-          ),
-          title: Text(
-            user.userName != null ? user.userName : '',
+      padding: EdgeInsets.only(
+        top: 10.0,
+      ),
+      child: ListTile(
+        trailing: Container(
+          child: Transform.translate(
+            offset: Offset(45, -38),
+            child: IconButton(
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                icon: Icon(Icons.edit, color: AppTheme.primaryTextColor),
+                iconSize: 20,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditUserView(user)));
+                }),
           ),
         ),
-        height: 80,
-        //width: 314,
-        margin: EdgeInsets.only(left: 20, right: 20),
-        decoration: BoxDecoration(
-          color: Color(0xFF4C8C4A),
-          borderRadius: BorderRadius.circular(10.0),
-        ),);
+        leading: FittedBox(
+          fit: BoxFit.contain,
+          child: CircleAvatar(
+            radius: 35.0,
+            backgroundColor: Colors.amber,
+            backgroundImage: AssetImage(user.userAvatar != 'Default'
+                ? user.userAvatar
+                : user.userAvatar), //[0].toUpperCase()),
+          ),
+        ),
+        title: Text(
+          user.userName != null ? user.userName : '',
+        ),
+      ),
+      height: 80,
+      //width: 314,
+      margin: EdgeInsets.only(left: 20, right: 20),
+      decoration: BoxDecoration(
+        color: Color(0xFF4C8C4A),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    );
   }
 }
-Widget loolL(){
-FittedBox();
-SizedBox();}
+
 class User {
   String id;
   String userName;

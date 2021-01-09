@@ -11,7 +11,7 @@ void main() async {
   var state = AppState();
 
   await state.getUser();
-  //await state.getResultList();
+  await state.getResultList();
 
   runApp(
     ChangeNotifierProvider(

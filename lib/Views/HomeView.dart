@@ -1,3 +1,4 @@
+import 'package:Quiz/Template/result.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,27 +14,9 @@ class HomeView extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
-  //final User user;
-
-  /*var state = AppState();
-  var oldUser;*/
-
-  //@override
-  // _HomeViewState createState() => _HomeViewState();
-//}
-
-//class _HomeViewState extends State<HomeView> {
-
   @override
   Widget build(BuildContext context) {
-    Provider.of<AppState>(context, listen: false).getUser();
     return Scaffold(
-      /* floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              var state = Provider.of<AppState>(context, listen: false);
-              state.removeUser(user);
-            },
-          ),*/
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -43,7 +26,6 @@ class HomeView extends StatelessWidget {
           Stack(
             children: [
               _userListItem(),
-              //_editButton(context),
             ],
           ),
           _playButton(context),
@@ -61,9 +43,23 @@ class HomeView extends StatelessWidget {
 
 //displays current HighScore
   Widget _currentHighScore(context) {
+    String _text;
+    if (Provider.of<AppState>(context, listen: false).resultList.isEmpty) {
+      _text = 'No result yet, \n play a quiz!';
+    } else {
+      List<Result> _resultList = [];
+      _resultList = Provider.of<AppState>(context, listen: false).resultList;
+      Result _bestResult = _resultList[0];
+      for (var i = 0; i < _resultList.length; i++) {
+        if (_resultList[i].score > _bestResult.score) {
+          _bestResult = _resultList[i];
+        }
+      }
+      _text = 'Highscore\n${_bestResult.category}: ${_bestResult.score}p';
+    }
     return Container(
       padding: EdgeInsetsDirectional.only(top: 10.0),
-      child: Text('HIGH SCORE \n 200',
+      child: Text(_text,
           textAlign: TextAlign.center,
           style: Theme.of(context)
               .textTheme
@@ -82,38 +78,8 @@ class HomeView extends StatelessWidget {
   Widget _userListItem() {
     return Consumer<AppState>(
         builder: (context, state, child) => UserList(state.listUser));
-    //'${state.listUser.elementAt(0).userName}'));
   }
 
-  /*Widget _editButton(context) {
-    return Container(
-        child: Transform.translate(
-      offset: Offset(290, -5),
-      child: IconButton(
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-          icon: Icon(Icons.edit, color: AppTheme.primaryTextColor),
-          iconSize: 20,
-          onPressed: () async {
-            state.getUser();
-            print('You should have an instance of a user: ${state.listUser}');
-             var updateUser = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => EditUserView()));
-            if (updateUser != null) {
-              state.getUser();
-               oldUser = state.listUser;
-              oldUser = updateUser;
-              Provider.of<AppState>(context, listen: false)
-                  .updateUser(updateUser);
-            }
-          }),
-    ));
-  }*/
-
-  //margin: EdgeInsets.only(top: 20.0),
-  //   height: 80,
-  // width: 314,
 //Playbutton, sends the user to SetupQuizView
   Widget _playButton(context) {
     return Container(

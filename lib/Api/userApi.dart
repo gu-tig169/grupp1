@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:Quiz/Template/user.dart';
 
-const KEY =
-    'caa837ae-6da1-4103-a93a-04f8c9f98d57'; //'cc2ae553-1905-47f9-82b7-fcea7d6925fc';
-const URL = 'https://todoapp-api-vldfm.ondigitalocean.app';
+const API_URL = 'https://todoapp-api-vldfm.ondigitalocean.app';
+const API_KEY = '53360539-0cde-45a7-a098-590e6aeea4d4';
+//'caa837ae-6da1-4103-a93a-04f8c9f98d57';
 
 class UserApi {
   static Future addUser(User user) async {
@@ -14,29 +14,18 @@ class UserApi {
     var bodyString = jsonEncode(json);
     print(json);
     await http.post(
-      '$URL/todos?key=$KEY',
+      '$API_URL/todos?key=$API_KEY',
       body: bodyString,
       headers: {'Content-Type': 'application/json'},
     );
     print('Added');
   }
 
-  /*static Future updateUserApi(User user) async {
-    var json = jsonEncode(User.toJson(user));
-    String userId = user.id;
-    await http.put(
-      '$URL/todos/$userId?key=$KEY',
-      body: json,
-      headers: {'Content-Type': 'application/json'},
-    );
-    print('Updated: new user is here!${user.userName}');
-  }*/
-
   static Future updateUserApi(User user) async {
     var json = jsonEncode(User.toJson(user));
     String userId = user.id;
     var response = await http.put(
-      '$URL/todos/$userId?key=$KEY',
+      '$API_URL/todos/$userId?key=$API_KEY',
       body: json,
       headers: {'Content-Type': 'application/json'},
     );
@@ -47,13 +36,14 @@ class UserApi {
 
 //Ta bort sen.
   static Future deleteUser(String userId) async {
-    http.Response response = await http.delete('$URL/todos/$userId?key=$KEY');
+    http.Response response =
+        await http.delete('$API_URL/todos/$userId?key=$API_KEY');
     print(response.body);
     print('Removed');
   }
 
   static Future<List<User>> fetchUser() async {
-    var response = await http.get('$URL/todos?key=$KEY');
+    var response = await http.get('$API_URL/todos?key=$API_KEY');
     var json = jsonDecode(response.body);
     print(json);
     return json.map<User>((data) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'Api/userApi.dart';
 import 'Template/user.dart';
-import 'API/resultApi.dart';
+import 'Api/resultApi.dart';
 
 class AppState extends ChangeNotifier {
   List<User> _listUser = [];
@@ -43,8 +43,9 @@ class AppState extends ChangeNotifier {
     await UserApi.deleteUser(user.id);
     await getUser();
     notifyListeners();
+  }
 
-    Future getResultList() async {
+  Future getResultList() async {
     List<Result> resultList = await ResultApi.getResult();
     _resultList = resultList;
     notifyListeners();
@@ -53,17 +54,5 @@ class AppState extends ChangeNotifier {
   void addResult(Result item) async {
     await ResultApi.addResult(item);
     await getResultList();
-   }
   }
-
-
-
-
-
-
-  
-
-  
-
-  
-
+}

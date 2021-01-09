@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:Quiz/Template/theme.dart';
 import 'package:Quiz/Template/questionItem.dart';
-import 'package:Quiz/API/triviaApi.dart';
+import 'package:Quiz/Api/triviaApi.dart';
 import 'QuizView.dart';
 
 class SetupQuizView extends StatefulWidget {
@@ -183,7 +183,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
       item.question = item.question.replaceAll('&#039;', '\'');
 
       item.createAnswerOptions();
-      
+
       for (AnswerOption value in item.answerOptions) {
         value.answer = value.answer.replaceAll('&quot;', '”');
         value.answer = value.answer.replaceAll('&#039;', '\'');
