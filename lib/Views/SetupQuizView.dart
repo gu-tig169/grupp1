@@ -1,4 +1,5 @@
 import 'package:Quiz/Template/answerOption.dart';
+import 'package:Quiz/Template/categoriesAndDifficulties.dart';
 import 'package:Quiz/Template/quizList.dart';
 import 'package:flutter/material.dart';
 
@@ -6,20 +7,6 @@ import 'package:Quiz/Template/theme.dart';
 import 'package:Quiz/Template/questionItem.dart';
 import 'package:Quiz/API/triviaApi.dart';
 import 'QuizView.dart';
-
-class DifficultyItem {
-  final String difficultyName;
-
-  const DifficultyItem(this.difficultyName);
-}
-
-class CategoryItem {
-  final String categoryName;
-  final dynamic icon;
-  final String urlNumber;
-
-  const CategoryItem(this.categoryName, this.icon, this.urlNumber);
-}
 
 class SetupQuizView extends StatefulWidget {
   @override
@@ -31,26 +18,10 @@ class _SetupQuizViewState extends State<SetupQuizView> {
   String choosedCategory;
 
   List<QuestionItem> _quizList = [];
+  List<DifficultyItem> difficulties = getDifficulties();
+  List<CategoryItem> categories = getCategories();
+
   List<QuestionItem> get quizList => _quizList;
-
-  final List<DifficultyItem> difficulties = <DifficultyItem>[
-    const DifficultyItem('easy'),
-    const DifficultyItem('medium'),
-    const DifficultyItem('hard'),
-  ];
-
-  final List<CategoryItem> categories = [
-    const CategoryItem('Random', Icons.help_rounded, '9'),
-    const CategoryItem('Books', Icons.menu_book, '10'),
-    const CategoryItem('Film', Icons.videocam, '11'),
-    const CategoryItem('Board Games', Icons.local_play, '16'),
-    const CategoryItem('Science & Nature', Icons.opacity, '17'),
-    const CategoryItem('Computers', Icons.laptop_mac, '18'),
-    const CategoryItem('Sports', Icons.sports_tennis, '21'),
-    const CategoryItem('Geography', Icons.public, '22'),
-    const CategoryItem('Animals', Icons.pets, '27'),
-    const CategoryItem('Vehicles', Icons.drive_eta, '28'),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -174,8 +145,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
         onTap: () async {
           choosedCategory = categoryList.urlNumber;
           await _buildQuizList();
-          print('$_quizList');
-          print('${_quizList.elementAt(2).question}');
+          print('Finns det en instans av quizList? : $_quizList');
           await Navigator.push(
               context,
               MaterialPageRoute(
@@ -198,21 +168,27 @@ class _SetupQuizViewState extends State<SetupQuizView> {
 
 //Hämtar frågorna från TriviaApi & formaterar, samt bygger quizList
   Future _buildQuizList() async {
+    if (choosedDifficulty == null) {
+      choosedDifficulty = DifficultyItem('easy');
+    }
     _quizList = await TriviaApi.getQuiz(
         choosedCategory, choosedDifficulty.difficultyName);
     for (QuestionItem item in _quizList) {
       item.category = item.category.replaceAll('Entertainment:', '');
       item.category = item.category.replaceAll('Science:', '');
       item.category = item.category.replaceAll('General Knowledge', 'Random');
+      item.category = item.category.replaceAll('&rsquo;', '\'');
 
       item.question = item.question.replaceAll('&quot;', '”');
       item.question = item.question.replaceAll('&#039;', '\'');
 
+      item.createAnswerOptions();
+      
       for (AnswerOption value in item.answerOptions) {
         value.answer = value.answer.replaceAll('&quot;', '”');
         value.answer = value.answer.replaceAll('&#039;', '\'');
+        value.answer = value.answer.replaceAll('&anp;', '&');
       }
-      item.createAnswerOptions();
     }
     return _quizList;
   }

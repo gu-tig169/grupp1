@@ -2,6 +2,7 @@ import 'package:Quiz/Template/answerOption.dart';
 
 class QuestionItem {
   String category;
+  String difficulty;
   String question;
   String correctAnswer;
   List<String> incorrectAnswer;
@@ -9,7 +10,11 @@ class QuestionItem {
   bool _point = false;
 
   QuestionItem(
-      {this.category, this.question, this.correctAnswer, this.incorrectAnswer});
+      {this.category,
+      this.question,
+      this.difficulty,
+      this.correctAnswer,
+      this.incorrectAnswer});
 
   List<AnswerOption> get answerOptions => _answerOptions;
   bool get point => _point;
@@ -22,6 +27,7 @@ class QuestionItem {
     return QuestionItem(
       category: json['category'],
       question: json['question'],
+      difficulty: json['difficulty'],
       correctAnswer: json['correct_answer'],
       incorrectAnswer: json['incorrect_answers'].cast<String>(),
     );
