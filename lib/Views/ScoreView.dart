@@ -17,6 +17,7 @@ class ScoreView extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Column(children: [
+          Container(height: 10),
           _image(),
           Container(
               decoration: BoxDecoration(

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-//import 'package:Quiz/Api/resultApi.dart';
 import 'package:Quiz/Navigation/NavigationBar.dart';
 import 'package:Quiz/Template/questionItem.dart';
 import 'package:Quiz/Template/quizList.dart';
@@ -32,7 +31,7 @@ class QuizViewState extends State<QuizView>
   bool _selected = false;
   int _counter = 10;
   Timer _timer;
-  bool yoo = false;
+
   QuizViewState(QuizList quizList) {
     this.quizList = quizList;
   }
@@ -52,23 +51,12 @@ class QuizViewState extends State<QuizView>
       _difficulty = currentQuestion.difficulty;
       _startTimer();
     }
-
     return Scaffold(
-      //Tillfällig kod
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(30.0),
-        child: AppBar(
-          elevation: 0.0,
-          backgroundColor: Color(0xFF1B5E20),
-        ),
-      ),
-      //End
-
       body: Center(
         child: Column(
           children: [
+            Container(height: 30),
             Row(children: [_logo(), _categoryField()]),
-            Container(height: 10),
             _questionField(),
             _answerCardsField(context),
             Container(height: 30),
@@ -96,26 +84,31 @@ class QuizViewState extends State<QuizView>
   }
 
   Widget _categoryField() {
-    return Text(currentQuestion.category,
-        style: Theme.of(context)
-            .textTheme
-            .subtitle1
-            .copyWith(fontSize: AppTheme.smallFontSize));
+    return Text(
+      '${quizList.questionItemIndex}. ${currentQuestion.category}',
+      style: Theme.of(context)
+          .textTheme
+          .headline4
+          .copyWith(fontSize: AppTheme.normalHeaderFontSize),
+    );
   }
 
   Widget _questionField() {
     return Padding(
-      padding: const EdgeInsets.only(left: 10.0, right: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
       child: Container(
-        height: 50,
+        height: 100,
         width: 330,
         child: Center(
-          child: Text(
-            currentQuestion.question,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                .copyWith(fontSize: AppTheme.smallFontSize),
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Text(
+              currentQuestion.question,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(fontSize: AppTheme.normalFontSize),
+            ),
           ),
         ),
       ),
@@ -157,19 +150,33 @@ class QuizViewState extends State<QuizView>
           setState(() {
             _selected = true;
           });
-          await Future.delayed(Duration(seconds: 2));
+          _timer.cancel();
           _countScore(_answerOption);
+          await Future.delayed(Duration(seconds: 1));
+          var value = quizList.getNextQuestion();
+          if (value == null) {
+            _endOfQuiz();
+          } else {
+            setState(() {
+              currentQuestion = value;
+              _selected = false;
+              _startTimer();
+            });
+          }
         },
         child: Container(
           height: 130,
           width: 160,
           child: Center(
-            child: Text(
-              '${_answerOption.answer}',
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1
-                  .copyWith(fontSize: AppTheme.smallFontSize),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: Text(
+                '${_answerOption.answer}',
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    .copyWith(fontSize: AppTheme.smallFontSize),
+              ),
             ),
           ),
         ),
@@ -179,55 +186,27 @@ class QuizViewState extends State<QuizView>
 
   void _startTimer() {
     _counter = 10;
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (_counter > 1) {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
+      if (_counter >= 1) {
         setState(() {
           _counter--;
         });
-      } //if
-      else if (_counter <= 1) {
+      }
+      if (_counter < 1) {
         _timer.cancel();
-        currentQuestion = quizList.getNextQuestion();
-        if (currentQuestion == null) {
+        var value = quizList.getNextQuestion();
+        if (value == null) {
           _endOfQuiz();
         } else {
-          _selected = false;
-          setState(() {});
-          _startTimer();
-        }
-      } //else if
-
-      if (_selected == true) {
-        _timer.cancel();
-        currentQuestion = quizList.getNextQuestion();
-        if (currentQuestion == null) {
-          _endOfQuiz();
-        } else {
-          _selected = false;
-          setState(() {});
-          _startTimer();
-        }
-      } //if
-    });
-  }
-
-  /*void _startTimer() {
-    _counter = 10;
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_counter > 1) {
-          _counter--;
-        } else {
-          _timer.cancel();
           setState(() {
-            currentQuestion = quizList.getNextQuestion();
-            _checkEndOfQuiz();
+            currentQuestion = value;
             _startTimer();
           });
         }
-      });
+        //_startTimer();
+      }
     });
-  }*/
+  }
 
 //räknar ut score beroende på svårighetsgrad
   void _countScore(_answerOption) {
@@ -245,14 +224,15 @@ class QuizViewState extends State<QuizView>
     }
   }
 
+//Sparar upp resultatet till api:et och ropar på dialogrutan.
   Future _endOfQuiz() async {
-    var _result = Result(
+    print('End of Quiz');
+    var result = Result(
       category: _category,
       difficulty: _difficulty,
       score: _score,
     );
-    Provider.of<AppState>(context, listen: false).addResult(_result);
-    print('Slut på frågor');
+    Provider.of<AppState>(context, listen: false).addResult(result);
     _controller.play();
     await _showResult(context);
   }
@@ -294,7 +274,7 @@ class QuizViewState extends State<QuizView>
                         'Finished!\n $_score/$possibleScore',
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle1
+                            .headline4
                             .copyWith(fontSize: AppTheme.normalFontSize),
                       ),
                       Container(height: 10),

@@ -1,5 +1,5 @@
 import 'package:Quiz/Template/answerOption.dart';
-import 'package:Quiz/Template/categoriesAndDifficulties.dart';
+import 'package:Quiz/Template/categories.dart';
 import 'package:Quiz/Template/quizList.dart';
 import 'package:flutter/material.dart';
 
@@ -14,11 +14,11 @@ class SetupQuizView extends StatefulWidget {
 }
 
 class _SetupQuizViewState extends State<SetupQuizView> {
-  DifficultyItem choosedDifficulty;
+  String choosedDifficulty;
   String choosedCategory;
 
   List<QuestionItem> _quizList = [];
-  List<DifficultyItem> difficulties = getDifficulties();
+  List<String> difficulties = ['easy', 'medium', 'hard'];
   List<CategoryItem> categories = getCategories();
 
   List<QuestionItem> get quizList => _quizList;
@@ -26,27 +26,23 @@ class _SetupQuizViewState extends State<SetupQuizView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //ta bort appbar i slutet
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(30.0),
-        child: AppBar(
-          elevation: 0.0,
-          backgroundColor: Color(0xFF1B5E20),
-        ),
-      ),
-      //ta bort ner hit
+          preferredSize: Size.fromHeight(30.0),
+          child: AppBar(
+            elevation: 0.0,
+            backgroundColor: Color(0xFF1B5E20),
+          )),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _logo(),
               _headerDifficulty(),
               _dropdownMenu(),
-              Container(height: 20),
+              Container(height: 15),
               _headerCategory(),
-              Container(height: 10),
               _categoryList(),
             ],
           ),
@@ -75,7 +71,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
   Widget _dropdownMenu() {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
-      child: DropdownButton<DifficultyItem>(
+      child: DropdownButton<String>(
         hint: Text(
           'Difficulty',
           style: Theme.of(context)
@@ -85,13 +81,13 @@ class _SetupQuizViewState extends State<SetupQuizView> {
         ),
         value: choosedDifficulty,
         icon: Icon(Icons.arrow_downward, color: AppTheme.primaryTextColor),
-        onChanged: (DifficultyItem value) {
+        onChanged: (String value) {
           setState(() {
             choosedDifficulty = value;
           });
         },
-        items: difficulties.map((DifficultyItem difficulty) {
-          return DropdownMenuItem<DifficultyItem>(
+        items: difficulties.map((String difficulty) {
+          return DropdownMenuItem<String>(
             value: difficulty,
             child: Row(
               children: [
@@ -99,7 +95,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
                   width: 30,
                 ),
                 Text(
-                  difficulty.difficultyName,
+                  difficulty,
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1
@@ -115,7 +111,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
 
   Widget _headerCategory() {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(left: 10, bottom: 5),
       child: Text(
         'Choose Category',
         style: Theme.of(context)
@@ -145,7 +141,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
         onTap: () async {
           choosedCategory = categoryList.urlNumber;
           await _buildQuizList();
-          print('Finns det en instans av quizList? : $_quizList');
+          print('Hittar instans av quizList: ${_quizList.isNotEmpty}');
           await Navigator.push(
               context,
               MaterialPageRoute(
@@ -166,13 +162,12 @@ class _SetupQuizViewState extends State<SetupQuizView> {
     );
   }
 
-//Hämtar frågorna från TriviaApi & formaterar, samt bygger quizList
+//Hämtar frågorna från TriviaApi & formaterar, samt bygger quizList.
   Future _buildQuizList() async {
     if (choosedDifficulty == null) {
-      choosedDifficulty = DifficultyItem('easy');
+      choosedDifficulty = 'easy';
     }
-    _quizList = await TriviaApi.getQuiz(
-        choosedCategory, choosedDifficulty.difficultyName);
+    _quizList = await TriviaApi.getQuiz(choosedCategory, choosedDifficulty);
     for (QuestionItem item in _quizList) {
       item.category = item.category.replaceAll('Entertainment:', '');
       item.category = item.category.replaceAll('Science:', '');

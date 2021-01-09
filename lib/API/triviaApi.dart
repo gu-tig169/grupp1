@@ -6,7 +6,7 @@ import 'package:Quiz/Template/questionItem.dart';
 const API_URL = 'https://opentdb.com/api.php?amount=10';
 const TYPE = 'type=multiple';
 
-//hämtar frågor från Trivia API, mappar om dem till QuestionsItems och returnerar dessa i en lista.
+//Hämtar frågor från Trivia API, mappar om dem till QuestionsItems och returnerar dessa i en lista.
 class TriviaApi {
   static Future<List<QuestionItem>> getQuiz(category, difficulty) async {
     var response = await http

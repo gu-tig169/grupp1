@@ -20,8 +20,8 @@ class HomeView extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Container(height: 10),
           _logo(),
-          Container(height: 32),
           _currentHighScore(context),
           Stack(
             children: [
@@ -43,34 +43,42 @@ class HomeView extends StatelessWidget {
 
 //displays current HighScore
   Widget _currentHighScore(context) {
-    String _text;
+    String text;
     if (Provider.of<AppState>(context, listen: false).resultList.isEmpty) {
-      _text = 'No result yet, \n play a quiz!';
+      text = 'No result yet, \n play a quiz!';
     } else {
-      List<Result> _resultList = [];
-      _resultList = Provider.of<AppState>(context, listen: false).resultList;
-      Result _bestResult = _resultList[0];
-      for (var i = 0; i < _resultList.length; i++) {
-        if (_resultList[i].score > _bestResult.score) {
-          _bestResult = _resultList[i];
+      List<Result> resultList = [];
+      resultList = Provider.of<AppState>(context, listen: false).resultList;
+      Result bestResult = resultList[0];
+      for (var i = 0; i < resultList.length; i++) {
+        if (resultList[i].score > bestResult.score) {
+          bestResult = resultList[i];
         }
       }
-      _text = 'Highscore\n${_bestResult.category}: ${_bestResult.score}p';
+      text = '${bestResult.category}\n${bestResult.score} points';
     }
     return Container(
       padding: EdgeInsetsDirectional.only(top: 10.0),
-      child: Text(_text,
-          textAlign: TextAlign.center,
-          style: Theme.of(context)
-              .textTheme
-              .headline4
-              .copyWith(fontSize: AppTheme.largeHeaderFontSize)),
-      height: 100,
+      height: 120,
       width: 314,
       margin: EdgeInsets.only(top: 20.0),
       decoration: BoxDecoration(
-        color: Color(0xFF4C8C4A),
-        borderRadius: BorderRadius.circular(10.0),
+          color: Color(0xFF4C8C4A), borderRadius: BorderRadius.circular(10.0)),
+      child: Column(
+        children: [
+          Text('Highscore:',
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(fontSize: AppTheme.normalFontSize)),
+          Text(text,
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  .copyWith(fontSize: AppTheme.largeHeaderFontSize))
+        ],
       ),
     );
   }

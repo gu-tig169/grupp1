@@ -15,7 +15,7 @@ class QuizList {
     } else {
       var currentQuestion = questions.elementAt(questionItemIndex);
       questionItemIndex++;
-      print('Nuvarande index: $questionItemIndex');
+      print('Question $questionItemIndex');
       return currentQuestion;
     }
   }

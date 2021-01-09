@@ -20,10 +20,10 @@ class AppTheme {
   static const hintColor = Color(0xFF58A056);
 
   //The app's different fontsizes
-  static const smallFontSize = 14.0;
-  static const normalFontSize = 16.0;
-  static const normalHeaderFontSize = 24.0;
-  static const largeHeaderFontSize = 34.0;
+  static const smallFontSize = 15.0;
+  static const normalFontSize = 18.0;
+  static const normalHeaderFontSize = 25.0;
+  static const largeHeaderFontSize = 35.0;
 
   //static const fontStyle = 'Roboto';
 

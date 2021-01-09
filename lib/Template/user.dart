@@ -50,6 +50,10 @@ class UserList extends StatelessWidget {
         ),
         title: Text(
           user.userName != null ? user.userName : '',
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(fontSize: AppTheme.normalFontSize),
         ),
       ),
       height: 80,

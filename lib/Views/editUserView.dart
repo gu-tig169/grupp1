@@ -90,7 +90,7 @@ class EditUserViewState extends State<EditUserView> {
 //titeln Edit username
   Widget _usernameHeader() {
     return Container(
-      padding: EdgeInsets.only(top: 50.0, bottom: 10.0),
+      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
       child: Text(
         'Edit username',
         style: Theme.of(context)
@@ -110,8 +110,8 @@ class EditUserViewState extends State<EditUserView> {
       ),
       color: Colors.white,
       child: TextField(
-        //textAlign: TextAlign.center,
         decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(left: 10),
           hintText: '${user.userName}',
         ),
         controller: updateUserController,
@@ -145,7 +145,7 @@ class EditUserViewState extends State<EditUserView> {
 //Titeln choose avatar
   Widget _avatarHeader() {
     return Container(
-      padding: EdgeInsets.only(top: 35.0, bottom: 12.0),
+      padding: EdgeInsets.only(top: 30.0, bottom: 12.0),
       child: Text(
         'Choose avatar',
         style: Theme.of(context)
@@ -160,6 +160,9 @@ class EditUserViewState extends State<EditUserView> {
   Widget _avatarGridView(context) {
     return Expanded(
       child: Container(
+        decoration: BoxDecoration(
+            color: Color(0xFF4C8C4A),
+            borderRadius: BorderRadius.circular(10.0)),
         child: GridView.count(
           crossAxisCount: 2,
           padding: EdgeInsets.only(left: 15, right: 15),

@@ -1,20 +1,5 @@
 import 'package:flutter/material.dart';
 
-class DifficultyItem {
-  String difficultyName;
-
-  DifficultyItem(this.difficultyName);
-}
-
-List<DifficultyItem> getDifficulties() {
-  List<DifficultyItem> difficulties = <DifficultyItem>[
-    DifficultyItem('easy'),
-    DifficultyItem('medium'),
-    DifficultyItem('hard'),
-  ];
-  return difficulties;
-}
-
 class CategoryItem {
   final String categoryName;
   final dynamic icon;
