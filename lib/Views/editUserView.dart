@@ -78,12 +78,13 @@ class EditUserViewState extends State<EditUserView> {
               children: [
                 _usernameHeader(),
                 _changeUsernameField(),
-                _submitButton(),
                 _avatarHeader(),
                 _avatarGridView(context),
               ],
             ),
           ),
+          floatingActionButton: _saveButton(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         ));
   }
 
@@ -120,26 +121,29 @@ class EditUserViewState extends State<EditUserView> {
   }
 
 //Submitbutton, knapp som sparar ändringarna till api:et
-  Widget _submitButton() {
-    return Center(
-        child: RaisedButton(
-            child: Text(
-              'SUBMIT',
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1
-                  .copyWith(fontSize: AppTheme.normalFontSize),
-            ),
-            onPressed: () {
-              if (userName != null) {
-                user.userAvatar = userAvatar;
-                user.userName = userName;
-                Provider.of<AppState>(context, listen: false).updateUser(user);
-              }
-              print('navigator user!!${user.userName}');
+  Widget _saveButton() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: FloatingActionButton(
+          backgroundColor: AppTheme.secondaryColor,
+          child: Text(
+            'SAVE',
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                .copyWith(fontSize: AppTheme.normalFontSize),
+          ),
+          onPressed: () {
+            if (userName != null) {
+              user.userAvatar = userAvatar;
+              user.userName = userName;
+              Provider.of<AppState>(context, listen: false).updateUser(user);
+            }
+            print('navigator user!!${user.userName}');
 
-              Navigator.pop(context);
-            }));
+            Navigator.pop(context);
+          }),
+    );
   }
 
 //Titeln choose avatar
@@ -161,7 +165,7 @@ class EditUserViewState extends State<EditUserView> {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-            color: Color(0xFF4C8C4A),
+            color: AppTheme.iconColor,
             borderRadius: BorderRadius.circular(10.0)),
         child: GridView.count(
           crossAxisCount: 2,
@@ -173,11 +177,11 @@ class EditUserViewState extends State<EditUserView> {
                     shape: userAvatar == item
                         ? RoundedRectangleBorder(
                             side: BorderSide(
-                                color: AppTheme.primaryTextColor, width: 2.5),
+                                color: AppTheme.primaryColor, width: 2.5),
                             borderRadius: BorderRadius.circular(4.0))
                         : RoundedRectangleBorder(
                             side: BorderSide(
-                                color: AppTheme.primaryColor, width: 2.0),
+                                color: AppTheme.iconColor, width: 2.0),
                             borderRadius: BorderRadius.circular(4.0)),
                     child: InkWell(
                         onTap: () {

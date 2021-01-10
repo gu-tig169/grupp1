@@ -1,3 +1,4 @@
+import 'package:Quiz/Template/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +43,7 @@ class RegisterViewState extends State<RegisterView> {
       body: Center(
         child: Column(
           children: [
-            _logo(),
+            bigLogo(),
             Container(height: 50),
             _header(),
             _usernameField(),
@@ -51,11 +52,6 @@ class RegisterViewState extends State<RegisterView> {
         ),
       ),
     );
-  }
-
-  //logo
-  Widget _logo() {
-    return Center(child: Image(image: AssetImage('assets/logo.png')));
   }
 
   //Header username

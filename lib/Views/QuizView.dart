@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:Quiz/Navigation/NavigationBar.dart';
+import 'package:Quiz/Template/logo.dart';
 import 'package:Quiz/Template/questionItem.dart';
 import 'package:Quiz/Template/quizList.dart';
 import 'package:Quiz/Template/result.dart';
@@ -56,7 +57,7 @@ class QuizViewState extends State<QuizView>
         child: Column(
           children: [
             Container(height: 30),
-            Row(children: [_logo(), _categoryField()]),
+            Row(children: [smallLogo(), _categoryField()]),
             _questionField(),
             _answerCardsField(context),
             Container(height: 30),
@@ -69,16 +70,6 @@ class QuizViewState extends State<QuizView>
             )
           ], //Column children
         ),
-      ),
-    );
-  }
-
-  Widget _logo() {
-    return Center(
-      child: Image(
-        image: AssetImage('assets/logo.png'),
-        height: 80,
-        width: 80,
       ),
     );
   }

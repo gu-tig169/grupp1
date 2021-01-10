@@ -1,18 +1,17 @@
+import 'package:Quiz/Template/logo.dart';
 import 'package:Quiz/Template/result.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:Quiz/Views/editUserView.dart';
 import 'package:Quiz/Template/theme.dart';
 import 'package:Quiz/Template/user.dart';
 import 'package:Quiz/model.dart';
 import 'setupQuizView.dart';
-import 'package:Quiz/main.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({
     Key key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class HomeView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(height: 10),
-          _logo(),
+          bigLogo(),
           _currentHighScore(context),
           Stack(
             children: [
@@ -31,13 +30,6 @@ class HomeView extends StatelessWidget {
           _playButton(context),
         ],
       ),
-    );
-  }
-
-  //logo
-  Widget _logo() {
-    return Center(
-      child: Image(image: AssetImage('assets/logo.png')),
     );
   }
 

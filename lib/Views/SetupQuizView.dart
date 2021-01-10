@@ -1,5 +1,6 @@
 import 'package:Quiz/Template/answerOption.dart';
 import 'package:Quiz/Template/categories.dart';
+import 'package:Quiz/Template/logo.dart';
 import 'package:Quiz/Template/quizList.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _logo(),
+              bigLogo(),
               _headerDifficulty(),
               _dropdownMenu(),
               Container(height: 15),
@@ -49,10 +50,6 @@ class _SetupQuizViewState extends State<SetupQuizView> {
         ),
       ),
     );
-  }
-
-  Widget _logo() {
-    return Center(child: Image(image: AssetImage('assets/logo.png')));
   }
 
   _headerDifficulty() {

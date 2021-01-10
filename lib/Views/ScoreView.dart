@@ -1,3 +1,4 @@
+import 'package:Quiz/Template/logo.dart';
 import 'package:Quiz/Template/result.dart';
 import 'package:Quiz/Template/resultList.dart';
 import 'package:Quiz/Template/user.dart';
@@ -18,7 +19,7 @@ class ScoreView extends StatelessWidget {
       body: Center(
         child: Column(children: [
           Container(height: 10),
-          _image(),
+          bigLogo(),
           Container(
               decoration: BoxDecoration(
                 color: Color(0xFF4C8C4A),
@@ -40,10 +41,6 @@ class ScoreView extends StatelessWidget {
         ]),
       ),
     );
-  }
-
-  Widget _image() {
-    return Center(child: Image(image: AssetImage('assets/logo.png')));
   }
 
   Widget _userInformationColumn(context) {
