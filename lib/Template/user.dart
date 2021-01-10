@@ -1,9 +1,6 @@
 import 'package:Quiz/Template/theme.dart';
 import 'package:Quiz/Views/editUserView.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'package:Quiz/model.dart';
 
 class UserList extends StatelessWidget {
   final List<User> list;

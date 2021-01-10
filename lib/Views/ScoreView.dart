@@ -9,9 +9,7 @@ import 'package:Quiz/Template/theme.dart';
 import 'package:provider/provider.dart';
 
 class ScoreView extends StatelessWidget {
-  ScoreView({
-    Key key,
-  });
+  ScoreView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

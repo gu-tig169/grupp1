@@ -23,22 +23,26 @@ class QuizView extends StatefulWidget {
 
 class QuizViewState extends State<QuizView>
     with SingleTickerProviderStateMixin {
-  ConfettiController _controller;
   QuizList quizList;
   QuestionItem currentQuestion;
+
   String _category;
   String _difficulty;
   int _score = 0;
-  int counter;
+
   bool _selected = false;
   bool enabled = true;
+
   Timer _timer;
+  int counter;
+  ConfettiController _controller;
 
   QuizViewState(QuizList quizList) {
     this.quizList = quizList;
   }
 
   @override
+  //FLYTTA???
   void initState() {
     super.initState();
     _controller = ConfettiController(
@@ -279,6 +283,7 @@ class QuizViewState extends State<QuizView>
                         child: RaisedButton(
                           onPressed: () {
                             Navigator.push(
+                                //TESTA MED POP
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => BottomNavBar()));

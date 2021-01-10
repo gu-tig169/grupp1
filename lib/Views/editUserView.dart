@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-//import 'dart:async';
 import 'package:Quiz/Template/user.dart';
 import '../Template/theme.dart';
 import '../Template/user.dart';
@@ -9,10 +8,7 @@ import 'package:Quiz/model.dart';
 
 class EditUserView extends StatefulWidget {
   final User user;
-  EditUserView(
-    this.user, {
-    Key key,
-  }) : super(key: key);
+  EditUserView(this.user);
 
   @override
   EditUserViewState createState() {
@@ -88,6 +84,28 @@ class EditUserViewState extends State<EditUserView> {
         ));
   }
 
+//Visar dialogrutan om användaren vill gå tillbaka utan att göra ändringar.
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Wanna go back?'),
+            content: Text('Go back without saving changes'),
+            actions: [
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('No'),
+              ),
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
 //titeln Edit username
   Widget _usernameHeader() {
     return Container(
@@ -111,38 +129,10 @@ class EditUserViewState extends State<EditUserView> {
       ),
       color: Colors.white,
       child: TextField(
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(left: 10),
-          hintText: '${user.userName}',
-        ),
-        controller: updateUserController,
-      ),
-    );
-  }
-
-//Submitbutton, knapp som sparar ändringarna till api:et
-  Widget _saveButton() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: FloatingActionButton(
-          //backgroundColor: AppTheme.buttonColor,
-          child: Text(
-            'SAVE',
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                .copyWith(fontSize: AppTheme.normalFontSize),
-          ),
-          onPressed: () {
-            if (userName != null) {
-              user.userAvatar = userAvatar;
-              user.userName = userName;
-              Provider.of<AppState>(context, listen: false).updateUser(user);
-            }
-            print('navigator user!!${user.userName}');
-
-            Navigator.pop(context);
-          }),
+          decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 10),
+              hintText: '${user.userName}'),
+          controller: updateUserController),
     );
   }
 
@@ -210,25 +200,27 @@ class EditUserViewState extends State<EditUserView> {
     );
   }
 
-//Visar dialogrutan om användaren vill gå tillbaka utan att göra ändringar.
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Wanna go back?'),
-            content: new Text('Go back without saving changes'),
-            actions: <Widget>[
-              new FlatButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-              new FlatButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: new Text('Yes'),
-              ),
-            ],
+  //Savebutton, knapp som sparar ändringarna till api:et
+  Widget _saveButton() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: FloatingActionButton(
+          backgroundColor: AppTheme.buttonColor,
+          child: Text(
+            'SAVE',
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                .copyWith(fontSize: AppTheme.normalFontSize),
           ),
-        )) ??
-        false;
+          onPressed: () {
+            if (userName != null) {
+              user.userAvatar = userAvatar;
+              user.userName = userName;
+              Provider.of<AppState>(context, listen: false).updateUser(user);
+            }
+            Navigator.pop(context);
+          }),
+    );
   }
 }

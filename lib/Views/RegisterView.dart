@@ -31,8 +31,8 @@ class RegisterViewState extends State<RegisterView> {
         user.userName = userController.text;
         user.userAvatar = 'assets/default.webp';
 
-        print('${user.userName}');
-        print('${user.userAvatar}');
+        print('UserName: ${user.userName}');
+        print('Avatar: ${user.userAvatar}');
       });
     });
   }
@@ -46,7 +46,7 @@ class RegisterViewState extends State<RegisterView> {
             Container(height: 10),
             bigLogo(),
             _header(),
-            _usernameField(),
+            _userNameField(),
             _save(),
           ],
         ),
@@ -54,7 +54,6 @@ class RegisterViewState extends State<RegisterView> {
     );
   }
 
-  //Header username
   Widget _header() {
     return Container(
         width: 250,
@@ -70,12 +69,11 @@ class RegisterViewState extends State<RegisterView> {
   }
 
   //a textfield for typing a username
-  Widget _usernameField() {
+  Widget _userNameField() {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        side: BorderSide(width: 3, color: AppTheme.secondaryTextColor),
-      ),
+          borderRadius: BorderRadius.circular(10.0),
+          side: BorderSide(width: 3, color: AppTheme.secondaryTextColor)),
       color: Colors.white,
       child: Container(
         width: 250,
@@ -86,7 +84,7 @@ class RegisterViewState extends State<RegisterView> {
         child: TextField(
           controller: userController,
           decoration: InputDecoration(
-            hintText: 'Type your name here...',
+            hintText: 'Type your username here...',
           ),
         ),
       ),
@@ -106,13 +104,10 @@ class RegisterViewState extends State<RegisterView> {
                   .textTheme
                   .subtitle1
                   .copyWith(fontSize: AppTheme.normalFontSize),
-              //subtitle1
             ),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => BottomNavBar(user: user)));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BottomNavBar()));
               if (user.userName != null) {
                 Provider.of<AppState>(context, listen: false).addUser(user);
               }

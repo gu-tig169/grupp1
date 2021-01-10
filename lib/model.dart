@@ -22,25 +22,10 @@ class AppState extends ChangeNotifier {
     await UserApi.addUser(user);
     await getUser();
     notifyListeners();
-    print('Added user: ${_listUser.elementAt(0).userName}');
   }
-
-  /*void updateUser(User user) async {
-    await UserApi.updateUser(user);
-    await getUser();
-    notifyListeners();
-  }*/
 
   void updateUser(User user) async {
-    //user.userName = userName;
-    print('Vi är i model!$user');
-    await UserApi.updateUserApi(user);
-    await getUser();
-    notifyListeners();
-  }
-
-  void removeUser(User user) async {
-    await UserApi.deleteUser(user.id);
+    await UserApi.updateUser(user);
     await getUser();
     notifyListeners();
   }
@@ -54,5 +39,6 @@ class AppState extends ChangeNotifier {
   void addResult(Result item) async {
     await ResultApi.addResult(item);
     await getResultList();
+    notifyListeners();
   }
 }

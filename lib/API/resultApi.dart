@@ -18,7 +18,7 @@ class ResultApi {
   static Future<List<Result>> getResult() async {
     var response = await http.get('$API_URL/todos?key=$API_KEY');
     var json = jsonDecode(response.body);
-    print('Got result from api: ${json.isNotEmpty}');
+    print('Get result: ${json.isNotEmpty}');
     return json.map<Result>((data) {
       return Result.fromJson(data);
     }).toList();

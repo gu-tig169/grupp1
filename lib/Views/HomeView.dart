@@ -9,9 +9,7 @@ import 'package:Quiz/model.dart';
 import 'setupQuizView.dart';
 
 class HomeView extends StatelessWidget {
-  HomeView({
-    Key key,
-  });
+  HomeView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +20,7 @@ class HomeView extends StatelessWidget {
           Container(height: 10),
           bigLogo(),
           _currentHighScore(context),
-          Container(height: 20),
+          //Container(height: 20),
           _userListItem(),
           _playButton(context),
         ],
@@ -32,9 +30,11 @@ class HomeView extends StatelessWidget {
 
 //displays current HighScore
   Widget _currentHighScore(context) {
+    String titel;
     String text;
     if (Provider.of<AppState>(context, listen: false).resultList.isEmpty) {
       text = 'No result yet, \n play a quiz!';
+      titel = '';
     } else {
       List<Result> resultList = [];
       resultList = Provider.of<AppState>(context, listen: false).resultList;
@@ -45,6 +45,7 @@ class HomeView extends StatelessWidget {
         }
       }
       text = '${bestResult.category}\n${bestResult.score} points';
+      titel = 'Highscore:';
     }
     return Container(
       padding: EdgeInsetsDirectional.only(top: 10.0),
@@ -55,7 +56,7 @@ class HomeView extends StatelessWidget {
           color: Color(0xFF4C8C4A), borderRadius: BorderRadius.circular(10.0)),
       child: Column(
         children: [
-          Text('Highscore:',
+          Text(titel,
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme

@@ -1,32 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:Quiz/Template/user.dart';
 import 'package:Quiz/Views/HomeView.dart';
 import 'package:Quiz/Views/ScoreView.dart';
 
 class BottomNavBar extends StatefulWidget {
-  final User user;
-
-  BottomNavBar({Key key, this.user}) : super(key: key);
+  BottomNavBar({Key key}) : super(key: key);
 
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  final List<Widget> _pages = [
-    HomeView(
-      key: PageStorageKey('HomeView'),
-    ),
-    ScoreView(
-      key: PageStorageKey('ScoreView'),
-    ),
-  ];
-
-  final PageStorageBucket bucket = PageStorageBucket();
-
   int _selectedIndex = 0;
+  final PageStorageBucket bucket = PageStorageBucket();
+  final List<Widget> _pages = [
+    HomeView(key: PageStorageKey('HomeView')),
+    ScoreView(key: PageStorageKey('ScoreView'))
+  ];
 
   @override
   Widget build(BuildContext context) {

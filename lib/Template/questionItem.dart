@@ -6,6 +6,7 @@ class QuestionItem {
   String question;
   String correctAnswer;
   List<String> incorrectAnswer;
+
   List<AnswerOption> _answerOptions = [];
   bool _point = false;
 
@@ -42,5 +43,5 @@ class QuestionItem {
     //skapar ett answerOption av correctAnswer och lägger till i answerOptions
     _answerOptions.add(AnswerOption(correctAnswer, true));
     _answerOptions.shuffle();
-  } //createAnswerOptions
-} // class QuestionItem
+  }
+}

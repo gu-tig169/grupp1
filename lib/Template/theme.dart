@@ -21,20 +21,14 @@ class AppTheme {
     bottomNavigationBarTheme:
         BottomNavigationBarThemeData(backgroundColor: primaryColor),
     iconTheme: IconThemeData(color: iconColor, size: 30.0),
-    floatingActionButtonTheme:
-        FloatingActionButtonThemeData(backgroundColor: buttonColor),
-
-    //iconTheme: IconThemeData(color: buttonColor),
     buttonTheme: ButtonThemeData(
-      buttonColor: buttonColor,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))),
-    ),
+        buttonColor: buttonColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
     cardTheme: CardTheme(
-      color: primaryColor,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))),
-    ),
+        color: primaryColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
     inputDecorationTheme: InputDecorationTheme(
         fillColor: Colors.white,
         hintStyle: TextStyle(
@@ -42,35 +36,23 @@ class AppTheme {
             color: hintTextColor,
             fontSize: smallFontSize)),
     textTheme: TextTheme(
-      // green font, bold
-      bodyText1: TextStyle(
-        fontWeight: FontWeight.bold,
-        color: secondaryTextColor,
-      ),
+      bodyText1:
+          TextStyle(fontWeight: FontWeight.bold, color: secondaryTextColor),
 
       //light green font, regular
-      bodyText2: TextStyle(
-        fontWeight: FontWeight.normal,
-        color: iconColor,
-      ),
+      bodyText2: TextStyle(fontWeight: FontWeight.normal, color: iconColor),
 
       // yellow font, regular
-      subtitle1: TextStyle(
-        fontWeight: FontWeight.normal,
-        color: primaryTextColor,
-      ),
+      subtitle1:
+          TextStyle(fontWeight: FontWeight.normal, color: primaryTextColor),
 
       // green font, medium
-      subtitle2: TextStyle(
-        fontWeight: FontWeight.w500,
-        color: secondaryTextColor,
-      ),
+      subtitle2:
+          TextStyle(fontWeight: FontWeight.w500, color: secondaryTextColor),
 
       //yellow font, bold
-      headline4: TextStyle(
-        fontWeight: FontWeight.bold,
-        color: primaryTextColor,
-      ),
+      headline4:
+          TextStyle(fontWeight: FontWeight.bold, color: primaryTextColor),
     ),
   );
 }
