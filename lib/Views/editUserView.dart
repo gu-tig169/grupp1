@@ -125,7 +125,7 @@ class EditUserViewState extends State<EditUserView> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: FloatingActionButton(
-          backgroundColor: AppTheme.secondaryColor,
+          //backgroundColor: AppTheme.buttonColor,
           child: Text(
             'SAVE',
             style: Theme.of(context)

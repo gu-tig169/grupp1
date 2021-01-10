@@ -57,7 +57,6 @@ class UserList extends StatelessWidget {
         ),
       ),
       height: 80,
-      //width: 314,
       margin: EdgeInsets.only(left: 20, right: 20),
       decoration: BoxDecoration(
         color: Color(0xFF4C8C4A),

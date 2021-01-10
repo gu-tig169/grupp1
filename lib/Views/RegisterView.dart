@@ -43,8 +43,8 @@ class RegisterViewState extends State<RegisterView> {
       body: Center(
         child: Column(
           children: [
+            Container(height: 10),
             bigLogo(),
-            Container(height: 50),
             _header(),
             _usernameField(),
             _save(),

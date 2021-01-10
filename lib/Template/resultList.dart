@@ -58,13 +58,13 @@ class ResultList extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .headline4
-                        .copyWith(fontSize: AppTheme.normalFontSize),
+                        .copyWith(fontSize: AppTheme.smallFontSize),
                   ),
                   Text(
                     '${result.difficulty}',
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1
+                        .bodyText2
                         .copyWith(fontSize: AppTheme.smallFontSize),
                   ),
                 ],

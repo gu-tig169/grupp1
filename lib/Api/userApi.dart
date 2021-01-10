@@ -4,8 +4,7 @@ import 'dart:convert';
 import 'package:Quiz/Template/user.dart';
 
 const API_URL = 'https://todoapp-api-vldfm.ondigitalocean.app';
-const API_KEY = '53360539-0cde-45a7-a098-590e6aeea4d4';
-//'caa837ae-6da1-4103-a93a-04f8c9f98d57';
+const API_KEY = '90e45cd1-24e2-41bf-a10e-5b316b571373';
 
 class UserApi {
   static Future addUser(User user) async {

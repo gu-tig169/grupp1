@@ -29,8 +29,9 @@ class QuizViewState extends State<QuizView>
   String _category;
   String _difficulty;
   int _score = 0;
+  int counter;
   bool _selected = false;
-  int _counter = 10;
+  bool enabled = true;
   Timer _timer;
 
   QuizViewState(QuizList quizList) {
@@ -62,7 +63,7 @@ class QuizViewState extends State<QuizView>
             _answerCardsField(context),
             Container(height: 30),
             Text(
-              '$_counter',
+              '$counter',
               style: Theme.of(context)
                   .textTheme
                   .headline4
@@ -76,7 +77,7 @@ class QuizViewState extends State<QuizView>
 
   Widget _categoryField() {
     return Text(
-      '${quizList.questionItemIndex}. ${currentQuestion.category}',
+      currentQuestion.category,
       style: Theme.of(context)
           .textTheme
           .headline4
@@ -94,7 +95,7 @@ class QuizViewState extends State<QuizView>
           child: Padding(
             padding: const EdgeInsets.all(5),
             child: Text(
-              currentQuestion.question,
+              '${quizList.questionItemIndex}. ${currentQuestion.question}',
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
@@ -136,37 +137,42 @@ class QuizViewState extends State<QuizView>
           : RoundedRectangleBorder(
               side: BorderSide(color: AppTheme.primaryColor, width: 2.0),
               borderRadius: BorderRadius.circular(4.0)),
-      child: InkWell(
-        onTap: () async {
-          setState(() {
-            _selected = true;
-          });
-          _timer.cancel();
-          _countScore(_answerOption);
-          await Future.delayed(Duration(seconds: 1));
-          var value = quizList.getNextQuestion();
-          if (value == null) {
-            _endOfQuiz();
-          } else {
+      child: AbsorbPointer(
+        absorbing: !enabled,
+        child: InkWell(
+          onTap: () async {
             setState(() {
-              currentQuestion = value;
-              _selected = false;
-              _startTimer();
+              _selected = true;
+              enabled = false;
             });
-          }
-        },
-        child: Container(
-          height: 130,
-          width: 160,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Text(
-                '${_answerOption.answer}',
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1
-                    .copyWith(fontSize: AppTheme.smallFontSize),
+            _timer.cancel();
+            _countScore(_answerOption);
+            await Future.delayed(Duration(seconds: 2));
+            var value = quizList.getNextQuestion();
+            if (value == null) {
+              _endOfQuiz();
+            } else {
+              setState(() {
+                currentQuestion = value;
+                _selected = false;
+                enabled = true;
+                _startTimer();
+              });
+            }
+          },
+          child: Container(
+            height: 130,
+            width: 160,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Text(
+                  '${_answerOption.answer}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .copyWith(fontSize: AppTheme.smallFontSize),
+                ),
               ),
             ),
           ),
@@ -176,14 +182,14 @@ class QuizViewState extends State<QuizView>
   }
 
   void _startTimer() {
-    _counter = 10;
+    counter = 12;
     _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
-      if (_counter >= 1) {
+      if (counter >= 1) {
         setState(() {
-          _counter--;
+          counter--;
         });
       }
-      if (_counter < 1) {
+      if (counter < 1) {
         _timer.cancel();
         var value = quizList.getNextQuestion();
         if (value == null) {
@@ -194,7 +200,6 @@ class QuizViewState extends State<QuizView>
             _startTimer();
           });
         }
-        //_startTimer();
       }
     });
   }
@@ -262,7 +267,7 @@ class QuizViewState extends State<QuizView>
                     children: [
                       Container(height: 25),
                       Text(
-                        'Finished!\n $_score/$possibleScore',
+                        'Finished!\n $_score/$possibleScore points',
                         style: Theme.of(context)
                             .textTheme
                             .headline4

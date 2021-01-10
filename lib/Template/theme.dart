@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  //the app's different colors
-
-  //dark green
   static const primaryColor = Color(0xFF003300);
-  //yellow
+  static const buttonColor = Color(0xFF4A148C);
   static const primaryTextColor = Color(0xFFF9A825);
-
-  //light green
-  static const iconColor = Color(0xFF4C8C4A);
-  //green
-  static const backgroundColor = Color(0xFF1B5E20);
-  //green
   static const secondaryTextColor = Color(0xFF042D04);
-  //purple
-  static const secondaryColor = Color(0xFF4A148C);
-  //light green
-  static const hintColor = Color(0xFF58A056);
+  static const hintTextColor = Color(0xFF58A056);
+  static const backgroundColor = Color(0xFF1B5E20);
+  static const iconColor = Color(0xFF4C8C4A);
 
   //The app's different fontsizes
   static const smallFontSize = 15.0;
@@ -25,36 +15,32 @@ class AppTheme {
   static const normalHeaderFontSize = 25.0;
   static const largeHeaderFontSize = 35.0;
 
-  //static const fontStyle = 'Roboto';
-
   static final ThemeData materialTheme = ThemeData(
     scaffoldBackgroundColor: backgroundColor,
     splashColor: Colors.blue.withAlpha(30),
     bottomNavigationBarTheme:
         BottomNavigationBarThemeData(backgroundColor: primaryColor),
     iconTheme: IconThemeData(color: iconColor, size: 30.0),
-    //iconTheme: IconThemeData(color: secondaryColor),
+    floatingActionButtonTheme:
+        FloatingActionButtonThemeData(backgroundColor: buttonColor),
+
+    //iconTheme: IconThemeData(color: buttonColor),
     buttonTheme: ButtonThemeData(
-      buttonColor: secondaryColor,
+      buttonColor: buttonColor,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
     ),
     cardTheme: CardTheme(
       color: primaryColor,
-      //shadowColor?
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
     ),
-    // dividerTheme: DividerThemeData(endIndent: 10.0),
     inputDecorationTheme: InputDecorationTheme(
         fillColor: Colors.white,
         hintStyle: TextStyle(
             fontWeight: FontWeight.normal,
-            color: hintColor,
-            fontSize: smallFontSize)
-        //focusedBorder: InputBorder(borderSide: BorderSide( width: 3.0, color: onBackgroundColor)),
-
-        ),
+            color: hintTextColor,
+            fontSize: smallFontSize)),
     textTheme: TextTheme(
       // green font, bold
       bodyText1: TextStyle(

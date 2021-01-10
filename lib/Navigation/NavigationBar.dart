@@ -28,12 +28,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   int _selectedIndex = 0;
 
-  _onTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +39,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
         selectedItemColor: Colors.amber,
         unselectedItemColor: Color(0xFF4C8C4A),
         currentIndex: _selectedIndex,
-        onTap: _onTapped,
+        onTap: (int index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         items: [
           BottomNavigationBarItem(
             label: 'Home',

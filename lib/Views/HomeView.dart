@@ -22,11 +22,8 @@ class HomeView extends StatelessWidget {
           Container(height: 10),
           bigLogo(),
           _currentHighScore(context),
-          Stack(
-            children: [
-              _userListItem(),
-            ],
-          ),
+          Container(height: 20),
+          _userListItem(),
           _playButton(context),
         ],
       ),
@@ -88,7 +85,6 @@ class HomeView extends StatelessWidget {
       width: 314,
       child: RaisedButton(
         child: Text('PLAY', style: Theme.of(context).textTheme.subtitle1),
-        //copyWith(fontSize: 24),
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => SetupQuizView()));

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 const API_URL = 'https://todoapp-api-vldfm.ondigitalocean.app';
-const API_KEY = '9270e782-46c0-4684-be99-b2107ca0263e';
+const API_KEY = 'd23245d9-4b4e-4d50-b370-c6d68271aebb';
 
 class ResultApi {
 //Lägger till ett resultat i api:et
