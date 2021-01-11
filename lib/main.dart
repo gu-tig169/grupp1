@@ -1,11 +1,10 @@
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'Navigation/NavigationBar.dart';
 import 'package:Quiz/model.dart';
+import 'package:Quiz/Navigation/NavigationBar.dart';
+import 'package:Quiz/Template/theme.dart';
 import 'package:Quiz/Views/RegisterView.dart';
-import 'Template/theme.dart';
-import 'model.dart';
 
 void main() async {
   var state = AppState();
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
   }
 
   Widget _getScreen() {
-    if (state.listUser.isEmpty) {
+    if (state.user == null) {
       return RegisterView();
     } else {
       return BottomNavBar();

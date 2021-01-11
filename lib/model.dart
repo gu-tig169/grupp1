@@ -1,20 +1,22 @@
-import 'package:Quiz/Template/result.dart';
 import 'package:flutter/material.dart';
 
-import 'Api/userApi.dart';
-import 'Template/user.dart';
-import 'Api/resultApi.dart';
+import 'package:Quiz/Api/resultApi.dart';
+import 'package:Quiz/Api/userApi.dart';
+import 'package:Quiz/Template/result.dart';
+import 'package:Quiz/Template/user.dart';
 
 class AppState extends ChangeNotifier {
-  List<User> _listUser = [];
+  User user;
   List<Result> _resultList = [];
 
-  List<User> get listUser => _listUser;
+  //User get user => _user;
   List<Result> get resultList => _resultList;
 
   Future getUser() async {
     List<User> listUser = await UserApi.fetchUser();
-    _listUser = listUser;
+    if (listUser.isNotEmpty) {
+      user = listUser.elementAt(0);
+    }
     notifyListeners();
   }
 

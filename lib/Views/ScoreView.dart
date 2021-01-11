@@ -1,12 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:Quiz/Misc/logo.dart';
+import 'package:Quiz/model.dart';
 import 'package:Quiz/Template/result.dart';
 import 'package:Quiz/Template/resultList.dart';
-import 'package:Quiz/Template/user.dart';
-import 'package:Quiz/model.dart';
-import 'package:flutter/material.dart';
-
 import 'package:Quiz/Template/theme.dart';
-import 'package:provider/provider.dart';
+import 'package:Quiz/Template/user.dart';
 
 class ScoreView extends StatelessWidget {
   ScoreView({Key key}) : super(key: key);
@@ -46,8 +46,7 @@ class ScoreView extends StatelessWidget {
   }
 
   Widget _userInformationColumn(context) {
-    User _user =
-        Provider.of<AppState>(context, listen: false).listUser.elementAt(0);
+    User _user = Provider.of<AppState>(context, listen: false).user;
 
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(

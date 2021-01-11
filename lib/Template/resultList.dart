@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+
 import 'package:Quiz/Template/result.dart';
 import 'package:Quiz/Template/theme.dart';
-import 'package:flutter/material.dart';
 
 class ResultList extends StatelessWidget {
   final List<Result> list;

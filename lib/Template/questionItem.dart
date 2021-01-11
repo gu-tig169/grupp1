@@ -6,7 +6,6 @@ class QuestionItem {
   final List<String> incorrectAnswer;
 
   List<AnswerOption> answerOptions = [];
-  bool point = false;
 
   QuestionItem(
       {this.category,

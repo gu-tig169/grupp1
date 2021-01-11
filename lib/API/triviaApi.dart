@@ -1,6 +1,6 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:Quiz/Template/questionItem.dart';
 
 const API_URL = 'https://opentdb.com/api.php?amount=10';

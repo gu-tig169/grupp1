@@ -1,11 +1,11 @@
-import 'package:Quiz/Misc/logo.dart';
-import 'package:Quiz/Template/result.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:Quiz/Template/theme.dart';
-import 'package:Quiz/Template/user.dart';
+import 'package:Quiz/Misc/logo.dart';
 import 'package:Quiz/model.dart';
+import 'package:Quiz/Template/result.dart';
+import 'package:Quiz/Template/theme.dart';
+import 'package:Quiz/Views/editUserView.dart';
 import 'setupQuizView.dart';
 
 class HomeView extends StatelessWidget {
@@ -13,6 +13,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Provider.of<AppState>(context, listen: false).user;
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -20,8 +21,10 @@ class HomeView extends StatelessWidget {
           Container(height: 10),
           bigLogo(),
           _currentHighScore(context),
-          //Container(height: 20),
-          _userListItem(),
+          Container(height: 20),
+          Consumer<AppState>(
+              builder: (context, state, child) =>
+                  _userItem(context, state.user)),
           _playButton(context),
         ],
       ),
@@ -73,9 +76,50 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _userListItem() {
-    return Consumer<AppState>(
-        builder: (context, state, child) => UserList(state.listUser));
+  Widget _userItem(context, user) {
+    //User _user = Provider.of<AppState>(context, listen: false).user;
+    return Container(
+      padding: EdgeInsets.only(
+        top: 10.0,
+      ),
+      child: ListTile(
+        trailing: Container(
+          child: Transform.translate(
+            offset: Offset(45, -38),
+            child: IconButton(
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                icon: Icon(Icons.edit, color: AppTheme.primaryTextColor),
+                iconSize: 20,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditUserView(user)));
+                }),
+          ),
+        ),
+        leading: FittedBox(
+          fit: BoxFit.contain,
+          child: CircleAvatar(
+            radius: 35.0,
+            backgroundImage: AssetImage(user.userAvatar),
+          ),
+        ),
+        title: Text(
+          user.userName != null ? user.userName : 'Username',
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(fontSize: AppTheme.normalFontSize),
+        ),
+      ),
+      height: 80,
+      margin: EdgeInsets.only(left: 20, right: 20),
+      decoration: BoxDecoration(
+        color: Color(0xFF4C8C4A),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    );
   }
 
 //Playbutton, sends the user to SetupQuizView

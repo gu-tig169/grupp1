@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
+import 'package:Quiz/model.dart';
 import 'package:Quiz/Template/user.dart';
 import '../Template/theme.dart';
 import '../Template/user.dart';
-import 'package:Quiz/model.dart';
 
 class EditUserView extends StatefulWidget {
   final User user;
@@ -129,6 +130,9 @@ class EditUserViewState extends State<EditUserView> {
       ),
       color: Colors.white,
       child: TextField(
+          maxLength: 10,
+          maxLengthEnforced: true,
+          inputFormatters: [LengthLimitingTextInputFormatter(10)],
           decoration: InputDecoration(
               contentPadding: EdgeInsets.only(left: 10),
               hintText: '${user.userName}'),

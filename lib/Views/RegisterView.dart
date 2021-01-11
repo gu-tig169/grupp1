@@ -1,7 +1,7 @@
-import 'package:Quiz/Misc/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:Quiz/Misc/logo.dart';
 import 'package:Quiz/model.dart';
 import 'package:Quiz/Navigation/NavigationBar.dart';
 import 'package:Quiz/Template/theme.dart';
@@ -23,16 +23,12 @@ class RegisterViewState extends State<RegisterView> {
 
   RegisterViewState() {
     user = User();
-
     userController = TextEditingController();
-
     userController.addListener(() {
       setState(() {
         user.userName = userController.text;
         user.userAvatar = 'assets/default.webp';
-
         print('UserName: ${user.userName}');
-        print('Avatar: ${user.userAvatar}');
       });
     });
   }
@@ -83,6 +79,8 @@ class RegisterViewState extends State<RegisterView> {
         ),
         child: TextField(
           controller: userController,
+          maxLength: 10,
+          maxLengthEnforced: true,
           decoration: InputDecoration(
             hintText: 'Type your username here...',
           ),

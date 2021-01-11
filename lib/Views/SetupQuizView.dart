@@ -1,12 +1,12 @@
-import 'package:Quiz/Template/categories.dart';
-import 'package:Quiz/Misc/logo.dart';
-import 'package:Quiz/Template/quizList.dart';
+import 'package:flutter/material.dart';
 
+import 'package:Quiz/Api/triviaApi.dart';
+import 'package:Quiz/Misc/logo.dart';
+import 'package:Quiz/Template/categories.dart';
 import 'package:Quiz/Template/theme.dart';
 import 'package:Quiz/Template/questionItem.dart';
-import 'package:Quiz/Api/triviaApi.dart';
-import 'package:flutter/material.dart';
-import 'QuizView.dart';
+import 'package:Quiz/Template/quizList.dart';
+import 'package:Quiz/Views/QuizView.dart';
 
 class SetupQuizView extends StatefulWidget {
   @override

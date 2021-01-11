@@ -1,16 +1,16 @@
 import 'dart:async';
 
-import 'package:Quiz/Navigation/NavigationBar.dart';
+import 'package:confetti/confetti.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:Quiz/Misc/logo.dart';
+import 'package:Quiz/model.dart';
+import 'package:Quiz/Navigation/NavigationBar.dart';
+import 'package:Quiz/Template/result.dart';
+import 'package:Quiz/Template/theme.dart';
 import 'package:Quiz/Template/questionItem.dart';
 import 'package:Quiz/Template/quizList.dart';
-import 'package:Quiz/Template/result.dart';
-import 'package:Quiz/model.dart';
-import 'package:flutter/material.dart';
-
-import 'package:Quiz/Template/theme.dart';
-import 'package:confetti/confetti.dart';
-import 'package:provider/provider.dart';
 
 class QuizView extends StatefulWidget {
   final QuizList quizList;
@@ -199,9 +199,8 @@ class QuizViewState extends State<QuizView>
   }
 
 //räknar ut score beroende på svårighetsgrad
-  void _countScore(_answerOption) {
-    if (_answerOption.isCorrect) {
-      currentQuestion.point = true;
+  void _countScore(answerOption) {
+    if (answerOption.isCorrect) {
       if (_difficulty == 'hard') {
         _score += 3;
       }
