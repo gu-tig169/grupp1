@@ -79,8 +79,6 @@ class RegisterViewState extends State<RegisterView> {
         ),
         child: TextField(
           controller: userController,
-          maxLength: 10,
-          maxLengthEnforced: true,
           decoration: InputDecoration(
             hintText: 'Type your username here...',
           ),
