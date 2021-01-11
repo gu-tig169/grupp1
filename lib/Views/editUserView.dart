@@ -1,13 +1,38 @@
 import 'package:flutter/material.dart';
-import '../Template/theme.dart';
+import 'package:provider/provider.dart';
 
-class EditUser extends StatefulWidget {
+import 'package:Quiz/model.dart';
+import 'package:Quiz/Template/user.dart';
+import '../Template/theme.dart';
+import '../Template/user.dart';
+
+class EditUserView extends StatefulWidget {
+  final User user;
+  EditUserView(this.user);
+
   @override
-  _EditUser createState() => _EditUser();
+  EditUserViewState createState() {
+    return EditUserViewState(user);
+  }
 }
 
-class _EditUser extends State<EditUser> {
-  final TextEditingController customController = TextEditingController();
+class EditUserViewState extends State<EditUserView> {
+  User user;
+  String userName;
+  String userAvatar;
+
+  TextEditingController updateUserController;
+
+  EditUserViewState(this.user) {
+    userName = user.userName;
+    userAvatar = user.userAvatar;
+    updateUserController = TextEditingController();
+    updateUserController.addListener(() {
+      setState(() {
+        userName = updateUserController.text;
+      });
+    });
+  }
 
   final List<String> _avatarList = [
     'assets/AvatarM1.jpg',
@@ -32,27 +57,59 @@ class _EditUser extends State<EditUser> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _usernameHeader(),
-            _changeUsernameField(),
-            _submitButton(),
-            _avatarHeader(),
-            _avatarScrollList(),
-          ],
-        ),
-      ),
-    );
+    return WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(30.0),
+            child: AppBar(
+              elevation: 0.0,
+              backgroundColor: Color(0xFF1B5E20),
+            ),
+          ),
+          body: Container(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _usernameHeader(),
+                _changeUsernameField(),
+                _avatarHeader(),
+                _avatarGridView(context),
+              ],
+            ),
+          ),
+          floatingActionButton: _saveButton(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        ));
   }
 
-//the header Edit username
+//Visar dialogrutan om användaren vill gå tillbaka utan att göra ändringar.
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Wanna go back?'),
+            content: Text('Go back without saving changes'),
+            actions: [
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('No'),
+              ),
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
+//titeln Edit username
   Widget _usernameHeader() {
     return Container(
-      padding: EdgeInsets.only(top: 50.0, bottom: 10.0),
+      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
       child: Text(
         'Edit username',
         style: Theme.of(context)
@@ -63,7 +120,7 @@ class _EditUser extends State<EditUser> {
     );
   }
 
-//the textfild for changeing username
+//Textfältet för att ändra username
   Widget _changeUsernameField() {
     return Card(
       shape: RoundedRectangleBorder(
@@ -72,36 +129,17 @@ class _EditUser extends State<EditUser> {
       ),
       color: Colors.white,
       child: TextField(
-        decoration: InputDecoration(
-          hintText: ' Type your new name...',
-        ),
-        controller: customController,
-      ),
+          decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 10),
+              hintText: '${user.userName}'),
+          controller: updateUserController),
     );
   }
 
-//Submitbutton, saves the new username
-  Widget _submitButton() {
-    return Center(
-      child: RaisedButton(
-          child: Text(
-            'SUBMIT',
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                .copyWith(fontSize: AppTheme.normalFontSize),
-          ),
-          onPressed: () {}
-          // => _submit(context),
-          // Navigator.of(context, $username).pop(customController.text.toString());
-          ),
-    );
-  }
-
-//the header choose avat
+//Titeln choose avatar
   Widget _avatarHeader() {
     return Container(
-      padding: EdgeInsets.only(top: 50.0, bottom: 10.0),
+      padding: EdgeInsets.only(top: 30.0, bottom: 12.0),
       child: Text(
         'Choose avatar',
         style: Theme.of(context)
@@ -112,10 +150,13 @@ class _EditUser extends State<EditUser> {
     );
   }
 
-//Shows the different avatars the user can choose from
-  Widget _avatarScrollList() {
+//Visar avatarerna & markerar den valda avataren och sparar den som userAvatar
+  Widget _avatarGridView(context) {
     return Expanded(
       child: Container(
+        decoration: BoxDecoration(
+            color: AppTheme.iconColor,
+            borderRadius: BorderRadius.circular(10.0)),
         child: GridView.count(
           crossAxisCount: 2,
           padding: EdgeInsets.only(left: 15, right: 15),
@@ -123,10 +164,27 @@ class _EditUser extends State<EditUser> {
           mainAxisSpacing: 20,
           children: _avatarList
               .map((item) => Card(
-                    elevation: 0,
+                    shape: userAvatar == item
+                        ? RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: AppTheme.primaryColor, width: 2.5),
+                            borderRadius: BorderRadius.circular(4.0))
+                        : RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: AppTheme.iconColor, width: 2.0),
+                            borderRadius: BorderRadius.circular(4.0)),
                     child: InkWell(
                         onTap: () {
-                          //Will use some onTap function for selecting and saving "Avatar". (setState/Provider/Consumer req..)
+                          if (userAvatar != item) {
+                            setState(() {
+                              userAvatar = item;
+                            });
+                          } else {
+                            setState(() {
+                              userAvatar = user.userAvatar;
+                            });
+                          }
+                          print('$userAvatar');
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -139,6 +197,30 @@ class _EditUser extends State<EditUser> {
               .toList(),
         ),
       ),
+    );
+  }
+
+  //Savebutton, knapp som sparar ändringarna till api:et
+  Widget _saveButton() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: FloatingActionButton(
+          backgroundColor: AppTheme.buttonColor,
+          child: Text(
+            'SAVE',
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                .copyWith(fontSize: AppTheme.normalFontSize),
+          ),
+          onPressed: () {
+            if (userName != null) {
+              user.userAvatar = userAvatar;
+              user.userName = userName;
+              Provider.of<AppState>(context, listen: false).updateUser(user);
+            }
+            Navigator.pop(context);
+          }),
     );
   }
 }

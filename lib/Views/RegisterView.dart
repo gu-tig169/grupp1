@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:Quiz/Template/theme.dart';
+import 'package:provider/provider.dart';
 
-//import '../model.dart';
-//import 'package:Quiz/theme.dart';
+import 'package:Quiz/Misc/logo.dart';
+import 'package:Quiz/model.dart';
+import 'package:Quiz/Navigation/NavigationBar.dart';
+import 'package:Quiz/Template/theme.dart';
+import 'package:Quiz/Template/user.dart';
 
 class RegisterView extends StatefulWidget {
+  RegisterView();
+
   @override
   State<StatefulWidget> createState() {
     return RegisterViewState();
@@ -12,16 +17,32 @@ class RegisterView extends StatefulWidget {
 }
 
 class RegisterViewState extends State<RegisterView> {
+  User user;
+
+  TextEditingController userController;
+
+  RegisterViewState() {
+    user = User();
+    userController = TextEditingController();
+    userController.addListener(() {
+      setState(() {
+        user.userName = userController.text;
+        user.userAvatar = 'assets/default.webp';
+        print('UserName: ${user.userName}');
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
           children: [
-            _logo(),
-            Container(height: 50),
+            Container(height: 10),
+            bigLogo(),
             _header(),
-            _usernameField(),
+            _userNameField(),
             _save(),
           ],
         ),
@@ -29,12 +50,6 @@ class RegisterViewState extends State<RegisterView> {
     );
   }
 
-  //logo
-  Widget _logo() {
-    return Center(child: Image(image: AssetImage('assets/logo.png')));
-  }
-
-  //Header username
   Widget _header() {
     return Container(
         width: 250,
@@ -50,12 +65,11 @@ class RegisterViewState extends State<RegisterView> {
   }
 
   //a textfield for typing a username
-  Widget _usernameField() {
+  Widget _userNameField() {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        side: BorderSide(width: 3, color: AppTheme.secondaryTextColor),
-      ),
+          borderRadius: BorderRadius.circular(10.0),
+          side: BorderSide(width: 3, color: AppTheme.secondaryTextColor)),
       color: Colors.white,
       child: Container(
         width: 250,
@@ -64,8 +78,9 @@ class RegisterViewState extends State<RegisterView> {
           right: 16,
         ),
         child: TextField(
+          controller: userController,
           decoration: InputDecoration(
-            hintText: 'Type your name here...',
+            hintText: 'Type your username here...',
           ),
         ),
       ),
@@ -79,18 +94,20 @@ class RegisterViewState extends State<RegisterView> {
       children: [
         Container(height: 50),
         RaisedButton(
-          child: Text(
-            'SAVE',
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                .copyWith(fontSize: AppTheme.normalFontSize),
-            //subtitle1
-          ),
-          onPressed: () {
-            Navigator.pushNamed(context, '/HomeView');
-          },
-        ),
+            child: Text(
+              'SAVE',
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(fontSize: AppTheme.normalFontSize),
+            ),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BottomNavBar()));
+              if (user.userName != null) {
+                Provider.of<AppState>(context, listen: false).addUser(user);
+              }
+            }),
       ],
     );
   }
