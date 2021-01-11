@@ -24,17 +24,14 @@ void main() async {
 class MyApp extends StatelessWidget {
   final AppState state;
 
-  MyApp(
-    this.state,
-  );
+  MyApp(this.state);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.materialTheme,
-      home: _getScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.materialTheme,
+        home: _getScreen());
   }
 
   Widget _getScreen() {

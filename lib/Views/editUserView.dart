@@ -57,7 +57,7 @@ class EditUserViewState extends State<EditUserView> {
 
   @override
   Widget build(BuildContext context) {
-    return new WillPopScope(
+    return WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
           appBar: PreferredSize(

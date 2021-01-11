@@ -1,4 +1,4 @@
-import 'package:Quiz/Template/logo.dart';
+import 'package:Quiz/Misc/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

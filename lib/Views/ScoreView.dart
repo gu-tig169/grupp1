@@ -1,4 +1,4 @@
-import 'package:Quiz/Template/logo.dart';
+import 'package:Quiz/Misc/logo.dart';
 import 'package:Quiz/Template/result.dart';
 import 'package:Quiz/Template/resultList.dart';
 import 'package:Quiz/Template/user.dart';
@@ -100,16 +100,6 @@ class ScoreView extends StatelessWidget {
     } else {
       Result _latestResult =
           Provider.of<AppState>(context, listen: false).resultList.last;
-      String possibleScore;
-      if (_latestResult.difficulty == 'hard') {
-        possibleScore = '30';
-      }
-      if (_latestResult.difficulty == 'medium') {
-        possibleScore = '20';
-      }
-      if (_latestResult.difficulty == 'easy') {
-        possibleScore = '10';
-      }
 
       return Column(children: [
         Text(
@@ -120,7 +110,7 @@ class ScoreView extends StatelessWidget {
               .copyWith(fontSize: AppTheme.normalFontSize),
         ),
         Text(
-          '${_latestResult.score}/$possibleScore points',
+          '${_latestResult.score}/${_latestResult.possibleScore} points',
           textAlign: TextAlign.right,
           style: Theme.of(context)
               .textTheme

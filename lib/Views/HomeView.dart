@@ -1,4 +1,4 @@
-import 'package:Quiz/Template/logo.dart';
+import 'package:Quiz/Misc/logo.dart';
 import 'package:Quiz/Template/result.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,11 +30,11 @@ class HomeView extends StatelessWidget {
 
 //displays current HighScore
   Widget _currentHighScore(context) {
-    String titel;
+    String title;
     String text;
     if (Provider.of<AppState>(context, listen: false).resultList.isEmpty) {
       text = 'No result yet, \n play a quiz!';
-      titel = '';
+      title = '';
     } else {
       List<Result> resultList = [];
       resultList = Provider.of<AppState>(context, listen: false).resultList;
@@ -45,7 +45,7 @@ class HomeView extends StatelessWidget {
         }
       }
       text = '${bestResult.category}\n${bestResult.score} points';
-      titel = 'Highscore:';
+      title = 'High score:';
     }
     return Container(
       padding: EdgeInsetsDirectional.only(top: 10.0),
@@ -56,7 +56,7 @@ class HomeView extends StatelessWidget {
           color: Color(0xFF4C8C4A), borderRadius: BorderRadius.circular(10.0)),
       child: Column(
         children: [
-          Text(titel,
+          Text(title,
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme

@@ -1,12 +1,10 @@
 import './questionItem.dart';
 
 class QuizList {
-  List<QuestionItem> _questions;
+  final List<QuestionItem> questions;
   int questionItemIndex = 0;
 
-  QuizList(this._questions);
-
-  List<QuestionItem> get questions => _questions;
+  QuizList(this.questions);
 
   //Går igenom listan med frågor
   QuestionItem getNextQuestion() {

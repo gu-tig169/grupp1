@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:Quiz/Navigation/NavigationBar.dart';
-import 'package:Quiz/Template/logo.dart';
+import 'package:Quiz/Misc/logo.dart';
 import 'package:Quiz/Template/questionItem.dart';
 import 'package:Quiz/Template/quizList.dart';
 import 'package:Quiz/Template/result.dart';
@@ -65,13 +65,11 @@ class QuizViewState extends State<QuizView>
             _questionField(),
             _answerCardsField(context),
             Container(height: 30),
-            Text(
-              '$counter',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  .copyWith(fontSize: 50.0),
-            )
+            Text('$counter',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .copyWith(fontSize: 50.0))
           ], //Column children
         ),
       ),
@@ -79,13 +77,11 @@ class QuizViewState extends State<QuizView>
   }
 
   Widget _categoryField() {
-    return Text(
-      currentQuestion.category,
-      style: Theme.of(context)
-          .textTheme
-          .headline4
-          .copyWith(fontSize: AppTheme.normalHeaderFontSize),
-    );
+    return Text(currentQuestion.category,
+        style: Theme.of(context)
+            .textTheme
+            .headline4
+            .copyWith(fontSize: AppTheme.normalHeaderFontSize));
   }
 
   Widget _questionField() {
@@ -98,12 +94,11 @@ class QuizViewState extends State<QuizView>
           child: Padding(
             padding: const EdgeInsets.all(5),
             child: Text(
-              '${quizList.questionItemIndex}. ${currentQuestion.question}',
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1
-                  .copyWith(fontSize: AppTheme.normalFontSize),
-            ),
+                '${quizList.questionItemIndex}. ${currentQuestion.question}',
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    .copyWith(fontSize: AppTheme.normalFontSize)),
           ),
         ),
       ),
@@ -111,18 +106,16 @@ class QuizViewState extends State<QuizView>
   }
 
   Widget _answerCardsField(context) {
-    return Column(
-      children: [
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          _card(context, currentQuestion.answerOptions.elementAt(0)),
-          _card(context, currentQuestion.answerOptions.elementAt(1))
-        ]),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          _card(context, currentQuestion.answerOptions.elementAt(2)),
-          _card(context, currentQuestion.answerOptions.elementAt(3))
-        ]),
-      ],
-    );
+    return Column(children: [
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        _card(context, currentQuestion.answerOptions.elementAt(0)),
+        _card(context, currentQuestion.answerOptions.elementAt(1))
+      ]),
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        _card(context, currentQuestion.answerOptions.elementAt(2)),
+        _card(context, currentQuestion.answerOptions.elementAt(3))
+      ]),
+    ]);
   }
 
 //Korten byter BorderColor för att visa om frågan är rätt/fel, beror av _selected.
@@ -169,13 +162,11 @@ class QuizViewState extends State<QuizView>
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Text(
-                  '${_answerOption.answer}',
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      .copyWith(fontSize: AppTheme.smallFontSize),
-                ),
+                child: Text('${_answerOption.answer}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(fontSize: AppTheme.smallFontSize)),
               ),
             ),
           ),
@@ -226,29 +217,16 @@ class QuizViewState extends State<QuizView>
 //Sparar upp resultatet till api:et och ropar på dialogrutan.
   Future _endOfQuiz() async {
     print('End of Quiz');
-    var result = Result(
-      category: _category,
-      difficulty: _difficulty,
-      score: _score,
-    );
+    var result =
+        Result(category: _category, difficulty: _difficulty, score: _score);
+    result.countPossibleScore(quizList.questions.length);
     Provider.of<AppState>(context, listen: false).addResult(result);
     _controller.play();
-    await _showResult(context);
+    await _showResult(context, result);
   }
 
 //Bygger dialogrutan som visar att quizet är slut och användarens resultat.
-  Future _showResult(context) async {
-    String possibleScore;
-    if (_difficulty == 'hard') {
-      possibleScore = '30';
-    }
-    if (_difficulty == 'medium') {
-      possibleScore = '20';
-    }
-    if (_difficulty == 'easy') {
-      possibleScore = '10';
-    }
-
+  Future _showResult(context, result) async {
     return await showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -258,9 +236,8 @@ class QuizViewState extends State<QuizView>
                   borderRadius: BorderRadius.circular(20.0)),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xFF4C8C4A),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
+                    color: Color(0xFF4C8C4A),
+                    borderRadius: BorderRadius.circular(10.0)),
                 height: 150,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -269,13 +246,11 @@ class QuizViewState extends State<QuizView>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(height: 25),
-                      Text(
-                        'Finished!\n $_score/$possibleScore points',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            .copyWith(fontSize: AppTheme.normalFontSize),
-                      ),
+                      Text('Finished!\n $_score/${result.possibleScore} points',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              .copyWith(fontSize: AppTheme.normalFontSize)),
                       Container(height: 10),
                       SizedBox(
                         width: 320.0,
@@ -286,10 +261,8 @@ class QuizViewState extends State<QuizView>
                                 MaterialPageRoute(
                                     builder: (context) => BottomNavBar()));
                           },
-                          child: Text(
-                            "Continue",
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
+                          child: Text("Continue",
+                              style: Theme.of(context).textTheme.subtitle1),
                         ),
                       )
                     ],
@@ -313,10 +286,10 @@ class QuizViewState extends State<QuizView>
         numberOfParticles: 15,
         gravity: 0.05,
         colors: [
-          Colors.green,
-          Colors.purple,
-          Colors.lightGreen,
-          Colors.amber,
+          AppTheme.primaryTextColor,
+          AppTheme.buttonColor,
+          AppTheme.primaryColor,
+          AppTheme.iconColor
         ],
       ),
     );

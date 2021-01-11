@@ -1,14 +1,12 @@
-import 'package:Quiz/Template/answerOption.dart';
-
 class QuestionItem {
-  String category;
-  String difficulty;
-  String question;
-  String correctAnswer;
-  List<String> incorrectAnswer;
+  final String category;
+  final String difficulty;
+  final String question;
+  final String correctAnswer;
+  final List<String> incorrectAnswer;
 
-  List<AnswerOption> _answerOptions = [];
-  bool _point = false;
+  List<AnswerOption> answerOptions = [];
+  bool point = false;
 
   QuestionItem(
       {this.category,
@@ -17,13 +15,7 @@ class QuestionItem {
       this.correctAnswer,
       this.incorrectAnswer});
 
-  List<AnswerOption> get answerOptions => _answerOptions;
-  bool get point => _point;
-  set point(bool) {
-    _point = true;
-  }
-
-//Mappar om från json och returnerar en instans av QuestionItem
+//Mappar om json och returnerar QuestionItem.
   factory QuestionItem.fromJson(Map<String, dynamic> json) {
     return QuestionItem(
       category: json['category'],
@@ -32,16 +24,23 @@ class QuestionItem {
       correctAnswer: json['correct_answer'],
       incorrectAnswer: json['incorrect_answers'].cast<String>(),
     );
-  } //fromJson
+  }
 
 //Gör om alla frågor till answerOption, lägger till dem i listan answerOptions och blandar listan.
   void createAnswerOptions() {
     //skapar ett answerOption för varje instans i listan incorrectAnswer och lägger till i answerOptions
-    for (var _answer in incorrectAnswer) {
-      _answerOptions.add(AnswerOption(_answer, false));
+    for (var answer in incorrectAnswer) {
+      answerOptions.add(AnswerOption(answer, false));
     }
     //skapar ett answerOption av correctAnswer och lägger till i answerOptions
-    _answerOptions.add(AnswerOption(correctAnswer, true));
-    _answerOptions.shuffle();
+    answerOptions.add(AnswerOption(correctAnswer, true));
+    answerOptions.shuffle();
   }
+}
+
+class AnswerOption {
+  final String answer;
+  final bool isCorrect;
+
+  AnswerOption(this.answer, this.isCorrect);
 }

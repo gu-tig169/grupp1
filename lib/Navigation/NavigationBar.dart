@@ -1,3 +1,4 @@
+import 'package:Quiz/Template/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -12,12 +13,13 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  int _selectedIndex = 0;
   final PageStorageBucket bucket = PageStorageBucket();
   final List<Widget> _pages = [
     HomeView(key: PageStorageKey('HomeView')),
     ScoreView(key: PageStorageKey('ScoreView'))
   ];
+
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         bucket: bucket,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.amber,
-        unselectedItemColor: Color(0xFF4C8C4A),
+        selectedItemColor: AppTheme.primaryTextColor,
+        unselectedItemColor: AppTheme.iconColor,
         currentIndex: _selectedIndex,
         onTap: (int index) {
           setState(() {
@@ -36,14 +38,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
           });
         },
         items: [
-          BottomNavigationBarItem(
-            label: 'Home',
-            icon: Icon(Icons.home),
-          ),
-          BottomNavigationBarItem(
-            label: 'Score',
-            icon: Icon(Icons.stars),
-          ),
+          BottomNavigationBarItem(label: 'Home', icon: Icon(Icons.home)),
+          BottomNavigationBarItem(label: 'Score', icon: Icon(Icons.stars)),
         ],
       ),
     );
