@@ -42,7 +42,6 @@ class QuizViewState extends State<QuizView>
   }
 
   @override
-  //FLYTTA???
   void initState() {
     super.initState();
     _controller = ConfettiController(
@@ -283,7 +282,6 @@ class QuizViewState extends State<QuizView>
                         child: RaisedButton(
                           onPressed: () {
                             Navigator.push(
-                                //TESTA MED POP
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => BottomNavBar()));

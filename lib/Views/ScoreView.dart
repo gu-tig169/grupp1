@@ -18,27 +18,31 @@ class ScoreView extends StatelessWidget {
         child: Column(children: [
           Container(height: 10),
           bigLogo(),
-          Container(
-              decoration: BoxDecoration(
-                color: Color(0xFF4C8C4A),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              width: 314,
-              height: 116,
-              child: Row(
-                children: [
-                  Container(
-                      padding: EdgeInsets.only(left: 5),
-                      child: _userInformationColumn(context)),
-                  _latestQuizContainer(context),
-                ],
-              )),
+          _userAndQuiz(context),
           Container(height: 10),
           Consumer<AppState>(
               builder: (context, state, child) => ResultList(state.resultList)),
         ]),
       ),
     );
+  }
+
+  Widget _userAndQuiz(context) {
+    return Container(
+        decoration: BoxDecoration(
+          color: Color(0xFF4C8C4A),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        width: 314,
+        height: 116,
+        child: Row(
+          children: [
+            Container(
+                padding: EdgeInsets.only(left: 5),
+                child: _userInformationColumn(context)),
+            _latestQuizContainer(context),
+          ],
+        ));
   }
 
   Widget _userInformationColumn(context) {

@@ -166,21 +166,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
     }
     _quizList = await TriviaApi.getQuiz(choosedCategory, choosedDifficulty);
     for (QuestionItem item in _quizList) {
-      item.category = item.category.replaceAll('Entertainment:', '');
-      item.category = item.category.replaceAll('Science:', '');
-      item.category = item.category.replaceAll('General Knowledge', 'Random');
-      item.category = item.category.replaceAll('&rsquo;', '\'');
-
-      item.question = item.question.replaceAll('&quot;', '”');
-      item.question = item.question.replaceAll('&#039;', '\'');
-
       item.createAnswerOptions();
-
-      for (AnswerOption value in item.answerOptions) {
-        value.answer = value.answer.replaceAll('&quot;', '”');
-        value.answer = value.answer.replaceAll('&#039;', '\'');
-        value.answer = value.answer.replaceAll('&anp;', '&');
-      }
     }
     return _quizList;
   }
