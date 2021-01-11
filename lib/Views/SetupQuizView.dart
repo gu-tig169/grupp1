@@ -61,7 +61,7 @@ class _SetupQuizViewState extends State<SetupQuizView> {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: DropdownButton<String>(
-        value: 'easy',
+        value: choosedDifficulty,
         icon: Icon(Icons.arrow_downward, color: AppTheme.primaryTextColor),
         onChanged: (String difficulty) {
           setState(() {

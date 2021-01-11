@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:Quiz/Template/questionItem.dart';
 
-const API_URL = 'https://opentdb.com/api.php?amount=10';
+const API_URL = 'https://opentdb.com/api.php?amount=5';
 const TYPE = 'type=multiple';
 
 //Hämtar frågor från Trivia API, formaterar, mappar om till QuestionsItems.
